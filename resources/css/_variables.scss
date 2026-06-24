@@ -1,0 +1,37 @@
+// resources/css/_variables.scss
+// resources/css/_variables.scss
+
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+// Ta variable de police globale
+$font-principal: "Montserrat", sans-serif;
+// 1. Couleurs globales
+$bleuvert: #36717b;
+
+$bleu: #212e53;
+$bleuhover: #1a2440;
+$blanc: #e0faff;
+$bleuclair: #89c2cd;
+
+// 2. Breakpoints Responsive
+$breakpoint-tablet: 768px;
+$breakpoint-desktop: 1024px;
+
+// 3. Mixins Responsive utiles
+@mixin phone-only {
+    @media (max-width: #{$breakpoint-tablet - 1px}) {
+        @content;
+    }
+}
+
+@mixin tablet-up {
+    @media (min-width: #{$breakpoint-tablet}) {
+        @content;
+    }
+}
+
+@mixin desktop-only {
+    @media (min-width: #{$breakpoint-desktop}) {
+        @content;
+    }
+}

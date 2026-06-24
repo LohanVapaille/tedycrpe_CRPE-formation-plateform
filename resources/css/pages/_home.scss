@@ -1,0 +1,30 @@
+@use "../variables" as v;
+
+.welcome-section {
+    background-image: url("../../img/accueil.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+
+    @include v.phone-only {
+        padding: 3rem 1rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: v.$blanc;
+        width: 70%;
+        text-align: left;
+        font-weight: 400;
+
+        @include v.phone-only {
+            font-size: 2rem;
+        }
+    }
+    .welcome-btn {
+        margin-top: 1rem;
+    }
+}

@@ -1,0 +1,151 @@
+// resources/css/app.scss
+
+// Chargement des variables et mixins (on omet l'underscore et l'extension)
+@use "variables" as v;
+// Importation des composants isolés
+@use "components/header";
+
+@use "pages/home";
+@use "pages/auth";
+
+/* ==========================================================================
+   1. CLASSES DE VISIBILITÉ ACCESSIBILITÉ & RESPONSIVE
+   ========================================================================== */
+
+// sr-only : Masque un élément visuellement mais le laisse lisible par les lecteurs d'écran (Accessibilité/Opquast)
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+// Visibilité conditionnelle selon l'écran
+.only-phone {
+    @include v.phone-only {
+        display: block;
+    }
+    @include v.tablet-up {
+        display: none !important;
+    }
+}
+
+.only-desk {
+    @include v.desktop-only {
+        display: block;
+    }
+    @media (max-width: #{v.$breakpoint-desktop - 1px}) {
+        display: none !important;
+    }
+}
+
+/* ==========================================================================
+   2. ANIMATIONS UTILES (Animations CSS)
+   ========================================================================== */
+
+@keyframes fadeInOut {
+    0%,
+    100% {
+        opacity: 0;
+    }
+    10%,
+    90% {
+        opacity: 1;
+    }
+}
+
+.fadeinout {
+    animation: fadeInOut 4s ease-in-out infinite;
+}
+
+// Version simple fade-in pour l'apparition d'éléments/modales
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* ==========================================================================
+   3. CLASSES UTILITAIRES DE STRUCTURATION (Flexbox, Grid, Layout)
+   ========================================================================== */
+
+// Flexbox rapides
+.d-flex {
+    display: flex;
+}
+.flex-column {
+    flex-direction: column;
+}
+.justify-between {
+    justify-content: space-between;
+}
+.align-center {
+    align-items: center;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+
+// Marges et Espacements (Gap) rapide
+.gap-1 {
+    gap: 0.5rem;
+}
+.gap-2 {
+    gap: 1rem;
+}
+.gap-4 {
+    gap: 2rem;
+}
+
+// Layouts Grids fluides génériques
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+
+    @include v.tablet-up {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+body {
+    font-family: v.$font-principal;
+    background-color: v.$blanc;
+    color: v.$bleu;
+    line-height: 1.6;
+    padding: 0;
+    margin: 0;
+}
+
+/* ==========================================================================
+   4. DESIGN DES COMPOSANTS (Exemple d'utilisation des variables)
+   ========================================================================== */
+
+.btn-primary {
+    background-color: v.$bleu; // Bleu foncé/nuit de la maquette
+    color: v.$blanc;
+    text-decoration: none;
+    padding: 0.6rem 1.5rem;
+    border-radius: 50px; // Arrondi complet comme sur le visuel
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    width: fit-content;
+
+    &:hover {
+        background-color: v.$bleuhover; // Bleu foncé/nuit de la maquette
+    }
+}
