@@ -4,6 +4,8 @@
 @use "variables" as v;
 // Importation des composants isolés
 @use "components/header";
+@use "components/footer";
+@use "components/chat";
 
 @use "pages/home";
 @use "pages/auth";
@@ -130,10 +132,12 @@ body {
     line-height: 1.6;
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
 
 .main-content {
-    margin-top: 48.15px;
+    // margin-top: 48.15px;
+    position: relative;
 }
 
 /* ==========================================================================

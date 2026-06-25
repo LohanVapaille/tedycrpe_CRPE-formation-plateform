@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormationController;
+use App\Http\Controllers\MessageController; // N'oublie pas d'importer le MessageController
 
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,3 +26,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 });
+// LA ROUTE À RAJOUTER pour traiter l'envoi du message
+Route::post('/formation/message', [MessageController::class, 'store'])->name('chat.store');

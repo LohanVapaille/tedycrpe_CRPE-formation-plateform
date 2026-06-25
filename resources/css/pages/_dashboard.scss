@@ -1,18 +1,19 @@
 // resources/css/pages/_dashboard.scss
 @use "../variables" as v;
 
-$bleuvert: #387c88;
-$bleuclair: #a5d1d9;
-$bleu: #1e2942;
 $orange-accent: #d96b27;
 
 .dashboard-layout {
     display: flex;
-
-    margin-top: -3rem; // Pour coller au header si besoin
+    // 1. On force le layout à prendre pile le reste de la fenêtre visible
+    height: calc(100vh - 89.15px);
+    width: 100%;
+    overflow: hidden; // Empêche la page entière (le body) de scroller
 
     @include v.phone-only {
         flex-direction: column;
+        height: auto;
+        overflow: visible;
     }
 }
 
@@ -21,16 +22,31 @@ $orange-accent: #d96b27;
    ========================================== */
 .dashboard-sidebar {
     width: 280px;
-    background-color: $bleuvert;
+    // 2. La sidebar prend toute la hauteur disponible du layout sans jamais la dépasser
+    height: calc(100vh - 150px);
+    background-color: v.$bleuvert;
     color: v.$blanc;
     padding: 2rem 1.5rem;
-    border-radius: 0 0 12px 12px;
+
+    // Comme le parent ne scrolle plus, un simple design flex suffit (pas besoin de fixed/sticky ici)
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
+    flex-shrink: 0; // Empêche la barre de se déformer ou de rétrécir en largeur
+
+    // Sécurité au cas où l'écran est très bas (ex: pc portable 13 pouces) pour voir le tuteur
+    overflow-y: none;
 
     @include v.phone-only {
         width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+
+    @include v.phone-only {
+        width: 100%;
+        height: auto;
+        position: static;
         box-sizing: border-box;
     }
 
@@ -122,6 +138,11 @@ $orange-accent: #d96b27;
 .dashboard-main {
     flex: 1;
     padding: 2rem;
+    padding-bottom: 4rem; // Pour laisser de l'espace en bas si besoin
+    margin-bottom: 70rem; // Pour laisser de l'espace en bas si besoin
+    // 3. LE SECRET : C'est cette section unique qui gère son propre défilement
+    height: 100%;
+    overflow-y: auto;
 
     .block-title {
         font-size: 1.3rem;
@@ -146,7 +167,7 @@ $orange-accent: #d96b27;
         h2 {
             margin: 0 0 0.5rem 0;
             font-size: 1.5rem;
-            color: $bleu;
+            color: v.$bleu;
         }
         p {
             margin: 0.25rem 0;
@@ -163,7 +184,7 @@ $orange-accent: #d96b27;
 
     // Boutons spécifiques maquette
     .btn-secondary-light {
-        background: $bleu;
+        background: v.$bleu;
         color: v.$blanc;
         text-decoration: none;
         padding: 0.5rem 1rem;
@@ -179,7 +200,7 @@ $orange-accent: #d96b27;
         font-size: 0.85rem;
     }
     .btn-dark-blue {
-        background: $bleu;
+        background: v.$bleu;
         color: v.$blanc;
         text-decoration: none;
         padding: 0.6rem 1.5rem;
@@ -218,14 +239,14 @@ $orange-accent: #d96b27;
 
         .stat-box {
             background: #e0f2f6;
-            border: 1px solid $bleuclair;
+            border: 1px solid v.$bleuclair;
             border-radius: 8px;
             text-align: center;
             overflow: hidden;
 
             .stat-title {
                 display: block;
-                background: $bleuclair;
+                background: v.$bleuclair;
                 padding: 0.5rem;
                 font-weight: 500;
                 font-size: 1rem;
@@ -270,12 +291,12 @@ $orange-accent: #d96b27;
             display: flex;
             gap: 0.5rem;
             .badge {
-                border: 1px solid $bleu;
+                border: 1px solid v.$bleu;
                 padding: 0.25rem 0.75rem;
                 border-radius: 4px;
                 cursor: pointer;
                 &.active {
-                    background: $bleu;
+                    background: v.$bleu;
                     color: v.$blanc;
                 }
             }
@@ -287,13 +308,14 @@ $orange-accent: #d96b27;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
+        margin-bottom: 2.5rem;
 
         @include v.phone-only {
             grid-template-columns: 1fr;
         }
 
         .secure-matiere-card {
-            background-color: $bleuclair;
+            background-color: v.$bleuclair;
             padding: 1.5rem;
             border-radius: 8px;
             text-align: center;
@@ -305,20 +327,20 @@ $orange-accent: #d96b27;
             .matiere-number {
                 font-size: 1.15rem;
                 font-weight: 600;
-                color: $bleu;
+                color: v.$bleu;
             }
 
             .btn-action-course {
                 background: none;
-                border: 1px solid $bleu;
-                color: $bleu;
+                border: 1px solid v.$bleu;
+                color: v.$bleu;
                 text-decoration: none;
                 padding: 0.4rem 1.5rem;
                 border-radius: 20px;
                 font-size: 0.9rem;
                 transition: background 0.2s;
                 &:hover {
-                    background: $bleu;
+                    background: v.$bleu;
                     color: v.$blanc;
                 }
             }

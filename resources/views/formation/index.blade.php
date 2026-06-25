@@ -1,45 +1,50 @@
-@extends('layouts.app')
+@extends('layouts.gabaritsansfooter')
 
 @section('title', 'Mon Tableau de bord')
 
 @section('content')
     <div class="dashboard-layout fade-in">
 
-        <!-- 1. SIDEBAR (Colonne Gauche) -->
         <aside class="dashboard-sidebar">
             <div class="user-profile">
                 <div class="avatar-placeholder">
-                    <!-- Icône utilisateur simplifiée ou image -->
                     👤
                 </div>
                 <h3 class="user-fullname">{{ Auth::user()->firstname }} {{ Auth::user()->name }}</h3>
             </div>
 
             <nav class="sidebar-menu">
-                <a href="#" class="menu-item active">📊 Tableau de bord</a>
-                <a href="#" class="menu-item">📚 Les cours</a>
+                <a href="#tb" class="menu-item active">📊 Tableau de bord</a>
+                <a href="#cours" class="menu-item">📚 Les cours</a>
                 <a href="#" class="menu-item">📹 Modules vidéos</a>
+
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
+                <a href="{{ route('logout') }}" class="menu-item logout-item"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                    style="color: #ff8b8b;">
+                    🚪 Se déconnecter
+                </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none" style="display: none;">
+                    @csrf
+                </form>
             </nav>
 
             <div class="tutor-section">
                 <h4 class="sidebar-subtitle">Mon tuteur</h4>
                 <div class="tutor-card">
-                    <!-- Tu pourras lier cette image dynamiquement plus tard -->
                     <div class="tutor-avatar">👨‍🏫</div>
                     <div class="tutor-info">
-                        <p class="tutor-name">Tedy Floretto</p>
+                        <p class="tutor-name">Tedy Florette</p>
                         <p class="tutor-role">Formateur CRPE</p>
                     </div>
-                    <!-- Bulle de chat reliée au modèle Chat/Message plus tard -->
-                    <a href="#" class="tutor-chat-btn">💬</a>
+                    <a href="#" class="tutor-chat-btn"><i class='bx bxs-chat'></i></a>
                 </div>
             </div>
         </aside>
 
-        <!-- 2. CONTENU PRINCIPAL (Zone Droite) -->
         <main class="dashboard-main">
 
-            <!-- Section Bienvenue & Progression -->
             <section class="welcome-banner">
                 <div class="banner-left">
                     <h2>Bienvenue sur votre espace, {{ Auth::user()->firstname }}</h2>
@@ -59,8 +64,7 @@
                 </div>
             </section>
 
-            <!-- Statistiques rapides -->
-            <h3 class="block-title">Tableau de bord</h3>
+            <h3 id="tb" class="block-title">Tableau de bord</h3>
             <section class="stats-grid">
                 <div class="stat-box">
                     <span class="stat-title">Temps d’apprentissage</span>
@@ -72,14 +76,12 @@
                 </div>
             </section>
 
-            <!-- Bouton de reprise d'activité rapide -->
             <h3 class="block-title">Le Flux d'Activité</h3>
             <section class="resume-activity-box">
                 <p>Reprenez là où vous vous étiez arrêté !</p>
                 <a href="#" class="btn-dark-blue">Accéder à ma formation</a>
             </section>
 
-            <!-- Filtres et liste des matières dynamiques -->
             <div class="matieres-section-header">
                 <p class="filter-label">Accéder au cours disponible :</p>
                 <div class="filter-badges">
@@ -89,8 +91,7 @@
                 </div>
             </div>
 
-            <!-- Grille des matières issues de la BDD -->
-            <section class="matieres-secure-grid">
+            <section id="cours" class="matieres-secure-grid">
                 @forelse($matieres as $index => $matiere)
                     <div class="secure-matiere-card">
                         <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
@@ -104,4 +105,6 @@
 
         </main>
     </div>
+
+    @include('components.chat')
 @endsection

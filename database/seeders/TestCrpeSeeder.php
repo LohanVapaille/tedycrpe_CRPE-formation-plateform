@@ -40,6 +40,13 @@ class TestCrpeSeeder extends Seeder
             'ordre' => 1,
         ]);
 
+        // 2. Création d'une première Matière
+        $maths = Matiere::create([
+            'name' => 'Blabla',
+            'module_associe' => 'CRPE Bac +5',
+            'ordre' => 2,
+        ]);
+
         // 3. Création d'un Cours lié aux Maths
         $geometrie = Cours::create([
             'name' => 'Géométrie Plane',

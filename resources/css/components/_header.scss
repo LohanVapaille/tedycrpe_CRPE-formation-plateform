@@ -2,8 +2,15 @@
 @use "../variables" as v;
 
 .main-header {
-    background-color: v.$bleuvert; // La couleur bleu-vert de ta maquette
+    background-color: v.$bleuvert;
     padding: 30px 40px;
+
+    // --- BLOCAGE AU SCROLL ---
+    position: sticky;
+    top: 0;
+    z-index: 1000; // Assure que le header passe au-dessus de tout le reste
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Optionnel : petite ombre fine au scroll
+
     .header-container {
         max-width: 1200px;
         margin: 0 auto;

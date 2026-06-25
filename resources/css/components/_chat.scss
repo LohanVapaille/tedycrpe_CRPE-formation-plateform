@@ -1,0 +1,126 @@
+.chat-popup {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    height: 450px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    z-index: 2000; // Passe au-dessus du layout et du header
+    overflow: hidden;
+
+    // Dissimulé par défaut
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+
+    // Classe active déclenchée en JS
+    &.active {
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+}
+
+.chat-header {
+    background-color: #387c88; // Ton $bleuvert
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h4 {
+        margin: 0;
+        font-size: 1rem;
+        font-weight: 600;
+    }
+    .close-chat-btn {
+        background: none;
+        border: none;
+        color: #fff;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+}
+
+.chat-body {
+    flex: 1;
+    padding: 1rem;
+    background-color: #f4f9fa;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+
+    .message {
+        max-width: 75%;
+        padding: 0.6rem 0.9rem;
+        border-radius: 14px;
+        font-size: 0.9rem;
+        position: relative;
+
+        p {
+            margin: 0;
+            line-height: 1.4;
+            color: #1e2942;
+        }
+        .message-time {
+            font-size: 0.7rem;
+            opacity: 0.6;
+            display: block;
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        &.incoming {
+            background-color: #e0f2f6;
+            align-self: flex-start;
+            border-bottom-left-radius: 2px;
+        }
+        &.outgoing {
+            background-color: #a5d1d9;
+            align-self: flex-end;
+            border-bottom-right-radius: 2px;
+        }
+    }
+}
+
+.chat-footer {
+    display: flex;
+    padding: 0.75rem;
+    background: #fff;
+    border-top: 1px solid #e2e8f0;
+    gap: 0.5rem;
+
+    input {
+        flex: 1;
+        border: 1px solid #cbd5e1;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        outline: none;
+        &:focus {
+            border-color: #387c88;
+        }
+    }
+
+    .send-message-btn {
+        background: #1e2942;
+        border: none;
+        color: #fff;
+        border-radius: 50%;
+        width: 36px;
+        height: 36px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        &:hover {
+            background: #387c88;
+        }
+    }
+}

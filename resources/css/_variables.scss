@@ -17,6 +17,9 @@ $bleuclair: #89c2cd;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 1024px;
 
+$header-height: 158.15px;
+$sidebar-width: 328px;
+
 // 3. Mixins Responsive utiles
 @mixin phone-only {
     @media (max-width: #{$breakpoint-tablet - 1px}) {
