@@ -8,8 +8,9 @@ use App\Http\Controllers\FormationController;
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/qui-suis-je', [HomeController::class, 'about'])->name('about');
-
-
+// Good
+// Vérifie bien que ta route GET ressemble à ça (au singulier ou pluriel, mais identique partout) :
+Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');
 
 // Invités (Public)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');

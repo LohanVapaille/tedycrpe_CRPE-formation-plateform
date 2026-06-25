@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="auth-container fade-in">
-        <h2 class="auth-title">Connexion à l'espace CRPE</h2>
+        <h2 class="auth-title">Connexion à l'espace de formation</h2>
         <p class="auth-subtitle">Veuillez entrer vos identifiants pour accéder à vos cours.</p>
 
         @if($errors->any())
@@ -33,5 +33,6 @@
 
             <button type="submit" class="btn-submit">Se connecter</button>
         </form>
+        <p>Si vous avez oublié votre mot de passe, veuillez contacter votre tuteur.</p>
     </div>
 @endsection

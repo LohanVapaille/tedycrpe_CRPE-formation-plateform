@@ -20,7 +20,7 @@
             </nav>
 
             <div class="user-actions">
-                <a href="#" class="account-btn">Mon compte</a>
+                <a href="{{ route('login') }}" class="account-btn">Mon compte</a>
             </div>
         </div>
     </header>

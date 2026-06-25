@@ -7,6 +7,7 @@
 
 @use "pages/home";
 @use "pages/auth";
+@use "pages/dashboard";
 
 /* ==========================================================================
    1. CLASSES DE VISIBILITÉ ACCESSIBILITÉ & RESPONSIVE
@@ -129,6 +130,10 @@ body {
     line-height: 1.6;
     padding: 0;
     margin: 0;
+}
+
+.main-content {
+    margin-top: 48.15px;
 }
 
 /* ==========================================================================

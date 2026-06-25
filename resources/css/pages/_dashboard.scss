@@ -1,0 +1,332 @@
+// resources/css/pages/_dashboard.scss
+@use "../variables" as v;
+
+$bleuvert: #387c88;
+$bleuclair: #a5d1d9;
+$bleu: #1e2942;
+$orange-accent: #d96b27;
+
+.dashboard-layout {
+    display: flex;
+
+    margin-top: -3rem; // Pour coller au header si besoin
+
+    @include v.phone-only {
+        flex-direction: column;
+    }
+}
+
+/* ==========================================
+   SIDEBAR STYLES
+   ========================================== */
+.dashboard-sidebar {
+    width: 280px;
+    background-color: $bleuvert;
+    color: v.$blanc;
+    padding: 2rem 1.5rem;
+    border-radius: 0 0 12px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+
+    @include v.phone-only {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .user-profile {
+        text-align: center;
+        .avatar-placeholder {
+            font-size: 3rem;
+            background: rgba(255, 255, 255, 0.2);
+            width: 80px;
+            height: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+        }
+        .user-fullname {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+    }
+
+    .sidebar-menu {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .menu-item {
+            color: v.$blanc;
+            text-decoration: none;
+            padding: 0.75rem 1rem;
+            border-radius: 6px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            transition: background 0.2s;
+
+            &:hover,
+            &.active {
+                background-color: rgba(255, 255, 255, 0.15);
+                border-left: 4px solid v.$blanc;
+            }
+        }
+    }
+
+    .tutor-section {
+        margin-top: auto;
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            opacity: 0.8;
+        }
+
+        .tutor-card {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.75rem;
+            border-radius: 8px;
+            position: relative;
+
+            .tutor-avatar {
+                font-size: 1.5rem;
+            }
+            .tutor-name {
+                margin: 0;
+                font-weight: 600;
+                font-size: 0.95rem;
+            }
+            .tutor-role {
+                margin: 0;
+                font-size: 0.8rem;
+                opacity: 0.7;
+            }
+            .tutor-chat-btn {
+                text-decoration: none;
+                font-size: 1.25rem;
+                margin-left: auto;
+            }
+        }
+    }
+}
+
+/* ==========================================
+   MAIN CONTENT STYLES
+   ========================================== */
+.dashboard-main {
+    flex: 1;
+    padding: 2rem;
+
+    .block-title {
+        font-size: 1.3rem;
+        color: #2c6e7a;
+        margin: 2rem 0 1rem;
+    }
+
+    // Banner bienvenue
+    .welcome-banner {
+        background-color: #e0f2f6;
+        padding: 2rem;
+        border-radius: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        @include v.phone-only {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        h2 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.5rem;
+            color: $bleu;
+        }
+        p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: gray(0, 0.7);
+        }
+
+        .banner-actions {
+            margin-top: 1.25rem;
+            display: flex;
+            gap: 1rem;
+        }
+    }
+
+    // Boutons spécifiques maquette
+    .btn-secondary-light {
+        background: $bleu;
+        color: v.$blanc;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+    .btn-orange {
+        background: $orange-accent;
+        color: v.$blanc;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+    }
+    .btn-dark-blue {
+        background: $bleu;
+        color: v.$blanc;
+        text-decoration: none;
+        padding: 0.6rem 1.5rem;
+        border-radius: 30px;
+        font-weight: 500;
+        display: inline-block;
+    }
+
+    // Barre de progression globale
+    .banner-right {
+        text-align: right;
+        width: 250px;
+        .progress-label {
+            font-size: 0.85rem;
+            color: gray(0, 0.7);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .progress-bar-container {
+            background: v.$blanc;
+            height: 12px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            background: #22c55e;
+            height: 100%;
+        }
+    }
+
+    // Blocs de statistiques
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+
+        .stat-box {
+            background: #e0f2f6;
+            border: 1px solid $bleuclair;
+            border-radius: 8px;
+            text-align: center;
+            overflow: hidden;
+
+            .stat-title {
+                display: block;
+                background: $bleuclair;
+                padding: 0.5rem;
+                font-weight: 500;
+                font-size: 1rem;
+            }
+            .stat-value {
+                display: block;
+                padding: 1.25rem;
+                font-size: 1.5rem;
+                font-weight: bold;
+                background: v.$blanc;
+            }
+        }
+    }
+
+    // Flux d'activité
+    .resume-activity-box {
+        background: #3c7d88;
+        color: v.$blanc;
+        padding: 1.25rem 2rem;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+            margin: 0;
+            font-weight: 500;
+        }
+    }
+
+    // Filtres
+    .matieres-section-header {
+        margin: 2rem 0 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-size: 0.9rem;
+        .filter-label {
+            margin: 0;
+            font-weight: 500;
+        }
+        .filter-badges {
+            display: flex;
+            gap: 0.5rem;
+            .badge {
+                border: 1px solid $bleu;
+                padding: 0.25rem 0.75rem;
+                border-radius: 4px;
+                cursor: pointer;
+                &.active {
+                    background: $bleu;
+                    color: v.$blanc;
+                }
+            }
+        }
+    }
+
+    // Grille des matières de la maquette
+    .matieres-secure-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+
+        @include v.phone-only {
+            grid-template-columns: 1fr;
+        }
+
+        .secure-matiere-card {
+            background-color: $bleuclair;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+
+            .matiere-number {
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: $bleu;
+            }
+
+            .btn-action-course {
+                background: none;
+                border: 1px solid $bleu;
+                color: $bleu;
+                text-decoration: none;
+                padding: 0.4rem 1.5rem;
+                border-radius: 20px;
+                font-size: 0.9rem;
+                transition: background 0.2s;
+                &:hover {
+                    background: $bleu;
+                    color: v.$blanc;
+                }
+            }
+
+            .matiere-progression {
+                font-size: 0.8rem;
+                color: rgba(0, 0, 0, 0.6);
+            }
+        }
+    }
+}
