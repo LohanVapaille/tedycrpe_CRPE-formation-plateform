@@ -22,5 +22,14 @@ class FreshUserSeeder extends Seeder
             'access' => 'student',
             'is_tutor' => false,
         ]);
+
+        User::create([
+            'firstname' => 'Tedy',
+            'name' => 'Florette',
+            'email' => 'tuteur@tedycrpe.fr',
+            'password' => Hash::make('0000'), // Hashé en BCRYPT pour être compris par Laravel Auth
+            'access' => 'all',
+            'is_tutor' => true,
+        ]);
     }
 }

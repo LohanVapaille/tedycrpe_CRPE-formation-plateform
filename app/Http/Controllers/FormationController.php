@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Matiere;
 use App\Models\Cours;
 use App\Models\Rendu;
+use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,7 +25,16 @@ class FormationController extends Controller
     {
         $user = Auth::user();
         $matieres = $this->getAuthorizedMatieres($user);
+        // Récupère le chat de l'utilisateur connecté, ou le crée s'il n'existe pas
+        $user = Auth::user();
 
+        if ($user->is_tutor) {
+            // Le tuteur voit le premier chat disponible (ou tu pourras plus tard lui laisser choisir)
+            $chat = Chat::first();
+        } else {
+            // L'étudiant a son propre chat
+            $chat = Chat::firstOrCreate(['id_user' => $user->id]);
+        }
         // 1. IDs des cours terminés
         $coursTerminesIds = $user->coursTermines()->pluck('id_cours')->toArray();
         $totalCoursTermines = count($coursTerminesIds);
@@ -58,6 +68,7 @@ class FormationController extends Controller
             : 0;
 
         return view('formation.index', compact(
+            'chat',
             'matieres',
             'progressionGlobale',
             'totalCoursTermines',

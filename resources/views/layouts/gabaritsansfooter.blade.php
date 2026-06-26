@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'Objectif CRPE') - TedyCRPE</title>
+
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    @vite(['resources/css/app.scss'])
+    @vite(['resources/css/app.scss', 'resources/js/app.js'])
 </head>
 
 <body class="site-layout">

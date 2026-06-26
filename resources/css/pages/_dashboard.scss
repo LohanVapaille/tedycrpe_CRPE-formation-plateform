@@ -191,7 +191,7 @@ $orange-accent: #d96b27;
         border-radius: 20px;
         font-size: 0.85rem;
         &:hover {
-            background: darken(v.$bleu, 10%);
+            background: #031e25;
         }
     }
     .btn-orange {
@@ -203,7 +203,7 @@ $orange-accent: #d96b27;
         font-size: 0.85rem;
         cursor: pointer;
         &:hover {
-            background: darken($orange-accent, 10%);
+            background: orange;
         }
     }
     .btn-bleuclair {
@@ -217,7 +217,7 @@ $orange-accent: #d96b27;
         border: 1px solid black;
 
         &:hover {
-            background: darken(v.$bleuclair, 10%);
+            background: #1e4d5a;
         }
     }
     .btn-dark-blue {
