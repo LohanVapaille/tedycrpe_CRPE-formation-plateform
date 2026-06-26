@@ -9,17 +9,11 @@ return new class extends Migration {
     {
         Schema::create('sections_cours', function (Blueprint $table) {
             $table->id();
-            $table->string('type', 100);
-            $table->string('titre', 100);
-            $table->text('contenu');
+            $table->string('type'); // titre, txt, img, video, upload
+            $table->string('titre')->nullable(); // <-- Devient optionnel
+            $table->text('contenu')->nullable(); // <-- Devient optionnel
             $table->integer('ordre');
-
-            // Clé étrangère id_cours avec contraintes RESTRICT
-            $table->foreignId('id_cours')
-                ->constrained('cours')
-                ->onDelete('restrict')
-                ->onUpdate('restrict');
-
+            $table->foreignId('id_cours')->constrained('cours')->onDelete('cascade');
             $table->timestamps();
         });
     }

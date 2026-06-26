@@ -158,3 +158,28 @@ body {
         background-color: v.$bleuhover; // Bleu foncé/nuit de la maquette
     }
 }
+
+.tutor-chat-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: v.$bleuvert;
+    color: v.$blanc;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+
+    &:hover {
+        background-color: darken(v.$bleuvert, 10%);
+    }
+
+    i {
+        font-size: 1.5rem;
+    }
+}

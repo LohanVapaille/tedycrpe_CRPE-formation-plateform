@@ -28,6 +28,7 @@
 
     <main class="main-content">
         @yield('content')
+        @include('components.chat')
     </main>
 
     <footer class="main-footer">

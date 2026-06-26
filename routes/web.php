@@ -25,6 +25,8 @@ Route::post('/configuration-password', [LoginController::class, 'updateForcePass
 Route::middleware(['auth'])->group(function () {
     Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+    // NOUVELLE ROUTE : Affichage d'un cours spécifique
+    Route::get('/formation/cours/{id}', [FormationController::class, 'showRoute'])->name('formation.cours');
 });
 // LA ROUTE À RAJOUTER pour traiter l'envoi du message
 Route::post('/formation/message', [MessageController::class, 'store'])->name('chat.store');

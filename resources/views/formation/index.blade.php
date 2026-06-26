@@ -38,7 +38,7 @@
                         <p class="tutor-name">Tedy Florette</p>
                         <p class="tutor-role">Formateur CRPE</p>
                     </div>
-                    <a href="#" class="tutor-chat-btn"><i class='bx bxs-chat'></i></a>
+                    <!-- <a href="#" class="tutor-chat-btn"><i class='bx bxs-chat'></i></a> -->
                 </div>
             </div>
         </aside>
@@ -79,7 +79,7 @@
             <h3 class="block-title">Le Flux d'Activité</h3>
             <section class="resume-activity-box">
                 <p>Reprenez là où vous vous étiez arrêté !</p>
-                <a href="#" class="btn-dark-blue">Accéder à ma formation</a>
+                <a href="{{ route('formation.cours', ['id' => 1]) }}" class="btn-dark-blue">Accéder à ma formation</a>
             </section>
 
             <div class="matieres-section-header">

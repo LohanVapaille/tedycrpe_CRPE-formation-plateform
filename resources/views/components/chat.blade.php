@@ -23,6 +23,10 @@
     </form>
 </div>
 
+<div class="tutor-chat-btn">
+    <i class='bx bxs-message-rounded-dots'></i>
+</div>
+
 <script>document.addEventListener('DOMContentLoaded', () => {
         const openChatBtn = document.querySelector('.tutor-chat-btn');
         const closeChatBtn = document.getElementById('close-chat-btn');

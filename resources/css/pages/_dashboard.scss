@@ -190,6 +190,9 @@ $orange-accent: #d96b27;
         padding: 0.5rem 1rem;
         border-radius: 20px;
         font-size: 0.85rem;
+        &:hover {
+            background: darken(v.$bleu, 10%);
+        }
     }
     .btn-orange {
         background: $orange-accent;
@@ -198,6 +201,24 @@ $orange-accent: #d96b27;
         padding: 0.5rem 1rem;
         border-radius: 20px;
         font-size: 0.85rem;
+        cursor: pointer;
+        &:hover {
+            background: darken($orange-accent, 10%);
+        }
+    }
+    .btn-bleuclair {
+        background: v.$bleuclair;
+        color: black;
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        border: 1px solid black;
+
+        &:hover {
+            background: darken(v.$bleuclair, 10%);
+        }
     }
     .btn-dark-blue {
         background: v.$bleu;
@@ -207,6 +228,9 @@ $orange-accent: #d96b27;
         border-radius: 30px;
         font-weight: 500;
         display: inline-block;
+        &:hover {
+            background: #1e4d5a;
+        }
     }
 
     // Barre de progression globale
@@ -351,4 +375,114 @@ $orange-accent: #d96b27;
             }
         }
     }
+}
+
+// -------------------------------------------------------------------
+
+.matiere-group {
+    margin-bottom: 1.5rem;
+    .matiere-title-sidebar {
+        font-weight: bold;
+        font-size: 0.95rem;
+        color: v.$bleuclair;
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+}
+
+.sidebar-menu-pagecours {
+    overflow-y: auto;
+    // 1. Force l'affichage du scroll s'il y a trop de cours
+    overflow-y: auto;
+
+    /* Pour les navigateurs modernes basés sur Chromium (Chrome, Edge, Opera GX, Brave...) */
+    &::-webkit-scrollbar {
+        width: 6px; /* Épaisseur de la barre verticale */
+    }
+
+    /* Le fond de la scrollbar (la piste) */
+    &::-webkit-scrollbar-track {
+        background: rgba(
+            0,
+            0,
+            0,
+            0.1
+        ); /* Fond très discret sur ton bleu-vert */
+        border-radius: 10px;
+    }
+
+    /* La partie mobile de la barre (le curseur que l'on glisse) */
+    &::-webkit-scrollbar-thumb {
+        background-color: v.$bleuclair;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: v.$bleuclair;
+        }
+    }
+
+    /* Standard W3C - Pour Firefox (plus limité en customisation) */
+    scrollbar-width: thin;
+    scrollbar-color: v.$bleuclair rgba(0, 0, 0, 0.1);
+}
+
+.sub-cours-list {
+    list-style: none;
+    padding-left: 1rem;
+    margin: 0;
+    li {
+        margin-bottom: 0.4rem;
+    }
+    .sub-menu-item {
+        color: v.$blanc;
+        text-decoration: none;
+        font-size: 0.85rem;
+        opacity: 0.8;
+        &.active {
+            font-weight: bold;
+            color: v.$bleuclair;
+            opacity: 1;
+        }
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+.course-main-header {
+    background-color: #387c88;
+    color: v.$blanc;
+    padding: 2rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+}
+.video-responsive {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 6px;
+    }
+}
+.section-render-upload {
+    background: v.$blanc;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px dashed #387c88;
+    margin: 2rem 0;
+}
+
+.course-footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+}
+
+.mb-5 {
+    margin-bottom: 5rem !important;
 }
