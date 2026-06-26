@@ -57,9 +57,11 @@
                     </div>
                 </div>
                 <div class="banner-right">
-                    <span class="progress-label">Progression globale : 60%</span>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" style="width: 60%"></div>
+                    <div class="banner-right">
+                        <span class="progress-label">Progression globale : {{ $progressionGlobale }}%</span>
+                        <div class="progress-bar-container">
+                            <div class="progress-bar-fill" style="width: {{ $progressionGlobale }}%"></div>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -67,12 +69,13 @@
             <h3 id="tb" class="block-title">Tableau de bord</h3>
             <section class="stats-grid">
                 <div class="stat-box">
-                    <span class="stat-title">Temps d’apprentissage</span>
-                    <span class="stat-value">42 heures</span>
+                    <span class="stat-title">Avancement des chapitres</span>
+                    <span class="stat-value">{{ $totalCoursTermines }} <span class="stat-separator">/</span>
+                        {{ $totalCoursFormation }}</span>
                 </div>
                 <div class="stat-box">
-                    <span class="stat-title">Modules terminés</span>
-                    <span class="stat-value">5 Cours</span>
+                    <span class="stat-title">Fichiers & Devoirs</span>
+                    <span class="stat-value">{{ $nombreFichiersEnvoyes }} fichiers envoyés</span>
                 </div>
             </section>
 
@@ -95,8 +98,11 @@
                 @forelse($matieres as $index => $matiere)
                     <div class="secure-matiere-card">
                         <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
-                        <a href="#" class="btn-action-course">Lire le cours</a>
-                        <span class="matiere-progression">0% de progression</span>
+                        <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
+                            class="btn-action-course">
+                            Lire le cours
+                        </a>
+                        <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
                     </div>
                 @empty
                     <p class="no-data">Aucune matière n'est disponible pour le moment.</p>

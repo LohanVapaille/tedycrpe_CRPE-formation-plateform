@@ -27,6 +27,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     // NOUVELLE ROUTE : Affichage d'un cours spécifique
     Route::get('/formation/cours/{id}', [FormationController::class, 'showRoute'])->name('formation.cours');
+    Route::post('/formation/cours/{id}/terminer', [FormationController::class, 'terminerCours'])->name('formation.cours.terminer');
 });
 // LA ROUTE À RAJOUTER pour traiter l'envoi du message
 Route::post('/formation/message', [MessageController::class, 'store'])->name('chat.store');

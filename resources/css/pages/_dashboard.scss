@@ -237,22 +237,22 @@ $orange-accent: #d96b27;
     .banner-right {
         text-align: right;
         width: 250px;
-        .progress-label {
-            font-size: 0.85rem;
-            color: gray(0, 0.7);
-            display: block;
-            margin-bottom: 0.5rem;
-        }
-        .progress-bar-container {
-            background: v.$blanc;
-            height: 12px;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-        .progress-bar-fill {
-            background: #22c55e;
-            height: 100%;
-        }
+    }
+    .progress-label {
+        font-size: 0.85rem;
+        color: gray(0, 0.7);
+        display: block;
+        margin-bottom: 0.5rem;
+    }
+    .progress-bar-container {
+        background: v.$blanc;
+        height: 12px;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .progress-bar-fill {
+        background: #22c55e;
+        height: 100%;
     }
 
     // Blocs de statistiques
@@ -454,6 +454,9 @@ $orange-accent: #d96b27;
     padding: 2rem;
     border-radius: 8px;
     margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 .video-responsive {
     position: relative;
@@ -485,4 +488,7 @@ $orange-accent: #d96b27;
 
 .mb-5 {
     margin-bottom: 5rem !important;
+}
+
+.progress-container-mini {
 }

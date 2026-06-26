@@ -10,7 +10,9 @@
             <nav class="sidebar-menu menu-formation">
                 @foreach($matieres as $matiere)
                     <div class="matiere-group">
-                        <span class="matiere-title-sidebar">📁 {{ $matiere->name }}</span>
+                        <span class="matiere-title-sidebar">
+                            📁 {{ $matiere->name }} ({{ $matiere->progression }}%)
+                        </span>
                         <ul class="sub-cours-list">
                             @foreach($matiere->cours as $c)
                                 <li>
@@ -36,12 +38,22 @@
 
             <!-- En-tête du cours (Comme le bloc bleu "1. Mathématiques" de ta maquette) -->
             <div class="course-main-header">
-                <h2>{{ $coursSelectionne->name }}</h2>
-                <p>Matière : {{ $coursSelectionne->matiere->name }}</p>
+                <div>
+                    <h2>{{ $coursSelectionne->name }}</h2>
+                    <p>Matière : {{ $coursSelectionne->matiere->name }}</p>
+
+                    @php
+                        // On récupère la matière correspondante dans la liste où les progressions sont calculées
+                        $matiereActuelle = $matieres->firstWhere('id', $coursSelectionne->id_matiere);
+                        $progressionMatiere = $matiereActuelle->progression ?? 0;
+                    @endphp
+                </div>
                 <div class="progress-container-mini">
-                    <span>Progression du cours : 60%</span>
-                    <div class="progress-bar-mini">
-                        <div class="fill" style="width: 60%"></div>
+                    <span class="matiere-progression">
+                        Progression de la matière : {{ $progressionMatiere }}%
+                    </span>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar-fill" style="width: {{ $progressionMatiere }}%"></div>
                     </div>
                 </div>
             </div>
@@ -95,9 +107,12 @@
 
             <!-- Bouton de bas de page -->
             <div class="course-footer-actions mb-5">
-                <a href="{{ route('formation.cours', ['id' => $coursSelectionne->id + 1]) }}"
-                    class="btn-dark-blue btncourssuivant  ">Cours
-                    suivant</a>
+                <form action="{{ route('formation.cours.terminer', $coursSelectionne->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn-dark-blue">
+                        Cours suivant et valider
+                    </button>
+                </form>
             </div>
         </main>
     </div>

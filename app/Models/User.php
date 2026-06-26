@@ -39,11 +39,22 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class, 'id_user');
     }
 
+    public function rendus()
+    {
+        return $this->hasMany(Rendu::class, 'id_user');
+    }
+
     /**
      * Un utilisateur peut écrire plusieurs messages.
      */
     public function messages(): EloquentHasMany
     {
         return $this->hasMany(Message::class, 'id_writer');
+    }
+
+    public function coursTermines()
+    {
+        return $this->belongsToMany(Cours::class, 'avancement_cours', 'id_user', 'id_cours')
+            ->withTimestamps();
     }
 }
