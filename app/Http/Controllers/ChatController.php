@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\Chat;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,5 +33,17 @@ class ChatController extends Controller
             'status' => 'success',
             'message' => $message->load('writer')
         ]);
+    }
+
+    // ChatController.php
+    public function history(Chat $chat)
+    {
+        // Vérifie que seul le tuteur ou l'élève concerné peut accéder
+        $user = Auth::user();
+        abort_if(!$user->is_tutor && $user->id !== $chat->id_user, 403);
+
+        $messages = $chat->messages()->with('writer')->orderBy('created_at')->get();
+
+        return response()->json($messages);
     }
 }

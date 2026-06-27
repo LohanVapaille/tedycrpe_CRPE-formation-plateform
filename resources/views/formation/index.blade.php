@@ -113,4 +113,106 @@
     </div>
 
     @include('components.chat')
+
+    <div class="tutor-chat-btn">
+        <i class='bx bxs-message-rounded-dots'></i>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentUserId = {{ Auth::id() }};
+            const chatId = {{ $chat->id }};
+            const baseUrl = "{{ url('') }}";
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            const chatPopup = document.getElementById('chat-popup');
+            const chatMessagesContainer = document.getElementById('chat-messages-container');
+            const chatInput = document.getElementById('chat-input');
+            const sendBtn = document.getElementById('send-btn');
+
+            const scrollToBottom = () => chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+
+            // Ouvre le popup
+            document.querySelector('.tutor-chat-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                chatPopup.classList.add('active');
+                loadHistory(chatId);
+            });
+
+            document.getElementById('close-chat-btn').addEventListener('click', () => {
+                chatPopup.classList.remove('active');
+            });
+
+            // Historique
+            function loadHistory(chatId) {
+                chatMessagesContainer.innerHTML = '';
+                fetch(`${baseUrl}/chat/${chatId}/messages`, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken }
+                })
+                    .then(r => r.json())
+                    .then(messages => {
+                        messages.forEach(msg => {
+                            const direction = msg.id_writer === currentUserId ? 'outgoing' : 'incoming';
+                            const writerName = direction === 'incoming' ? `${msg.writer.firstname} ${msg.writer.name}` : '';
+                            appendMessage(msg.contenu, direction, writerName, msg.created_at);
+                        });
+                    });
+            }
+
+            // Envoi
+            sendBtn.addEventListener('click', sendMessage);
+            chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
+
+            function sendMessage() {
+                if (!chatInput.value.trim()) return;
+                const formData = new FormData();
+                formData.append('contenu', chatInput.value.trim());
+                formData.append('id_chat', chatId);
+                formData.append('_token', csrfToken);
+
+                fetch(`${baseUrl}/chat/store`, {
+                    method: 'POST',
+                    body: formData,
+                    headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken, 'X-Socket-ID': window.Echo?.socketId() ?? '' }
+                })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            appendMessage(data.message.contenu, 'outgoing', '', data.message.created_at);
+                            chatInput.value = '';
+                        }
+                    });
+            }
+
+            // Bulle message
+            function appendMessage(contenu, direction, writerName = '', createdAt = null) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message', direction);
+                const timeStr = createdAt
+                    ? new Date(createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+                    : new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+
+                messageDiv.innerHTML = `
+                ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
+                <p>${contenu}</p>
+                <span class="message-time">${timeStr}</span>
+            `;
+                chatMessagesContainer.appendChild(messageDiv);
+                scrollToBottom();
+            }
+
+            // Écoute Reverb
+            const waitForEcho = setInterval(() => {
+                if (typeof window.Echo !== 'undefined') {
+                    clearInterval(waitForEcho);
+                    window.Echo.private(`chat.${chatId}`)
+                        .listen('.MessageSent', (e) => {
+                            if (e.message.id_writer !== currentUserId) {
+                                appendMessage(e.message.contenu, 'incoming', `${e.message.writer.firstname} ${e.message.writer.name}`, e.message.created_at);
+                            }
+                        });
+                }
+            }, 200);
+        });
+    </script>
 @endsection

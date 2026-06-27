@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\TutorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormationController;
@@ -31,4 +32,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/formation/cours/{id}', [FormationController::class, 'showRoute'])->name('formation.cours');
     Route::post('/formation/cours/{id}/terminer', [FormationController::class, 'terminerCours'])->name('formation.cours.terminer');
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
+    Route::get('/backoffice', [TutorController::class, 'index'])->name('tutor.backoffice');
+    Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');
+
 });
