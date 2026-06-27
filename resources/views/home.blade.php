@@ -7,7 +7,7 @@
         <div class="w-correct">
         <h1>{{ $contents->firstWhere('key', 'title')->value ?? 'Texte de présentation par défaut.' }}</h1>
         
-        <a class="welcome-btn btn-primary" href="">Réserver un appel découverte</a>
+        <a class="welcome-btn btn-primary" target="_blank" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">Réserver un appel découverte</a>
     </div>
 </div>
 
@@ -17,7 +17,7 @@
         <div class="presentation-text">
             <h2>Tedy Florette, formateur CRPE</h2>
             <p>{{ $contents->firstWhere('key', 'subtitle')->value ?? 'Texte de présentation par défaut.' }}</p>
-            <a class="btn-primary" href="">Réserver un appel découverte</a>
+            <a class="btn-primary" target="_blank" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">Réserver un appel découverte</a>
         </div>
         <div class="presentation-image">
             <img src="{{ $contents->firstWhere('key', 'photo-tedy')->value ?? 'img/photo/phototedy.png' }}" alt="Tedy Florette">
@@ -25,7 +25,7 @@
         </div>
     </div>
 
-      <div class="stats-container-accueil">
+    <div class="stats-container-accueil">
         @foreach($contents->where('section', 'stats')->sortBy('ordre') as $stat)
             @php 
                 // Si la valeur ne contient pas de "|", on met une valeur par défaut pour éviter le bug
@@ -87,7 +87,7 @@
             <img src="{{ asset('img/jemelance.png') }}" alt="Je me lance">
             <div class="cta-overlay">
                 <h2>{!! nl2br(e($contents->firstWhere('key', 'left_title')->value ?? 'JE ME LANCE !')) !!}</h2>
-                <a class="btn-primary" href="">En savoir plus</a>
+                <a class="btn-primary" target="_blank" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">En savoir plus</a>
             </div>
         </div>
     </div>

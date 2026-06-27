@@ -5,9 +5,9 @@
 @section('content')
     <div class="agenda-section">
         <div class="agenda-container">
-            <h2>Mon Emploi du Temps & Événements</h2>
-            <p class="agenda-subtitle">Retrouvez ici vos cours collectifs, dates clés du concours et vos rendez-vous
-                individuels privés.</p>
+            <!-- <h2>Mon Emploi du Temps & Événements</h2>
+                <p class="agenda-subtitle">Retrouvez ici vos cours collectifs, dates clés du concours et vos rendez-vous
+                    individuels privés.</p> -->
 
             <div id="calendar-framework"></div>
         </div>
