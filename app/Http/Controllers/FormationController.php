@@ -24,6 +24,7 @@ class FormationController extends Controller
     public function index()
     {
         $user = Auth::user();
+        $chat = Chat::find(1);
         $matieres = $this->getAuthorizedMatieres($user);
         // Récupère le chat de l'utilisateur connecté, ou le crée s'il n'existe pas
         $user = Auth::user();

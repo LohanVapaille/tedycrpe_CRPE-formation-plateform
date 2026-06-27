@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Matiere;
 use App\Models\Content;
+use App\Models\Cours;
+use App\Models\Chat;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -14,7 +16,7 @@ class HomeController extends Controller
         $matieres = Matiere::with('cours')->orderBy('ordre')->get();
         // On récupère les textes de l'accueil sous forme de clé => valeur
         $texts = Content::where('page', 'home')->get()->pluck('value', 'key');
-
+        $chat = Chat::find(1);
         return view('home', compact('matieres', 'texts'));
     }
 
@@ -22,6 +24,7 @@ class HomeController extends Controller
     public function about()
     {
         $texts = Content::where('page', 'about')->get()->pluck('value', 'key');
-        return view('about', compact('texts'));
+        $chat = Chat::find(1);
+        return view('about', compact('texts', 'chat'));
     }
 }
