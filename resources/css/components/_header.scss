@@ -3,13 +3,11 @@
 
 .main-header {
     background-color: v.$bleuvert;
-    padding: 30px 40px;
-
-    // --- BLOCAGE AU SCROLL ---
+    padding: 20px 40px; // Légèrement réduit pour le mobile
     position: sticky;
     top: 0;
-    z-index: 1000; // Assure que le header passe au-dessus de tout le reste
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); // Optionnel : petite ombre fine au scroll
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 
     .header-container {
         max-width: 1200px;
@@ -19,13 +17,53 @@
         align-items: center;
 
         @include v.phone-only {
-            flex-direction: column;
-            gap: 1rem;
-            text-align: center;
+            flex-wrap: wrap; // Permet au burger de se caler à droite
+            padding: 0;
         }
     }
 
-    // Navigation principale
+    // Le titre ou logo texte à ajouter dans ton HTML pour structurer le flex
+    .header-logo {
+        color: v.$blanc;
+        text-decoration: none;
+        font-size: 1.3rem;
+        font-weight: 700;
+    }
+
+    // Bouton Burger invisible sur Desktop
+    .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: v.$blanc;
+        font-size: 2rem;
+        cursor: pointer;
+
+        @include v.phone-only {
+            display: block;
+        }
+    }
+
+    // Conteneur global de la navigation
+    .nav-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+
+        @include v.phone-only {
+            display: none; // Masqué par défaut sur mobile
+            flex-direction: column;
+            width: 100%;
+            margin-top: 1.5rem;
+            gap: 1.5rem;
+
+            &.active {
+                display: flex; // S'ouvre proprement en JS
+            }
+        }
+    }
+
+    // Navigation principale (ton code intact)
     .main-nav {
         display: flex;
         align-items: center;
@@ -33,7 +71,8 @@
 
         @include v.phone-only {
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 1rem;
+            width: 100%;
         }
 
         .nav-link {
@@ -52,18 +91,24 @@
         }
     }
 
-    // Bouton de compte de la maquette
+    // Bouton de compte (ton code intact)
     .account-btn {
-        background-color: v.$bleu; // Bleu foncé/nuit de la maquette
+        background-color: v.$bleu;
         color: v.$blanc;
         text-decoration: none;
         padding: 0.6rem 1.5rem;
-        border-radius: 50px; // Arrondi complet comme sur le visuel
+        border-radius: 50px;
         font-weight: 500;
         transition: background-color 0.2s ease;
 
         &:hover {
-            background-color: v.$bleuhover; // Bleu foncé/nuit de la maquette
+            background-color: v.$bleuhover;
+        }
+
+        @include v.phone-only {
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
         }
     }
 }
