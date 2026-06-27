@@ -14,17 +14,25 @@ class HomeController extends Controller
     public function index()
     {
         $matieres = Matiere::with('cours')->orderBy('ordre')->get();
-        // On récupère les textes de l'accueil sous forme de clé => valeur
-        $texts = Content::where('page', 'home')->get()->pluck('value', 'key');
+        // Dans ton contrôleur : enlève le pluck
+        $contents = Content::where('page', 'home')->get();
         $chat = Chat::find(1);
-        return view('home', compact('matieres', 'texts'));
+        return view('home', compact('matieres', 'contents', 'chat'));
     }
 
     // Ajouter la méthode pour "Qui suis-je ?"
     public function about()
     {
-        $texts = Content::where('page', 'about')->get()->pluck('value', 'key');
+        $contents = Content::where('page', 'about')->get()->pluck('value', 'key');
         $chat = Chat::find(1);
-        return view('about', compact('texts', 'chat'));
+        return view('about', compact('contents', 'chat'));
+    }
+
+    public function crpe()
+    {
+        // On récupère le contenu de la BDD dédié à cette page
+        $contents = Content::where('page', 'crpe')->get();
+
+        return view('crpe', compact('contents'));
     }
 }

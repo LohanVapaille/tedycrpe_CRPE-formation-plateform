@@ -1,0 +1,206 @@
+// css/pages/_crpe.scss
+@use "../variables" as v;
+
+.crpe-hero {
+    background-image: url("../../img/accueil.jpg");
+    background-size: cover;
+    background-position: center;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+
+    @include v.phone-only {
+        padding: 3rem 1rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: v.$blanc;
+        margin-right: auto;
+        text-align: left;
+        font-weight: 400;
+
+        @include v.phone-only {
+            font-size: 2rem;
+        }
+    }
+}
+
+.crpe-section {
+    padding: 60px 20px;
+
+    box-sizing: border-box;
+    font-family: v.$font-principal;
+
+    &.light-bg {
+        background-color: v.$blanc;
+
+        h2 {
+            color: v.$bleuvert;
+        }
+    }
+
+    &.dark-teal-bg {
+        background-color: v.$bleuvert;
+
+        h2 {
+            color: #ffffff;
+        }
+    }
+
+    .crpe-container {
+        margin: 0 auto;
+
+        &.relative-container {
+            position: relative;
+        }
+    }
+
+    h2 {
+        font-size: 1.8rem;
+        margin-bottom: 25px;
+        font-weight: 700;
+    }
+
+    p {
+        color: v.$bleu;
+        font-size: 1rem;
+        line-height: 1.6;
+        max-width: 850px;
+        margin-bottom: 15px;
+    }
+
+    &.dark-teal-bg p {
+        color: #ffffff;
+    }
+
+    .btn-darkblue {
+        display: inline-block;
+        background-color: v.$bleu;
+        color: #ffffff;
+        padding: 12px 25px;
+        border-radius: 20px;
+        text-decoration: none;
+        font-weight: 500;
+        margin-top: 15px;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: v.$bleuhover;
+        }
+    }
+}
+
+.crpe-grid-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+
+    // Utilisation de ta mixin avec l'alias v.
+    @include v.tablet-up {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .step-card {
+        h3 {
+            color: #ffffff;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+    }
+}
+
+.process-flow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+
+    position: relative;
+    z-index: 2;
+
+    // Utilisation de ta mixin avec l'alias v.
+    @include v.phone-only {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .flow-step {
+        flex: 1;
+        width: 100%;
+
+        @include v.tablet-up {
+            min-width: 140px;
+        }
+
+        background: #ffffff;
+        border: 2px solid #ccc;
+        border-radius: 12px;
+        padding: 15px 10px;
+        text-align: center;
+        font-size: 0.85rem;
+
+        .flow-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        &.border-orange {
+            border-color: #ffb74d;
+        }
+        &.border-red {
+            border-color: #e57373;
+        }
+        &.border-purple {
+            border-color: #ba68c8;
+        }
+        &.border-blue {
+            border-color: #64b5f6;
+        }
+        &.border-green {
+            border-color: #81c784;
+        }
+    }
+
+    .flow-arrow {
+        color: #b0bec5;
+        font-size: 1.5rem;
+        padding: 0 5px;
+
+        @include v.phone-only {
+            transform: rotate(90deg);
+        }
+    }
+}
+
+.asymmetric-validation-icon {
+    position: absolute;
+    bottom: -60px;
+    right: 0;
+    background-color: v.$bleuclair;
+    width: 200px;
+    height: 200px;
+    border-top-left-radius: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+
+    @include v.phone-only {
+        display: none;
+    }
+
+    .check-doc-icon {
+        font-size: 5rem;
+        color: #ffffff;
+        margin-top: 30px;
+        margin-left: 30px;
+    }
+}

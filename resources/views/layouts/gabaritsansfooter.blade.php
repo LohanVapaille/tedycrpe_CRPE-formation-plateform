@@ -16,7 +16,8 @@
         <div class="header-container">
             <nav class="main-nav">
                 <a href="{{ route('home') }}" class="nav-link active">Accueil</a>
-                <a href="#" class="nav-link">Formation CRPE</a>
+                <a href="{{ route('crpe') }}" class="nav-link">Formation CRPE</a>
+                <a href="#" class="nav-link">Agenda</a>
                 <a href="#" class="nav-link">Qui suis-je ?</a>
             </nav>
 

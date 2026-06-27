@@ -10,6 +10,7 @@ use App\Http\Controllers\MessageController; // N'oublie pas d'importer le Messag
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/qui-suis-je', [HomeController::class, 'about'])->name('about');
+Route::get('/crpe', [HomeController::class, 'crpe'])->name('crpe');
 // Good
 // Vérifie bien que ta route GET ressemble à ça (au singulier ou pluriel, mais identique partout) :
 Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');
