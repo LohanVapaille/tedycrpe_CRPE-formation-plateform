@@ -1,0 +1,121 @@
+@use "../variables" as v;
+
+.about-section {
+    background-color: v.$blanc;
+    padding: 80px 20px;
+    font-family: v.$font-principal;
+    min-height: calc(100vh - v.$header-height);
+    display: flex;
+    align-items: center;
+
+    .about-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 50px;
+    align-items: center;
+
+    @include v.tablet-up {
+        grid-template-columns: 45% 55%;
+    }
+}
+
+/* Style de la photo avec un fond asymétrique arrondi */
+.about-image-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+
+    .about-shape-bg {
+        position: absolute;
+        bottom: -20px;
+        left: -10px;
+        width: 80%;
+        height: 90%;
+        background-color: v.$bleuclair;
+        border-radius: 40px;
+        z-index: 1;
+
+        @include v.phone-only {
+            left: 10%;
+        }
+    }
+
+    img {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 380px;
+        height: auto;
+        border-radius: 30px;
+        box-shadow: 0 10px 30px rgba(v.$bleu, 0.12);
+        object-fit: cover;
+    }
+}
+
+/* Conteneur des textes */
+.about-text-wrapper {
+    h1 {
+        color: v.$bleuvert;
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 30px;
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 60px;
+            height: 4px;
+            background-color: v.$bleuclair;
+            border-radius: 2px;
+        }
+    }
+
+    .about-paragraphs {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        p {
+            color: v.$bleu;
+            font-size: 1.05rem;
+            line-height: 1.7;
+            margin: 0;
+
+            &.lead-text {
+                font-size: 1.15rem;
+                font-weight: 600;
+                color: v.$bleuvert;
+            }
+        }
+    }
+
+    .btn-discover {
+        display: inline-block;
+        margin-top: 35px;
+        background-color: v.$bleu;
+        color: #ffffff;
+        padding: 14px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(v.$bleu, 0.2);
+        transition:
+            background-color 0.2s ease,
+            transform 0.2s ease;
+
+        &:hover {
+            background-color: v.$bleuhover;
+            transform: translateY(-2px);
+        }
+    }
+}

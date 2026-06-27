@@ -21,7 +21,8 @@ Route::get('/formation', [FormationController::class, 'index'])->name('formation
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
-Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index')->middleware('auth');
+Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
+Route::get('/qui-suis-je', [HomeController::class, 'quiSuisJe'])->name('qui-suis-je');
 
 // Passage forcé pour le mot de passe initial
 Route::get('/configuration-password', [LoginController::class, 'showForcePasswordForm'])->name('auth.password.force');

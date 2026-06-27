@@ -10,17 +10,22 @@ class AgendaController extends Controller
 {
     public function index()
     {
-        $user = Auth::user();
+        // 1. Si l'utilisateur est connecté
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        // On récupère les événements publics et privés
-        $eventsData = Event::whereNull('user_id')
-            ->orWhere('user_id', $user->id)
-            ->get();
+            $eventsData = Event::whereNull('user_id')
+                ->orWhere('user_id', $user->id)
+                ->get();
+        }
+        // 2. Si c'est un simple visiteur (non connecté)
+        else {
+            $eventsData = Event::whereNull('user_id')->get();
+        }
 
-        // On formate les données pour correspondre aux clés attendues par FullCalendar
+        // Le reste du code de formatage pour FullCalendar reste le même !
         $events = $eventsData->map(function ($event) {
-            // Choix de la couleur selon le type ou le statut privé/public
-            $color = $event->user_id ? '#36717b' : '#89c2cd'; // Tes variables $bleuvert ou $bleuclair
+            $color = $event->user_id ? '#36717b' : '#89c2cd'; // Privé vs Public
 
             return [
                 'title' => ($event->user_id ? '🔒 ' : '') . $event->title,
@@ -28,7 +33,7 @@ class AgendaController extends Controller
                 'end' => $event->end_time->toIso8601String(),
                 'backgroundColor' => $color,
                 'borderColor' => $color,
-                'description' => $event->description, // Donnée bonus
+                'description' => $event->description,
             ];
         });
 

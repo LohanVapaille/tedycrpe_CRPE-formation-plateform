@@ -19,7 +19,7 @@
                 <a href="{{ route('home') }}" class="nav-link active">Accueil</a>
                 <a href="{{ route('crpe') }}" class="nav-link">Formation CRPE</a>
                 <a href="{{ route('agenda.index') }}" class="nav-link">Agenda</a>
-                <a href="#" class="nav-link">Qui suis-je ?</a>
+                <a href="{{ route('qui-suis-je') }}" class="nav-link">Qui suis-je ?</a>
             </nav>
 
             <div class="user-actions">

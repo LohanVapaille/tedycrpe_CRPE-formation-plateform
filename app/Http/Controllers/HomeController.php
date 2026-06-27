@@ -21,11 +21,12 @@ class HomeController extends Controller
     }
 
     // Ajouter la méthode pour "Qui suis-je ?"
-    public function about()
+    public function quiSuisJe()
     {
-        $contents = Content::where('page', 'about')->get()->pluck('value', 'key');
-        $chat = Chat::find(1);
-        return view('about', compact('contents', 'chat'));
+        // Récupère les lignes de la page 'qui-suis-je' et les indexe par leur 'key'
+        $content = Content::where('page', 'qui-suis-je')->get()->pluck('value', 'key');
+
+        return view('qui-suis-je', compact('content'));
     }
 
     public function crpe()
