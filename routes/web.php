@@ -6,6 +6,7 @@ use App\Http\Controllers\TutorController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormationController;
+use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\MessageController; // N'oublie pas d'importer le MessageController
 
 // Appelle la méthode index du HomeController pour la page d'accueil
@@ -19,6 +20,8 @@ Route::get('/formation', [FormationController::class, 'index'])->name('formation
 // Invités (Public)
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
+
+Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index')->middleware('auth');
 
 // Passage forcé pour le mot de passe initial
 Route::get('/configuration-password', [LoginController::class, 'showForcePasswordForm'])->name('auth.password.force');

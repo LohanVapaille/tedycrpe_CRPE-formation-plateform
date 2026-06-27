@@ -1,0 +1,108 @@
+// css/pages/_agenda.scss
+@use "../variables" as v;
+
+.agenda-section {
+    background-color: v.$blanc;
+    padding: 60px 20px;
+    font-family: v.$font-principal;
+    min-height: calc(100vh - v.$header-height);
+
+    .agenda-container {
+        max-width: 1100px;
+        margin: 0 auto;
+
+        h2 {
+            color: v.$bleuvert;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .agenda-subtitle {
+            color: v.$bleu;
+            margin-bottom: 40px;
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+    }
+}
+
+// Surcharges de FullCalendar pour coller à ton UI
+#calendar-framework {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(v.$bleu, 0.05);
+    color: v.$bleu;
+
+    // Personnalisation des boutons de navigation
+    .fc-button-primary {
+        background-color: v.$bleu;
+        border-color: v.$bleu;
+        font-family: v.$font-principal;
+        font-weight: 500;
+        border-radius: 8px;
+        text-transform: capitalize;
+
+        &:hover {
+            background-color: v.$bleuhover;
+            border-color: v.$bleuhover;
+        }
+
+        &:disabled {
+            background-color: lighten(v.$bleu, 20%);
+            border-color: lighten(v.$bleu, 20%);
+        }
+    }
+
+    // Le bouton "Aujourd'hui" actif
+    .fc-button-active {
+        background-color: v.$bleuvert !important;
+        border-color: v.$bleuvert !important;
+    }
+
+    // Titre du mois (ex: Juin 2026)
+    .fc-toolbar-title {
+        font-family: v.$font-principal;
+        color: v.$bleuvert;
+        font-weight: 700;
+        font-size: 1.5rem;
+        text-transform: capitalize;
+    }
+
+    // Les en-têtes des jours (Lun, Mar...)
+    .fc-col-header-cell {
+        background-color: lighten(v.$blanc, 2%);
+        padding: 10px 0;
+
+        .fc-col-header-cell-cushion {
+            color: v.$bleu;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    }
+
+    // Customisation des cellules de jours
+    .fc-daygrid-day {
+        &.fc-day-today {
+            background-color: rgba(v.$bleuclair, 0.15) !important;
+        }
+
+        .fc-daygrid-day-number {
+            color: v.$bleu;
+            font-weight: 500;
+            padding: 8px;
+            text-decoration: none;
+        }
+    }
+
+    // Style des blocs d'événements à l'intérieur des cases
+    .fc-event {
+        border-radius: 6px;
+        padding: 2px 6px;
+        font-size: 0.85rem;
+        cursor: pointer;
+        font-weight: 500;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+}
