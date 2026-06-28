@@ -5,32 +5,45 @@
 @section('content')
     <div class="dashboard-layout fade-in">
 
-        <!-- BARRE LATÉRALE : Liste des Matières et des Cours -->
         <aside class="dashboard-sidebar sidebar-menu-pagecours">
+
+            <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                <a href="{{ route('formation.index') }}" class="btn-back-dashboard"
+                    style="text-decoration: none; display: inline-block;">
+                    ⬅️ Tableau de bord
+                </a>
+            </div>
+
             <nav class="sidebar-menu menu-formation">
-                @foreach($matieres as $matiere)
-                    <div class="matiere-group">
-                        <span class="matiere-title-sidebar">
-                            📁 {{ $matiere->name }} ({{ $matiere->progression }}%)
-                        </span>
-                        <ul class="sub-cours-list">
-                            @foreach($matiere->cours as $c)
-                                <li>
-                                    <a href="{{ route('formation.cours', $c->id) }}"
-                                        class="sub-menu-item {{ $coursSelectionne->id == $c->id ? 'active' : '' }}">
-                                        📄 {{ $c->name }}
-                                    </a>
-                                </li>
+                @if(Auth::user()->access === 'all')
+
+                    <details class="level-group" open>
+                        <summary class="level-title-sidebar">🎓 CRPE Bac +5</summary>
+                        <div class="level-content" style="padding-left: 0.75rem; margin-top: 0.5rem;">
+                            @foreach($matieres->where('module_associe', 'CRPE BAC + 5') as $matiere)
+                                @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
                             @endforeach
-                        </ul>
-                    </div>
-                @endforeach
+                        </div>
+                    </details>
+
+                    <details class="level-group" style="margin-top: 1rem;" open>
+                        <summary class="level-title-sidebar">🎓 CRPE Bac +3</summary>
+                        <div class="level-content" style="padding-left: 0.75rem; margin-top: 0.5rem;">
+                            @foreach($matieres->where('module_associe', 'CRPE BAC + 3') as $matiere)
+                                @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
+                            @endforeach
+                        </div>
+                    </details>
+
+                @else
+
+                    @foreach($matieres as $matiere)
+                        @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
+                    @endforeach
+
+                @endif
             </nav>
 
-            <!-- Bouton retour au tableau de bord globale -->
-            <div style="margin-top: auto; padding-top: 1rem;">
-                <a href="{{ route('formation.index') }}" class="menu-item">⬅️ Tableau de bord</a>
-            </div>
         </aside>
 
         <!-- ZONE DE CONTENU CENTRAL (Le Cours) -->

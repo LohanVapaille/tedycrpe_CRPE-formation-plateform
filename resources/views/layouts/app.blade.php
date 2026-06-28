@@ -65,6 +65,7 @@
                 <a href="#">Newsletter</a>
                 <a href="#">Glossaire</a>
                 <a href="#">Contact</a>
+                <a href="{{ route('tutor.backoffice') }}">Admin</a>
             </div>
 
             <!-- Colonne Droite : Réseaux Sociaux -->

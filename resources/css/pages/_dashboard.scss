@@ -6,7 +6,7 @@ $orange-accent: #d96b27;
 .dashboard-layout {
     display: flex;
     // 1. On force le layout à prendre pile le reste de la fenêtre visible
-    height: calc(100vh - 89.15px);
+    height: calc(100vh - 75px);
     width: 100%;
     overflow: hidden; // Empêche la page entière (le body) de scroller
 
@@ -23,7 +23,7 @@ $orange-accent: #d96b27;
 .dashboard-sidebar {
     width: 280px;
     // 2. La sidebar prend toute la hauteur disponible du layout sans jamais la dépasser
-    height: calc(100vh - 150px);
+    height: calc(100vh - 140px);
     background-color: v.$bleuvert;
     color: v.$blanc;
     padding: 2rem 1.5rem;
@@ -384,7 +384,7 @@ $orange-accent: #d96b27;
     .matiere-title-sidebar {
         font-weight: bold;
         font-size: 0.95rem;
-        color: v.$bleuclair;
+        color: v.$blanc;
         display: block;
         margin-bottom: 0.5rem;
     }
@@ -449,7 +449,7 @@ $orange-accent: #d96b27;
     }
 }
 .course-main-header {
-    background-color: #387c88;
+    background-color: v.$bleu;
     color: v.$blanc;
     padding: 2rem;
     border-radius: 8px;
@@ -488,4 +488,34 @@ $orange-accent: #d96b27;
 
 .mb-5 {
     margin-bottom: 5rem !important;
+}
+
+.level-title-sidebar {
+    font-weight: bold;
+    font-size: 1.05rem;
+    color: v.$blanc;
+    cursor: pointer;
+    list-style-position: inside;
+    padding: 0.25rem 0;
+
+    &:hover {
+        color: v.$bleuclair;
+    }
+}
+
+.matiere-group {
+    margin-bottom: 1rem;
+
+    details summary {
+        list-style-position: inside;
+        cursor: pointer;
+        outline: none;
+        transition: color 0.2s ease;
+    }
+}
+
+.btn-back-dashboard {
+    color: v.$blanc;
+    padding: 0.2rem 1rem;
+    padding-right: 50px;
 }

@@ -1,5 +1,6 @@
 @use "../variables" as v;
 
+// --- WELCOME SECTION ---
 .welcome-section {
     background-image: url("../../img/accueil.jpg");
     background-size: cover;
@@ -21,22 +22,26 @@
         font-weight: 400;
 
         @include v.phone-only {
+            width: 100%; // Prend tout l'espace sur mobile
             font-size: 2rem;
         }
     }
     .welcome-btn {
         margin-top: 1rem;
+        align-self: flex-start; // Évite que le bouton s'étire sur toute la largeur
     }
 }
 
+// --- PRESENTATION TEDY ---
 .presentation-tedy {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 30px;
     padding: 2rem 2rem;
 
     @include v.phone-only {
-        flex-direction: column;
+        flex-direction: column-reverse; // L'image passe au-dessus ou le texte selon préférence
         padding: 3rem 1rem;
     }
 
@@ -79,123 +84,121 @@
     }
 }
 
-/* Le grand bandeau de fond horizontal */
+// --- STATS CONTAINER ---
 .stats-container-accueil {
-    background-color: v.$bleuvert; /* Le bleu canard / vert foncé de la maquette */
+    background-color: v.$bleuvert;
     padding: 40px 20px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 30px; /* Espace entre les 3 blocs */
+    flex-wrap: wrap; // Permet aux blocs de passer à la ligne sur tablette
+    gap: 30px;
     width: 100%;
     box-sizing: border-box;
     margin-top: 30px;
 
-    /* Style d'une boîte de statistique */
     .stat-box {
         display: flex;
         flex-direction: column;
-        width: 260px; /* Largeur fixe pour harmoniser les 3 blocs */
-        border: 1px solid rgba(255, 255, 255, 0.4); /* La fine bordure claire visible sur la maquette */
+        width: 260px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
         text-align: center;
-        font-family: sans-serif; /* Ajuste avec ta police globale (ex: Montserrat) */
+        font-family: sans-serif;
     }
 
-    /* Zone supérieure : Le Chiffre */
     .stat-number {
-        background-color: v.$bleuclair; /* Le bleu clair de la partie haute */
-        color: #383636; /* Chiffre écrit en noir/très foncé */
+        background-color: v.$bleuclair;
+        color: #383636;
         font-size: 1.6rem;
         font-weight: 500;
         padding: 12px 10px;
     }
 
-    /* Zone inférieure : Le Texte explicatif */
     .stat-title {
-        color: v.$blanc; /* Texte écrit en blanc */
+        color: v.$blanc;
         font-size: 0.95rem;
         font-weight: 300;
         padding: 15px 15px;
-        margin: 0; /* Supprime les marges par défaut du paragraphe */
+        margin: 0;
         line-height: 1.4;
     }
 
-    /* Version mobile : On empile les blocs si l'écran est trop petit */
+    // Version Tablette / Mobile
     @media (max-width: 768px) {
-        .stats-container-accueil {
-            flex-direction: column;
-            gap: 20px;
-            padding: 30px 15px;
-        }
+        flex-direction: column;
+        gap: 20px;
+        padding: 30px 15px;
 
         .stat-box {
             width: 100%;
-            max-width: 300px; /* Évite que les blocs soient trop étirés sur mobile */
+            max-width: 300px;
         }
     }
 }
 
-/* Le conteneur parent qui aligne les 4 cartes */
+// --- CARDS CTA ---
 .card-cta-container {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 25px; /* L'espace entre chaque carte */
+    gap: 25px;
     padding: 60px 20px;
-    background-color: v.$blanc; /* Le fond bleu très clair de la page */
+    background-color: v.$blanc;
     width: 100%;
     box-sizing: border-box;
-    flex-wrap: wrap; /* Permet de passer à la ligne proprement sur tablette */
+    flex-wrap: wrap;
 }
 
-/* Le lien englobant (on retire le soulignement par défaut) */
 .card-cta-link {
     text-decoration: none;
     transition:
         transform 0.2s ease,
         box-shadow 0.2s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+    }
 }
 
-.card-cta-link:hover {
-    transform: translateY(-5px); /* Un petit effet de survol sympa */
-}
-
-/* Le corps de la carte */
 .card-cta {
-    position: relative; /* Crucial pour placer les ronds décoratifs et l'icône */
-    background-color: #386b73; /* Le bleu canard emblématique de tes sections */
+    position: relative;
+    background-color: #386b73;
     width: 220px;
-    height: 220px; /* Format carré parfait comme sur la maquette */
-    border-radius: 30px; /* Les grands angles très arrondis */
+    height: 220px;
+    border-radius: 30px;
     padding: 25px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    overflow: hidden; /* Empêche les éléments absolus de dépasser */
+    overflow: hidden;
+
+    h3 {
+        color: v.$blanc;
+        font-size: 1.1rem;
+        font-weight: 600;
+        text-align: center;
+        margin: 10px 0 0 0;
+        line-height: 1.4;
+        z-index: 2;
+
+        &::before {
+            content: "";
+            position: absolute;
+            bottom: 60px;
+            left: 15px;
+            width: 10px;
+            height: 10px;
+            background-color: #8dbed0;
+            border-radius: 50%;
+        }
+    }
 }
 
-/* Le titre de la carte */
-.card-cta h3 {
-    color: v.$blanc; /* Texte en blanc pour contraster avec le fond bleu */
-    font-size: 1.1rem;
-    font-weight: 600;
-    text-align: center;
-    margin: 10px 0 0 0;
-    line-height: 1.4;
-    z-index: 2; /* Reste bien au-dessus des icônes de fond */
-}
-
-/* L'icône principale au centre (Livre, Certif, User) */
 .card-icon {
-    font-size: 5rem; /* Très grande taille */
-    color: rgba(
-        255,
-        255,
-        255,
-        0.12
-    ); /* Blanc ultra-transparent pour l'effet filigrane */
+    font-size: 5rem;
+    color: rgba(255, 255, 255, 0.12);
     position: absolute;
     bottom: 25px;
     left: 50%;
@@ -203,9 +206,6 @@
     z-index: 1;
 }
 
-/* --- LES PETITS RONDS DÉCORATIFS (Pseudo-éléments) --- */
-
-/* Le rond du haut au milieu */
 .card-cta::before {
     content: "";
     position: absolute;
@@ -214,12 +214,11 @@
     transform: translateX(-50%);
     width: 12px;
     height: 12px;
-    background-color: #e3f2fd; /* Même couleur que le fond de page */
+    background-color: #e3f2fd;
     border-radius: 50%;
     opacity: 0.9;
 }
 
-/* Les petits ronds asymétriques du bas et des côtés */
 .card-cta::after {
     content: "";
     position: absolute;
@@ -227,50 +226,50 @@
     right: 15px;
     width: 10px;
     height: 10px;
-    background-color: #8dbed0; /* Bleu clair décoratif */
-    border-radius: 50%;
-}
-
-/* On ajoute le dernier petit point à gauche via une astuce ou une classe si besoin, 
-   ou on le simule en ajoutant un élément dans le fond de la card. 
-   Pour faire simple et pur CSS, on va l'ajouter sur le titre ou l'icône : */
-.card-cta h3::before {
-    content: "";
-    position: absolute;
-    bottom: 60px;
-    left: 15px;
-    width: 10px;
-    height: 10px;
     background-color: #8dbed0;
     border-radius: 50%;
 }
 
-/* Responsive Mobile */
 @media (max-width: 576px) {
     .card-cta-container {
         flex-direction: column;
         gap: 20px;
     }
     .card-cta {
-        width: 260px; /* Légèrement plus large sur mobile pour le confort visuel */
+        width: 260px;
         height: 220px;
     }
 }
 
+// --- FAQ SECTION ---
 .faqall {
-    background-color: v.$bleuvert; /* Fond bleu très clair global */
+    background-color: v.$bleuvert;
 }
+
 .faq-container {
     display: flex;
     justify-content: space-between;
-    gap: 30px;
+    gap: 40px;
     align-items: center;
-    padding: 30px 20px;
+    padding: 60px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 
     img {
-        max-width: 550px;
+        width: 100%;
+        max-width: 500px;
         height: auto;
         border-radius: 15px;
+    }
+
+    @media (max-width: 992px) {
+        flex-direction: column; // Empile l'image et les questions sur tablette/mobile
+        text-align: center;
+        padding: 40px 20px;
+
+        img {
+            max-width: 400px; // Réduit l'image sur plus petit écran
+        }
     }
 }
 
@@ -278,41 +277,46 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
-    width: 600px; /* À ajuster selon ton layout */
+    width: 100%;
+    max-width: 600px; // Utilisation de max-width pour ne pas bloquer l'élément
 
     h2 {
         font-size: 2rem;
         color: v.$blanc;
         margin-bottom: 20px;
         font-weight: 500;
+
+        @include v.phone-only {
+            font-size: 1.6rem;
+        }
     }
 }
 
 .faq-item {
-    background-color: v.$blanc; /* Ton bleu très clair */
+    background-color: v.$blanc;
     border-radius: 8px;
     border: 1px solid #b0bec5;
     overflow: hidden;
     transition: all 0.3s ease;
-}
+    text-align: left; // Garde le texte à gauche même si le parent est centré
 
-.faq-item[open] {
-    background-color: #ffffff; /* Devient blanc quand c'est ouvert */
+    &[open] {
+        background-color: #ffffff;
+    }
 }
 
 summary.faq-question {
     padding: 15px 20px;
     font-weight: 500;
     cursor: pointer;
-    list-style: none; /* Enlève la flèche noire par défaut de Chrome/Firefox */
+    list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
 
-/* Enlève la flèche par défaut sur Safari */
-summary.faq-question::-webkit-details-marker {
-    display: none;
+    ::-webkit-details-marker {
+        display: none;
+    }
 }
 
 .faq-icon {
@@ -320,7 +324,6 @@ summary.faq-question::-webkit-details-marker {
     transition: transform 0.3s ease;
 }
 
-/* Fait pivoter la flèche Boxicons quand le menu s'ouvre */
 .faq-item[open] .faq-icon {
     transform: rotate(180deg);
 }
@@ -331,69 +334,91 @@ summary.faq-question::-webkit-details-marker {
     line-height: 1.5;
 }
 
+// --- CONTACT SECTION ---
 .contact-container {
     display: flex;
     width: 100%;
     min-height: 450px;
+
+    @media (max-width: 850px) {
+        flex-direction: column; // Passage sur une colonne plus tôt pour éviter l'écrasement
+    }
 }
 
-/* Côté Gauche */
 .contact-left {
     flex: 1;
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 40px;
+
+    @media (max-width: 850px) {
+        padding: 20px;
+    }
 }
 
 .illustration-wrapper {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 20px;
-}
+    justify-content: center;
+    width: 100%;
 
-.illustration-wrapper img {
-    max-width: 600px;
-    height: auto;
+    img {
+        width: 100%;
+        max-width: 550px;
+        height: auto;
+    }
 }
 
 .cta-overlay {
     position: absolute;
     bottom: 20px;
     right: 20px;
+
+    h2 {
+        font-size: 2.5rem;
+        color: v.$bleuvert;
+        font-weight: 800;
+        line-height: 1.2;
+        margin-bottom: 15px;
+
+        @media (max-width: 576px) {
+            font-size: 1.8rem; // Réduction du texte absolu sur mobile
+        }
+    }
 }
 
-.cta-overlay h2 {
-    font-size: 2.5rem;
-    color: v.$bleuvert;
-    font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 15px;
-}
-
-/* Côté Droit (Zone Bleue) */
 .contact-right {
     flex: 1;
-    background-color: v.$bleuclair; /* Ton bleu moyen de la maquette */
-    border-bottom-left-radius: 80px; /* L'arrondi asymétrique caractéristique */
+    background-color: v.$bleuclair;
+    border-bottom-left-radius: 80px;
     padding: 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-}
+    align-items: center; // Centre le formulaire sur petit écran
 
-.contact-right h3 {
-    font-size: 1.8rem;
-    color: v.$bleuvert;
-    margin-bottom: 30px;
+    h3 {
+        font-size: 1.8rem;
+        color: v.$bleuvert;
+        margin-bottom: 30px;
+        width: 100%;
+        max-width: 450px;
+    }
+
+    @media (max-width: 850px) {
+        border-bottom-left-radius: 0px;
+
+        padding: 40px 20px;
+    }
 }
 
 .contact-form {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%;
     max-width: 450px;
 }
 
@@ -401,29 +426,30 @@ summary.faq-question::-webkit-details-marker {
     display: flex;
     flex-direction: column;
     position: relative;
-}
 
-.form-group label {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: v.$bleu;
-    margin-bottom: 8px;
-}
+    label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: v.$bleu;
+        margin-bottom: 8px;
+    }
 
-.form-group input,
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #37474f;
-    border-radius: 8px;
-    background-color: v.$blanc;
-    font-family: inherit;
-    font-size: 1rem;
-}
+    input,
+    textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #37474f;
+        border-radius: 8px;
+        background-color: v.$blanc;
+        font-family: inherit;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
 
-.form-group textarea {
-    min-height: 120px;
-    resize: none;
+    textarea {
+        min-height: 120px;
+        resize: none;
+    }
 }
 
 .char-count {
@@ -433,25 +459,25 @@ summary.faq-question::-webkit-details-marker {
     margin-top: 4px;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .contact-container {
-        flex-direction: column;
-    }
-    .contact-right {
-        border-top-left-radius: 40px;
-        border-top-right-radius: 40px; /* On adapte l'arrondi sur mobile */
-    }
-}
-
+// --- AVIS SECTION ---
 .avis-section {
     padding: 60px 40px;
-}
+    max-width: 1200px;
+    margin: 0 auto;
 
-.avis-section h2 {
-    font-size: 2rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
+    @media (max-width: 576px) {
+        padding: 40px 20px;
+    }
+
+    h2 {
+        font-size: 2rem;
+        color: #2c3e50;
+        margin-bottom: 10px;
+
+        @media (max-width: 576px) {
+            font-size: 1.6rem;
+        }
+    }
 }
 
 .avis-subtitle {
@@ -461,51 +487,53 @@ summary.faq-question::-webkit-details-marker {
     font-size: 0.95rem;
 }
 
-/* Conteneur principal en Grid */
 .avis-container {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 colonnes égales */
+    grid-template-columns: repeat(2, 1fr);
     gap: 30px;
-    max-width: 1200px;
+    width: 100%;
+
+    @media (max-width: 992px) {
+        grid-template-columns: 1fr; // Une seule colonne sur tablette et mobile
+        gap: 20px;
+    }
 }
 
-/* Design d'une carte d'avis */
 .avis-card {
-    background-color: #8dbed0; /* Le bleu-gris doux des cartes */
-    border-radius: 20px; /* Les gros angles arrondis de ta maquette */
+    background-color: #8dbed0;
+    border-radius: 20px;
     padding: 30px;
     display: flex;
     flex-direction: column;
     gap: 15px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+
+    @media (max-width: 576px) {
+        padding: 20px;
+    }
 }
 
 .avis-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
+    gap: 10px;
 
-.avis-header h3 {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #000000;
+    h3 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #000000;
+    }
 }
 
 .avis-stars {
-    color: #000000; /* Étoiles noires comme sur ton design */
+    color: #000000;
     font-size: 1.2rem;
+    white-space: nowrap; // Évite que les étoiles passent à la ligne
 }
 
 .avis-text {
     font-size: 0.95rem;
     line-height: 1.6;
     color: #1a1a1a;
-}
-
-/* Gestion du Responsive sur mobile/tablette */
-@media (max-width: 992px) {
-    .avis-container {
-        grid-template-columns: 1fr; /* Passe sur une seule colonne si l'écran est petit */
-    }
 }

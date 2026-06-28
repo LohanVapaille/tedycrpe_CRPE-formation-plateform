@@ -15,7 +15,7 @@
 
             <nav class="sidebar-menu">
                 <a href="#tb" class="menu-item active">📊 Tableau de bord</a>
-                <a href="#cours" class="menu-item">📚 Les cours</a>
+                <a href="{{ route('formation.cours', ['id' => 1]) }}" class="menu-item">📚 Les cours</a>
                 <a href="#" class="menu-item">📹 Modules vidéos</a>
 
                 <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
@@ -193,10 +193,10 @@
                     : new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
                 messageDiv.innerHTML = `
-                ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
-                <p>${contenu}</p>
-                <span class="message-time">${timeStr}</span>
-            `;
+                                    ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
+                                    <p>${contenu}</p>
+                                    <span class="message-time">${timeStr}</span>
+                                `;
                 chatMessagesContainer.appendChild(messageDiv);
                 scrollToBottom();
             }
