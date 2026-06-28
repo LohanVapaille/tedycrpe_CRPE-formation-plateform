@@ -1,12 +1,15 @@
-<div class="matiere-group">
-    {{-- La balise details s'ouvre automatiquement si le cours sélectionné est à l'intérieur --}}
-    @php
-        $hasActiveCourse = $matiere->cours->contains('id', $coursSelectionne->id);
-    @endphp
+@php $hasActiveCourse = $matiere->cours->contains('id', $coursSelectionne->id); @endphp
 
+<div class="matiere-group">
     <details {{ $hasActiveCourse ? 'open' : '' }}>
         <summary class="matiere-title-sidebar">
-            📁 {{ $matiere->name }} ({{ $matiere->progression ?? 0 }}%)
+            <span class="matiere-folder-icon">{{ $hasActiveCourse ? '📂' : '📁' }}</span>
+            <span class="matiere-label">{{ $matiere->name }}</span>
+            @if(($matiere->progression ?? 0) > 0)
+                <span class="matiere-badge">{{ $matiere->progression }}%</span>
+            @else
+                <span class="matiere-badge zero">0%</span>
+            @endif
         </summary>
 
         <ul class="sub-cours-list">
@@ -14,7 +17,7 @@
                 <li>
                     <a href="{{ route('formation.cours', $c->id) }}"
                         class="sub-menu-item {{ $coursSelectionne->id == $c->id ? 'active' : '' }}">
-                        📄 {{ $c->name }}
+                        {{ $c->name }}
                     </a>
                 </li>
             @endforeach

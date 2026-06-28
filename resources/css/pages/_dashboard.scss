@@ -543,42 +543,172 @@ body.no-scroll {
     margin: 2rem 0;
 }
 
-.course-footer-actions {
+// Bouton retour modernisé
+.sidebar-back-btn {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 2rem;
-}
-
-.mb-5 {
-    margin-bottom: 5rem !important;
-}
-
-.level-title-sidebar {
-    font-weight: bold;
-    font-size: 1.05rem;
-    color: v.$blanc;
-    cursor: pointer;
-    list-style-position: inside;
-    padding: 0.25rem 0;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 8px;
+    transition:
+        background 0.2s,
+        color 0.2s;
+    margin-bottom: 0.5rem;
 
     &:hover {
-        color: v.$bleuclair;
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
     }
 }
 
-.matiere-group {
-    margin-bottom: 1rem;
+// Groupes CRPE Bac +5 / +3
+.level-group {
+    margin-bottom: 0.5rem;
 
-    details summary {
-        list-style-position: inside;
+    summary.level-title-sidebar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: rgba(255, 255, 255, 0.5);
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
         cursor: pointer;
-        outline: none;
-        transition: color 0.2s ease;
+        list-style: none;
+        transition: color 0.2s;
+
+        &:hover {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        &::before {
+            content: "▸";
+            transition: transform 0.2s;
+            font-size: 0.7rem;
+        }
+    }
+
+    &[open] summary.level-title-sidebar::before {
+        transform: rotate(90deg);
+    }
+
+    .level-content {
+        padding-left: 0;
+        margin-top: 0.25rem;
+    }
+}
+.matiere-group {
+    margin-bottom: 0.25rem;
+
+    details > summary {
+        list-style: none;
+        &::-webkit-details-marker {
+            display: none;
+        }
+    }
+
+    .matiere-title-sidebar {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: v.$blanc;
+        padding: 0.55rem 0.75rem;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+        width: 100%;
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .matiere-folder-icon {
+            flex-shrink: 0;
+            font-size: 1rem;
+        }
+
+        .matiere-label {
+            flex: 1;
+            line-height: 1.3;
+        }
+
+        .matiere-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            padding: 0.15rem 0.45rem;
+            border-radius: 20px;
+            flex-shrink: 0;
+
+            &.zero {
+                background: rgba(255, 255, 255, 0.06);
+                color: rgba(255, 255, 255, 0.4);
+            }
+        }
     }
 }
 
-.btn-back-dashboard {
-    color: v.$blanc;
-    padding: 0.2rem 1rem;
-    padding-right: 50px;
+// Liste des cours sous une matière
+.sub-cours-list {
+    list-style: none;
+    padding: 0 0 0.25rem 0;
+    margin: 0;
+
+    li {
+        margin: 0;
+    }
+
+    .sub-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: rgba(255, 255, 255, 0.65);
+        text-decoration: none;
+        font-size: 0.82rem;
+        padding: 0.4rem 0.75rem 0.4rem 1.5rem;
+        border-radius: 6px;
+        transition:
+            background 0.2s,
+            color 0.2s;
+        line-height: 1.3;
+
+        &::before {
+            content: "";
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            flex-shrink: 0;
+        }
+
+        &:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+        }
+
+        &.active {
+            background: rgba(255, 255, 255, 0.12);
+            color: white;
+            font-weight: 600;
+
+            &::before {
+                background: v.$bleuclair;
+            }
+        }
+    }
+}
+
+.mb-5-courspage {
+    margin-bottom: 50px;
+    display: flex;
+    justify-content: flex-end;
 }

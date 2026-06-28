@@ -10,44 +10,35 @@
         </button>
         <aside class="dashboard-sidebar w-100 sidebar-menu-pagecours" id="dashboardSidebar">
 
-
-            <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-                <a href="{{ route('formation.index') }}" class="btn-back-dashboard"
-                    style="text-decoration: none; display: inline-block;">
-                    ⬅️ Tableau de bord
-                </a>
-            </div>
+            <a href="{{ route('formation.index') }}" class="sidebar-back-btn">
+                <i class='bx bx-left-arrow-alt'></i>Tableau de bord
+            </a>
 
             <nav class="sidebar-menu menu-formation">
                 @if(Auth::user()->access === 'all')
-
                     <details class="level-group" open>
                         <summary class="level-title-sidebar">🎓 CRPE Bac +5</summary>
-                        <div class="level-content" style="padding-left: 0.75rem; margin-top: 0.5rem;">
+                        <div class="level-content">
                             @foreach($matieres->where('module_associe', 'CRPE BAC + 5') as $matiere)
                                 @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
                             @endforeach
                         </div>
                     </details>
 
-                    <details class="level-group" style="margin-top: 1rem;" open>
+                    <details class="level-group" open>
                         <summary class="level-title-sidebar">🎓 CRPE Bac +3</summary>
-                        <div class="level-content" style="padding-left: 0.75rem; margin-top: 0.5rem;">
+                        <div class="level-content">
                             @foreach($matieres->where('module_associe', 'CRPE BAC + 3') as $matiere)
                                 @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
                             @endforeach
                         </div>
                     </details>
-
                 @else
-
                     @foreach($matieres as $matiere)
                         @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
                     @endforeach
-
                 @endif
             </nav>
-
         </aside>
 
         <!-- ZONE DE CONTENU CENTRAL (Le Cours) -->
@@ -123,10 +114,10 @@
             </div>
 
             <!-- Bouton de bas de page -->
-            <div class="course-footer-actions mb-5">
+            <div class="course-footer-actions mb-5-courspage">
                 <form action="{{ route('formation.cours.terminer', $coursSelectionne->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="button-style btn-dark-blue">
+                    <button type="submit" class="button-style btn-dark-blue ">
                         Cours suivant et valider
                     </button>
                 </form>
