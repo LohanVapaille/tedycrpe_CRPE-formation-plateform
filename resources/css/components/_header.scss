@@ -38,9 +38,14 @@
         color: v.$blanc;
         font-size: 2rem;
         cursor: pointer;
+        transition: transform 0.3s ease; // Animation de rotation du bouton complet
 
         @include v.phone-only {
             display: block;
+        }
+
+        &.active {
+            transform: rotate(90deg); // Rotation légère quand il s'ouvre
         }
     }
 
@@ -51,14 +56,35 @@
         gap: 2rem;
 
         @include v.phone-only {
-            display: none; // Masqué par défaut sur mobile
+            display: flex; // On reste en flex pour que la transition fonctionne
             flex-direction: column;
             width: 100%;
-            margin-top: 1.5rem;
             gap: 1.5rem;
+            position: absolute;
+
+            // --- ANIMATION DE DESCENTE ---
+            top: 100%;
+            left: 0;
+            transform: translateY(-20px); // Commence un peu plus haut
+            opacity: 0;
+            visibility: hidden; // Évite de cliquer sur les liens cachés
+            transition:
+                transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                opacity 0.3s ease,
+                visibility 0.3s;
+
+            background-color: rgba(
+                v.$bleuvert,
+                0.85
+            ); // Légèrement plus opaque pour la lecture
+            backdrop-filter: blur(10px);
+            padding-block-start: 1.5rem;
+            padding-block-end: 1rem; // Ajusté pour le mobile
 
             &.active {
-                display: flex; // S'ouvre proprement en JS
+                transform: translateY(0); // Reprend sa place
+                opacity: 1;
+                visibility: visible;
             }
         }
     }

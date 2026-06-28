@@ -167,6 +167,12 @@ body {
     }
 }
 
+.button-style {
+    font-family: v.$font-principal;
+    cursor: pointer;
+    border: none;
+}
+
 .btn-submit {
     align-self: flex-end;
     background-color: v.$bleu;

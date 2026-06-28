@@ -51,7 +51,7 @@
             <a href="{{ route($lien) }}" class="card-cta-link">
                 <div class="card-cta">
                     <h3>{{ $titre }}</h3>
-                    <i class='{{ $icone }} card-icon'></i> 
+                    <i class='{{ $icone }} bx card-icon'></i> 
                 </div>
             </a>
         @endforeach
@@ -143,6 +143,10 @@
             @endforeach
         </div>
     </div>
+
+
+
+
 
 
 @endsection

@@ -20,34 +20,46 @@ $orange-accent: #d96b27;
 /* ==========================================
    SIDEBAR STYLES
    ========================================== */
+/* ==========================================
+   SIDEBAR STYLES
+   ========================================== */
 .dashboard-sidebar {
     width: 280px;
-    // 2. La sidebar prend toute la hauteur disponible du layout sans jamais la dépasser
     height: calc(100vh - 140px);
     background-color: v.$bleuvert;
     color: v.$blanc;
     padding: 2rem 1.5rem;
-
-    // Comme le parent ne scrolle plus, un simple design flex suffit (pas besoin de fixed/sticky ici)
     display: flex;
     flex-direction: column;
     gap: 2.5rem;
-    flex-shrink: 0; // Empêche la barre de se déformer ou de rétrécir en largeur
-
-    // Sécurité au cas où l'écran est très bas (ex: pc portable 13 pouces) pour voir le tuteur
-    overflow-y: none;
+    flex-shrink: 0;
+    overflow-y: auto; // Permet de scroller si le contenu de la sidebar est grand
 
     @include v.phone-only {
-        width: 100%;
-        height: auto;
-        box-sizing: border-box;
-    }
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 200px;
+        height: 100vh;
+        z-index: 2000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease-in-out;
+        overflow-y: auto; // <-- scroll interne activé
+        overflow-x: visible; // <-- permet au bouton de dépasser
 
-    @include v.phone-only {
-        width: 100%;
-        height: auto;
-        position: static;
-        box-sizing: border-box;
+        .tutor-section {
+            display: none; // Masque la section du tuteur sur mobile
+        }
+
+        &.open {
+            transform: translateX(0);
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.3);
+
+            // OPTIONNEL : Si tu veux changer l'icône ou le style du bouton quand c'est ouvert
+            .dashboard-toggle-btn {
+                background-color: #2c565e; // Légèrement plus sombre par exemple
+            }
+        }
     }
 
     .user-profile {
@@ -123,15 +135,66 @@ $orange-accent: #d96b27;
                 font-size: 0.8rem;
                 opacity: 0.7;
             }
-            .tutor-chat-btn {
-                text-decoration: none;
-                font-size: 1.25rem;
-                margin-left: auto;
-            }
         }
     }
 }
 
+.w-100 {
+    @include v.phone-only {
+        width: calc(100vw - 48px);
+    }
+}
+body.no-scroll {
+    overflow: hidden;
+}
+
+// --- L'ARRIÈRE PLAN SOMBRE (Overlay) ---
+// Masque le reste du site quand la sidebar mobile est ouverte
+.sidebar-overlay {
+    display: none;
+
+    @include v.phone-only {
+        &.active {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: calc(100vh - 78px);
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 1999; // Juste sous la sidebar
+        }
+    }
+}
+
+// --- BOUTON FLOTTANT MOBILE ---
+.dashboard-toggle-btn {
+    display: none;
+
+    @include v.phone-only {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        top: 30px;
+        left: 0; // Position par défaut : collé à gauche
+        width: 50px;
+        height: 50px;
+        background-color: #36717b;
+        color: #e0faff;
+        border: none;
+        cursor: pointer;
+        border-radius: 0 8px 8px 0;
+        font-size: 1.2rem;
+        z-index: 2001;
+        box-shadow: 4px 2px 10px rgba(0, 0, 0, 0.15);
+        transition: left 0.3s ease-in-out; // <-- transition fluide
+    }
+}
+
+.showone {
+    box-shadow: none;
+}
 /* ==========================================
    MAIN CONTENT STYLES
    ========================================== */

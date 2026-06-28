@@ -3,13 +3,19 @@
 @section('title', 'Mon Tableau de bord')
 
 @section('content')
+
     <div class="dashboard-layout fade-in">
 
-        <aside class="dashboard-sidebar">
+
+
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <button class="dashboard-toggle-btn" id="sidebarToggle">
+            <i class='bx bxs-info-circle'></i>
+        </button>
+        <aside class="dashboard-sidebar" id="dashboardSidebar">
+
             <div class="user-profile">
-                <div class="avatar-placeholder">
-                    👤
-                </div>
+                <div class="avatar-placeholder">👤</div>
                 <h3 class="user-fullname">{{ Auth::user()->firstname }} {{ Auth::user()->name }}</h3>
             </div>
 
@@ -25,7 +31,7 @@
                     🚪 Se déconnecter
                 </a>
 
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </nav>
@@ -38,7 +44,6 @@
                         <p class="tutor-name">Tedy Florette</p>
                         <p class="tutor-role">Formateur CRPE</p>
                     </div>
-                    <!-- <a href="#" class="tutor-chat-btn"><i class='bx bxs-chat'></i></a> -->
                 </div>
             </div>
         </aside>
@@ -87,21 +92,25 @@
 
             <div class="matieres-section-header">
                 <p class="filter-label">Accéder au cours disponible :</p>
-                <div class="filter-badges">
-                    <span class="badge active">✓ Tous</span>
-                    <span class="badge">Oraux</span>
-                    <span class="badge">Écrit</span>
-                </div>
+                <!-- <div class="filter-badges">
+                        <span class="badge active">✓ Tous</span>
+                        <span class="badge">Oraux</span>
+                        <span class="badge">Écrit</span>
+                    </div> -->
             </div>
 
             <section id="cours" class="matieres-secure-grid">
                 @forelse($matieres as $index => $matiere)
                     <div class="secure-matiere-card">
                         <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
-                        <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
-                            class="btn-action-course">
-                            Lire le cours
-                        </a>
+                        @if($matiere->cours->isNotEmpty())
+                            <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
+                                class="btn-action-course">
+                                Lire le cours
+                            </a>
+                        @else
+                            <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
+                        @endif
                         <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
                     </div>
                 @empty
@@ -115,8 +124,39 @@
     @include('components.chat')
 
     <div class="tutor-chat-btn">
-        <i class='bx bxs-message-rounded-dots'></i>
+        <i class='dashboard-toggle-btn-i bx bxs-message-rounded-dots'></i>
     </div>
+
+    <script>sidebarToggle?.addEventListener('click', () => {
+            dashboardSidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+            const isOpen = dashboardSidebar.classList.contains('open');
+            sidebarToggle.style.left = isOpen ? '248px' : '0';
+
+            // Change l'icône
+            const icon = sidebarToggle.querySelector('i');
+            if (isOpen) {
+                icon.classList.remove('bxs-info-circle');
+                icon.classList.add('bx-x');
+            } else {
+                icon.classList.remove('bx-x');
+                icon.classList.add('bxs-info-circle');
+            }
+        });
+
+        sidebarOverlay?.addEventListener('click', () => {
+            dashboardSidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            sidebarToggle.style.left = '0';
+
+            // Remet l'icône d'origine
+            const icon = sidebarToggle.querySelector('i');
+            icon.classList.remove('bx-x');
+            icon.classList.add('bxs-info-circle');
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -193,10 +233,10 @@
                     : new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
                 messageDiv.innerHTML = `
-                                        ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
-                                        <p>${contenu}</p>
-                                        <span class="message-time">${timeStr}</span>
-                                    `;
+                                                                                                                                            ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
+                                                                                                                                            <p>${contenu}</p>
+                                                                                                                                            <span class="message-time">${timeStr}</span>
+                                                                                                                                        `;
                 chatMessagesContainer.appendChild(messageDiv);
                 scrollToBottom();
             }

@@ -4,8 +4,12 @@
 
 @section('content')
     <div class="dashboard-layout fade-in">
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+        <button class="dashboard-toggle-btn showone" id="sidebarToggle">
+            <i class='dashboard-toggle-btn-i bx bxs-info-circle'></i>
+        </button>
+        <aside class="dashboard-sidebar w-100 sidebar-menu-pagecours" id="dashboardSidebar">
 
-        <aside class="dashboard-sidebar sidebar-menu-pagecours">
 
             <div style="margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
                 <a href="{{ route('formation.index') }}" class="btn-back-dashboard"
@@ -110,7 +114,7 @@
                             <form action="#" method="POST" enctype="multipart/form-data" class="upload-box-form">
                                 @csrf
                                 <input type="file" name="devoir" required>
-                                <button type="submit" class="btn-bleuclair">Envoyer mon fichier</button>
+                                <button type="submit" class="button-style btn-bleuclair">Envoyer mon fichier</button>
                             </form>
                         </div>
                     @endif
@@ -122,11 +126,42 @@
             <div class="course-footer-actions mb-5">
                 <form action="{{ route('formation.cours.terminer', $coursSelectionne->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="btn-dark-blue">
+                    <button type="submit" class="button-style btn-dark-blue">
                         Cours suivant et valider
                     </button>
                 </form>
             </div>
         </main>
     </div>
+
+    <script>sidebarToggle?.addEventListener('click', () => {
+            dashboardSidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('active');
+            document.body.classList.toggle('no-scroll');
+            const isOpen = dashboardSidebar.classList.contains('open');
+            sidebarToggle.style.right = isOpen ? '5px' : '0';
+            sidebarToggle.style.left = isOpen ? 'auto' : '0';
+
+            // Change l'icône
+            const icon = sidebarToggle.querySelector('i');
+            if (isOpen) {
+                icon.classList.remove('bxs-info-circle');
+                icon.classList.add('bx-x');
+            } else {
+                icon.classList.remove('bx-x');
+                icon.classList.add('bxs-info-circle');
+            }
+        });
+
+        sidebarOverlay?.addEventListener('click', () => {
+            dashboardSidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+            sidebarToggle.style.left = '0';
+
+            // Remet l'icône d'origine
+            const icon = sidebarToggle.querySelector('i');
+            icon.classList.remove('bx-x');
+            icon.classList.add('bxs-info-circle');
+        });</script>
 @endsection
