@@ -21,6 +21,7 @@ class User extends Authenticatable
         'password',
         'access',
         'is_tutor',
+        'academie',
     ];
 
     /**

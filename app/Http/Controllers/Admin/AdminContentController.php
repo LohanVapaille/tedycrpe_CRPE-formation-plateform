@@ -9,7 +9,12 @@ class AdminContentController extends Controller
 {
     public function index()
     {
-        $contents = Content::orderBy('page')->orderBy('ordre')->get()->groupBy('page');
+        $contents = Content::orderBy('page')
+            ->orderBy('section')
+            ->orderBy('ordre')
+            ->get()
+            ->groupBy('page');
+
         return view('admin.contenu.index', compact('contents'));
     }
 

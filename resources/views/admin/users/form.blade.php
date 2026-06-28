@@ -29,6 +29,11 @@
                 <label>Mot de passe {{ $user ? '(laisser vide pour ne pas changer)' : '' }}</label>
                 <input type="password" name="password" {{ $user ? '' : 'required' }}>
             </div>
+
+            <div class="form-group">
+                <label>Académie</label>
+                <input type="text" name="academie" value="{{ old('academie', $user?->academie) }}">
+            </div>
             <div class="form-group">
                 <label>Accès</label>
                 <div class="form-group">

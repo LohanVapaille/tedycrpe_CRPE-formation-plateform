@@ -32,8 +32,7 @@ class HomeController extends Controller
     public function crpe()
     {
         // On récupère le contenu de la BDD dédié à cette page
-        $contents = Content::where('page', 'crpe')->get();
-
+        $contents = Content::where('page', 'crpe')->orderBy('ordre')->get()->groupBy('section');
         return view('crpe', compact('contents'));
     }
 }

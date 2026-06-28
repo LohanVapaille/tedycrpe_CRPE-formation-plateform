@@ -21,6 +21,7 @@
 
             <div style="padding:0 1.5rem 1.5rem;">
                 @foreach($items->groupBy('section') as $section => $sectionItems)
+    @php $sectionItems = $sectionItems->sortBy('ordre'); @endphp
                     <h4
                         style="margin:1.25rem 0 0.75rem; color:#64748b; font-size:0.85rem; text-transform:uppercase; letter-spacing:1px;">
                         {{ $section }}

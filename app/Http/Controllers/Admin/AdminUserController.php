@@ -28,6 +28,7 @@ class AdminUserController extends Controller
             'password' => 'required|min:2',
             'access' => 'required|string|max:20',
             'is_tutor' => 'boolean',
+            'academie' => 'nullable|string|max:60',
         ]);
 
         User::create([
@@ -37,6 +38,7 @@ class AdminUserController extends Controller
             'password' => Hash::make($request->password),
             'access' => $request->access,
             'is_tutor' => $request->boolean('is_tutor'),
+            'academie' => $request->academie,
         ]);
 
         return redirect()->route('admin.users')->with('success', 'Utilisateur créé.');
@@ -55,6 +57,7 @@ class AdminUserController extends Controller
             'email' => 'required|email|unique:users,email,' . $user->id,
             'access' => 'required|string|max:20',
             'is_tutor' => 'boolean',
+            'academie' => 'nullable|string|max:60',
         ]);
 
         $user->update([
@@ -63,6 +66,7 @@ class AdminUserController extends Controller
             'email' => $request->email,
             'access' => $request->access,
             'is_tutor' => $request->boolean('is_tutor'),
+            'academie' => $request->academie,
         ]);
 
         if ($request->filled('password')) {

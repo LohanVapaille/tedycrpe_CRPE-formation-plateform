@@ -87,12 +87,12 @@
 // --- STATS CONTAINER ---
 .stats-container-accueil {
     background-color: v.$bleuvert;
-    padding: 40px 20px;
+    padding: 60px 40px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-wrap: wrap; // Permet aux blocs de passer à la ligne sur tablette
-    gap: 30px;
+    align-items: stretch;
+    flex-wrap: wrap;
+    gap: 24px;
     width: 100%;
     box-sizing: border-box;
     margin-top: 30px;
@@ -100,38 +100,41 @@
     .stat-box {
         display: flex;
         flex-direction: column;
-        width: 260px;
-        border: 1px solid rgba(255, 255, 255, 0.4);
+        align-items: center;
+        justify-content: center;
+        width: 240px;
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 16px;
+        padding: 2rem 1.5rem;
         text-align: center;
-        font-family: sans-serif;
+        backdrop-filter: blur(6px);
     }
 
     .stat-number {
-        background-color: v.$bleuclair;
-        color: #383636;
-        font-size: 1.6rem;
-        font-weight: 500;
-        padding: 12px 10px;
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: v.$bleuclair;
+        line-height: 1;
+        margin-bottom: 0.75rem;
+        letter-spacing: -0.5px;
     }
 
     .stat-title {
-        color: v.$blanc;
-        font-size: 0.95rem;
-        font-weight: 300;
-        padding: 15px 15px;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.9rem;
+        font-weight: 400;
+        line-height: 1.5;
         margin: 0;
-        line-height: 1.4;
     }
 
-    // Version Tablette / Mobile
     @media (max-width: 768px) {
-        flex-direction: column;
-        gap: 20px;
-        padding: 30px 15px;
+        padding: 40px 20px;
+        gap: 16px;
 
         .stat-box {
             width: 100%;
-            max-width: 300px;
+            max-width: 320px;
         }
     }
 }
