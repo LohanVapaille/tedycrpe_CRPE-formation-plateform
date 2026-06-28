@@ -11,6 +11,9 @@ return Application::configure(basePath: dirname(__DIR__))
         channels: __DIR__ . '/../routes/channels.php',
         health: '/up',
     )
+    ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias(['tutor' => \App\Http\Middleware\TutorMiddleware::class]);
+    })
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })

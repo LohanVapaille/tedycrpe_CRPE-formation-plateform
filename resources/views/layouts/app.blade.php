@@ -25,7 +25,7 @@
             <!-- Le wrapper qui englobe tes deux blocs -->
             <div class="nav-wrapper" id="navWrapper">
                 <nav class="main-nav">
-                    <a href="{{ route('home') }}" class="nav-link active">Accueil</a>
+
                     <a href="{{ route('crpe') }}" class="nav-link">Formation CRPE</a>
                     <a href="{{ route('agenda.index') }}" class="nav-link">Agenda</a>
                     <a href="{{ route('qui-suis-je') }}" class="nav-link">Qui suis-je ?</a>
@@ -65,7 +65,7 @@
                 <a href="#">Newsletter</a>
                 <a href="#">Glossaire</a>
                 <a href="#">Contact</a>
-                <a href="{{ route('tutor.backoffice') }}">Admin</a>
+                <a href="{{ route('admin.users') }}">Admin</a>
             </div>
 
             <!-- Colonne Droite : Réseaux Sociaux -->

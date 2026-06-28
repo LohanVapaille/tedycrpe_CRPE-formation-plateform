@@ -9,6 +9,13 @@ use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\MessageController; // N'oublie pas d'importer le MessageController
 
+use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminFormationController;
+use App\Http\Controllers\Admin\AdminCoursController;
+use App\Http\Controllers\Admin\AdminSectionController;
+use App\Http\Controllers\Admin\AdminContentController;
+use App\Http\Controllers\Admin\AdminEventController;
+
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/qui-suis-je', [HomeController::class, 'about'])->name('about');
@@ -36,7 +43,55 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/formation/cours/{id}', [FormationController::class, 'showRoute'])->name('formation.cours');
     Route::post('/formation/cours/{id}/terminer', [FormationController::class, 'terminerCours'])->name('formation.cours.terminer');
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
-    Route::get('/backoffice', [TutorController::class, 'index'])->name('tutor.backoffice');
+
     Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');
 
+});
+
+// routes/web.php
+Route::prefix('admin')->middleware(['auth', 'tutor'])->group(function () {
+
+    // Users
+    Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');
+    Route::get('/users/create', [AdminUserController::class, 'create'])->name('admin.users.create');
+    Route::post('/users', [AdminUserController::class, 'store'])->name('admin.users.store');
+    Route::get('/users/{user}/edit', [AdminUserController::class, 'edit'])->name('admin.users.edit');
+    Route::put('/users/{user}', [AdminUserController::class, 'update'])->name('admin.users.update');
+    Route::delete('/users/{user}', [AdminUserController::class, 'destroy'])->name('admin.users.destroy');
+
+    // Formations (matieres)
+    Route::get('/formations', [AdminFormationController::class, 'index'])->name('admin.formations');
+    Route::get('/formations/create', [AdminFormationController::class, 'create'])->name('admin.formations.create');
+    Route::post('/formations', [AdminFormationController::class, 'store'])->name('admin.formations.store');
+    Route::get('/formations/{matiere}/edit', [AdminFormationController::class, 'edit'])->name('admin.formations.edit');
+    Route::put('/formations/{matiere}', [AdminFormationController::class, 'update'])->name('admin.formations.update');
+    Route::delete('/formations/{matiere}', [AdminFormationController::class, 'destroy'])->name('admin.formations.destroy');
+
+    // Cours
+    Route::get('/cours', [AdminCoursController::class, 'index'])->name('admin.cours');
+    Route::get('/cours/create', [AdminCoursController::class, 'create'])->name('admin.cours.create');
+    Route::post('/cours', [AdminCoursController::class, 'store'])->name('admin.cours.store');
+    Route::get('/cours/{cours}/edit', [AdminCoursController::class, 'edit'])->name('admin.cours.edit');
+    Route::put('/cours/{cours}', [AdminCoursController::class, 'update'])->name('admin.cours.update');
+    Route::delete('/cours/{cours}', [AdminCoursController::class, 'destroy'])->name('admin.cours.destroy');
+
+    // Sections d'un cours
+    Route::get('/cours/{cours}/sections', [AdminSectionController::class, 'index'])->name('admin.sections');
+    Route::post('/cours/{cours}/sections', [AdminSectionController::class, 'store'])->name('admin.sections.store');
+    Route::put('/sections/{section}', [AdminSectionController::class, 'update'])->name('admin.sections.update');
+    Route::delete('/sections/{section}', [AdminSectionController::class, 'destroy'])->name('admin.sections.destroy');
+    Route::post('/sections/reorder', [AdminSectionController::class, 'reorder'])->name('admin.sections.reorder');
+
+    Route::get('/admin/contenu', [AdminContentController::class, 'index'])->name('admin.contenu');
+    Route::put('/admin/contenu/{content}', [AdminContentController::class, 'update'])->name('admin.contenu.update');
+
+    Route::prefix('admin')->middleware(['auth', 'tutor'])->group(function () {
+        // ... routes existantes ...
+        Route::get('/evenements', [AdminEventController::class, 'index'])->name('admin.evenements');
+        Route::get('/evenements/create', [AdminEventController::class, 'create'])->name('admin.evenements.create');
+        Route::post('/evenements', [AdminEventController::class, 'store'])->name('admin.evenements.store');
+        Route::get('/evenements/{event}/edit', [AdminEventController::class, 'edit'])->name('admin.evenements.edit');
+        Route::put('/evenements/{event}', [AdminEventController::class, 'update'])->name('admin.evenements.update');
+        Route::delete('/evenements/{event}', [AdminEventController::class, 'destroy'])->name('admin.evenements.destroy');
+    });
 });

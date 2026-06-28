@@ -49,7 +49,7 @@
                 <div class="banner-left">
                     <h2>Bienvenue sur votre espace, {{ Auth::user()->firstname }}</h2>
                     <p class="meta-info">Inscrit à la formation depuis Septembre 2025</p>
-                    <p class="meta-objective">Objectif : {{ $matieres->first()->module_associe ?? 'CRPE BAC + 5' }}</p>
+                    <p class="meta-objective">Objectif : {{ Auth::user()->access }}</p>
 
                     <div class="banner-actions">
                         <a href="#" class="btn-secondary-light">Modifier le profil</a>
@@ -193,10 +193,10 @@
                     : new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
                 messageDiv.innerHTML = `
-                                    ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
-                                    <p>${contenu}</p>
-                                    <span class="message-time">${timeStr}</span>
-                                `;
+                                        ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
+                                        <p>${contenu}</p>
+                                        <span class="message-time">${timeStr}</span>
+                                    `;
                 chatMessagesContainer.appendChild(messageDiv);
                 scrollToBottom();
             }
