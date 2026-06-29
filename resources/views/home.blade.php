@@ -17,7 +17,7 @@
         <div class="presentation-text">
             <h2>Tedy Florette, formateur CRPE</h2>
             <p>{{ $contents->firstWhere('key', 'subtitle')->value ?? 'Texte de présentation par défaut.' }}</p>
-            <a class="btn-primary" target="_blank" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">En savoir plus</a>
+            <a class="btn-primary"  href="{{ route('qui-suis-je') }}">En savoir plus</a>
         </div>
         <div class="presentation-image">
             <img src="{{ $contents->firstWhere('key', 'photo-tedy')->value ?? 'img/photo/phototedy.png' }}" alt="Tedy Florette">

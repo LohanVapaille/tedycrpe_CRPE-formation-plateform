@@ -27,6 +27,12 @@ $sidebar-width: 328px;
     }
 }
 
+@mixin underdesktop-only {
+    @media (max-width: #{$breakpoint-desktop - 1px}) {
+        @content;
+    }
+}
+
 @mixin tablet-up {
     @media (min-width: #{$breakpoint-tablet}) {
         @content;

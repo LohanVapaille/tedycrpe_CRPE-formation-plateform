@@ -3,7 +3,7 @@
 <div class="matiere-group">
     <details {{ $hasActiveCourse ? 'open' : '' }}>
         <summary class="matiere-title-sidebar">
-            <span class="matiere-folder-icon">{{ $hasActiveCourse ? '📂' : '📁' }}</span>
+            <span class="matiere-folder-icon">{{ $hasActiveCourse ? "" : "" }}</span>
             <span class="matiere-label">{{ $matiere->name }}</span>
             @if(($matiere->progression ?? 0) > 0)
                 <span class="matiere-badge">{{ $matiere->progression }}%</span>

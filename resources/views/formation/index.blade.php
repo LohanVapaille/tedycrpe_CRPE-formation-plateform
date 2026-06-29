@@ -20,15 +20,16 @@
             </div>
 
             <nav class="sidebar-menu">
-                <a href="#tb" class="menu-item active">📊 Tableau de bord</a>
-                <a href="{{ route('formation.cours', ['id' => 1]) }}" class="menu-item">📚 Les cours</a>
-                <a href="#" class="menu-item">📹 Modules vidéos</a>
+                <a href="#tb" class="menu-item active"><i class='bx bxs-dashboard'></i> Tableau de bord</a>
+                <a href="{{ route('formation.cours', ['id' => 1]) }}" class="menu-item"><i class='bx bx-book-open'></i> Les
+                    cours</a>
+                <a href="#" class="menu-item"><i class='bx bx-video'></i> Modules vidéos</a>
 
                 <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
                 <a href="{{ route('logout') }}" class="menu-item logout-item"
                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
                     style="color: #ff8b8b;">
-                    🚪 Se déconnecter
+                    <i class='bx bx-door-open'></i> Se déconnecter
                 </a>
 
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
@@ -93,10 +94,10 @@
             <div class="matieres-section-header">
                 <p class="filter-label">Accéder au cours disponible :</p>
                 <!-- <div class="filter-badges">
-                        <span class="badge active">✓ Tous</span>
-                        <span class="badge">Oraux</span>
-                        <span class="badge">Écrit</span>
-                    </div> -->
+                                        <span class="badge active">✓ Tous</span>
+                                        <span class="badge">Oraux</span>
+                                        <span class="badge">Écrit</span>
+                                    </div> -->
             </div>
 
             <section id="cours" class="matieres-secure-grid">
@@ -233,10 +234,10 @@
                     : new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 
                 messageDiv.innerHTML = `
-                                                                                                                                            ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
-                                                                                                                                            <p>${contenu}</p>
-                                                                                                                                            <span class="message-time">${timeStr}</span>
-                                                                                                                                        `;
+                                                                                                                                                            ${writerName ? `<span class="message-author">${writerName}</span>` : ''}
+                                                                                                                                                            <p>${contenu}</p>
+                                                                                                                                                            <span class="message-time">${timeStr}</span>
+                                                                                                                                                        `;
                 chatMessagesContainer.appendChild(messageDiv);
                 scrollToBottom();
             }

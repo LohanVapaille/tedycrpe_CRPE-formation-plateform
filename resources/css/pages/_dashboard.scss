@@ -57,7 +57,7 @@ $orange-accent: #d96b27;
 
             // OPTIONNEL : Si tu veux changer l'icône ou le style du bouton quand c'est ouvert
             .dashboard-toggle-btn {
-                background-color: #2c565e; // Légèrement plus sombre par exemple
+                background-color: #26555e; // Légèrement plus sombre par exemple
             }
         }
     }
@@ -140,6 +140,7 @@ $orange-accent: #d96b27;
 }
 
 .w-100 {
+    background-color: #26555e;
     @include v.phone-only {
         width: calc(100vw - 48px);
     }
@@ -180,7 +181,7 @@ body.no-scroll {
         left: 0; // Position par défaut : collé à gauche
         width: 50px;
         height: 50px;
-        background-color: #36717b;
+        background-color: #26555e;
         color: #e0faff;
         border: none;
         cursor: pointer;
@@ -222,9 +223,10 @@ body.no-scroll {
         justify-content: space-between;
         align-items: center;
 
-        @include v.phone-only {
+        @include v.underdesktop-only {
             flex-direction: column;
-            gap: 1.5rem;
+            align-items: flex-start;
+            gap: 2rem;
         }
 
         h2 {
@@ -242,6 +244,15 @@ body.no-scroll {
             margin-top: 1.25rem;
             display: flex;
             gap: 1rem;
+
+            @include v.underdesktop-only {
+                display: flex;
+                flex-direction: column;
+
+                a {
+                    width: fit-content;
+                }
+            }
         }
     }
 
@@ -300,6 +311,12 @@ body.no-scroll {
     .banner-right {
         text-align: right;
         width: 250px;
+        @include v.underdesktop-only {
+            text-align: left;
+        }
+        @include v.phone-only {
+            width: 100%;
+        }
     }
     .progress-label {
         font-size: 0.85rem;
@@ -323,6 +340,11 @@ body.no-scroll {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
+
+        @include v.phone-only {
+            display: flex;
+            flex-direction: column;
+        }
 
         .stat-box {
             background: #e0f2f6;
@@ -361,6 +383,17 @@ body.no-scroll {
             margin: 0;
             font-weight: 500;
         }
+
+        @include v.underdesktop-only {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+
+            a {
+                font-size: 0.7rem;
+            }
+        }
     }
 
     // Filtres
@@ -373,6 +406,10 @@ body.no-scroll {
         .filter-label {
             margin: 0;
             font-weight: 500;
+
+            @include v.phone-only {
+                margin: auto;
+            }
         }
         .filter-badges {
             display: flex;
@@ -512,7 +549,7 @@ body.no-scroll {
     }
 }
 .course-main-header {
-    background-color: v.$bleu;
+    background-color: #26555e;
     color: v.$blanc;
     padding: 2rem;
     border-radius: 8px;

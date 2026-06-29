@@ -4,12 +4,19 @@
 
 @section('content')
     <div class="agenda-section">
-        <div class="agenda-container">
-            <!-- <h2>Mon Emploi du Temps & Événements</h2>
-                <p class="agenda-subtitle">Retrouvez ici vos cours collectifs, dates clés du concours et vos rendez-vous
-                    individuels privés.</p> -->
+        <div id="calendar-framework"></div>
+    </div>
 
-            <div id="calendar-framework"></div>
+    {{-- Modale EN DEHORS de agenda-section --}}
+    <div id="eventModal" class="modal-overlay" style="display: none;">
+        <div class="modal-box">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <hr>
+            <p><strong>Date & Heure :</strong> <span id="modalDate"></span></p>
+            <p><strong>Description :</strong></p>
+            <p id="modalDescription"></p>
+
         </div>
     </div>
 
@@ -18,22 +25,39 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/locales/fr.global.min.js"></script>
 
     <script>
+        function openModal(title, date, description) {
+            document.getElementById('modalTitle').textContent = title;
+            document.getElementById('modalDate').textContent = date;
+            document.getElementById('modalDescription').textContent = description || 'Aucune description.';
+            document.getElementById('eventModal').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('eventModal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        // Fermer en cliquant sur l'overlay
+        document.getElementById('eventModal').addEventListener('click', function (e) {
+            if (e.target === this) closeModal();
+        });
+
         document.addEventListener('DOMContentLoaded', function () {
             var calendarEl = document.getElementById('calendar-framework');
-
-            // Récupération de la collection convertie en JSON depuis Laravel
             var eventsJson = {!! json_encode($events) !!};
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
-                locale: 'fr', // Pour l'avoir en français
-                firstDay: 1,  // Commencer la semaine le lundi
-                slotMinTime: '08:00:00', // Le calendrier commence à 8h00
-                slotMaxTime: '22:00:00', // Le calendrier s'arrête à 22h00
+                locale: 'fr',
+                firstDay: 1,
+                slotMinTime: '08:00:00',
+                slotMaxTime: '22:00:00',
+                height: '100%',
                 headerToolbar: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'dayGridMonth,timeGridWeek,listWeek' // Permet de switcher de vue
+                    right: 'dayGridMonth,timeGridWeek,listWeek'
                 },
                 buttonText: {
                     today: "Aujourd'hui",
@@ -43,10 +67,19 @@
                 },
                 events: eventsJson,
                 eventClick: function (info) {
-                    // Optionnel : Une alerte ou une modale quand on clique sur un cours
-                    if (info.event.extendedProps.description) {
-                        alert(info.event.title + " : " + info.event.extendedProps.description);
-                    }
+                    var start = info.event.start;
+                    var dateStr = start
+                        ? start.toLocaleDateString('fr-FR', {
+                            weekday: 'long', day: 'numeric',
+                            month: 'long', year: 'numeric',
+                            hour: '2-digit', minute: '2-digit'
+                        })
+                        : '';
+                    openModal(
+                        info.event.title,
+                        dateStr,
+                        info.event.extendedProps.description
+                    );
                 }
             });
 

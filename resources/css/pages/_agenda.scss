@@ -2,108 +2,240 @@
 @use "../variables" as v;
 
 .agenda-section {
+    height: calc(100dvh - v.$header-height);
+    padding: 20px;
     background-color: v.$blanc;
-    padding: 60px 20px;
     font-family: v.$font-principal;
-    min-height: calc(100vh - v.$header-height);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 
-    .agenda-container {
-        margin: 0 auto;
-
-        h2 {
-            color: v.$bleuvert;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-        }
-
-        .agenda-subtitle {
-            color: v.$bleu;
-            margin-bottom: 40px;
-            font-size: 1rem;
-            opacity: 0.8;
-        }
+    @media (max-width: 768px) {
+        padding: 12px;
     }
 }
 
-// Surcharges de FullCalendar pour coller à ton UI
 #calendar-framework {
+    flex: 1; // prend tout l'espace vertical restant
+    min-height: 0; // nécessaire pour que flex+overflow fonctionne
     background: #ffffff;
-    padding: 25px;
+    padding: 24px;
     border-radius: 20px;
-    box-shadow: 0 4px 15px rgba(v.$bleu, 0.05);
+    box-shadow: 0 2px 20px rgba(v.$bleu, 0.06);
     color: v.$bleu;
     width: 100%;
-    height: 800px;
+    box-sizing: border-box;
 
-    // Personnalisation des boutons de navigation
-    .fc-button-primary {
-        background-color: v.$bleu;
-        border-color: v.$bleu;
-        font-family: v.$font-principal;
-        font-weight: 500;
+    @media (max-width: 768px) {
+        padding: 12px;
+        border-radius: 14px;
+    }
 
-        text-transform: capitalize;
+    // ─── Toolbar ────────────────────────────────────────────────────
+    .fc-toolbar {
+        gap: 8px;
+        flex-wrap: wrap;
 
-        &:hover {
-            background-color: v.$bleuhover;
-            border-color: v.$bleuhover;
-        }
-
-        &:disabled {
-            background-color: lighten(v.$bleu, 20%);
-            border-color: lighten(v.$bleu, 20%);
+        @media (max-width: 600px) {
+            flex-direction: column;
+            align-items: flex-start;
         }
     }
 
-    // Le bouton "Aujourd'hui" actif
-    .fc-button-active {
-        background-color: v.$bleuvert !important;
-        border-color: v.$bleuvert !important;
-    }
-
-    // Titre du mois (ex: Juin 2026)
     .fc-toolbar-title {
         font-family: v.$font-principal;
         color: v.$bleuvert;
         font-weight: 700;
-        font-size: 1.5rem;
+        font-size: clamp(1.1rem, 2.5vw, 1.5rem);
         text-transform: capitalize;
     }
 
-    // Les en-têtes des jours (Lun, Mar...)
-    .fc-col-header-cell {
-        background-color: lighten(v.$blanc, 2%);
-        padding: 10px 0;
+    // ─── Boutons ────────────────────────────────────────────────────
+    .fc-button-group,
+    .fc-button-primary {
+        font-family: v.$font-principal;
+    }
 
-        .fc-col-header-cell-cushion {
+    .fc-button-primary {
+        background-color: transparent;
+        border: 1.5px solid v.$bleu;
+        color: v.$bleu;
+        font-weight: 500;
+        font-size: 0.85rem;
+        text-transform: capitalize;
+        border-radius: 8px;
+        padding: 5px 14px;
+        transition:
+            background-color 0.15s ease,
+            color 0.15s ease;
+        box-shadow: none;
+
+        &:hover,
+        &:focus {
+            background-color: v.$bleu;
+            color: #fff;
+            border-color: v.$bleu;
+            box-shadow: none;
+        }
+
+        &:not(:disabled):active {
+            background-color: v.$bleuhover;
+            border-color: v.$bleuhover;
+            box-shadow: none;
+        }
+
+        &:disabled {
+            opacity: 0.35;
+            background-color: transparent;
+            border-color: v.$bleu;
             color: v.$bleu;
-            font-weight: 600;
-            text-decoration: none;
         }
     }
 
-    // Customisation des cellules de jours
+    .fc-button-active {
+        background-color: v.$bleuvert !important;
+        border-color: v.$bleuvert !important;
+        color: #fff !important;
+    }
+
+    // ─── En-têtes des jours ─────────────────────────────────────────
+    .fc-col-header-cell {
+        background-color: transparent;
+        padding: 8px 0;
+        border-bottom: 1.5px solid rgba(v.$bleu, 0.1);
+
+        .fc-col-header-cell-cushion {
+            color: rgba(v.$bleu, 0.6);
+            font-weight: 600;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            text-decoration: none;
+
+            @media (max-width: 768px) {
+                font-size: 0.45rem;
+            }
+        }
+    }
+
+    // ─── Cellules jours ─────────────────────────────────────────────
     .fc-daygrid-day {
+        transition: background-color 0.1s ease;
+
+        &:hover {
+            background-color: rgba(v.$bleuclair, 0.06);
+        }
+
         &.fc-day-today {
-            background-color: rgba(v.$bleuclair, 0.15) !important;
+            background-color: rgba(v.$bleuclair, 0.12) !important;
+
+            .fc-daygrid-day-number {
+                background-color: v.$bleuvert;
+                color: #fff;
+                border-radius: 50%;
+                width: 28px;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.85rem;
+            }
         }
 
         .fc-daygrid-day-number {
             color: v.$bleu;
             font-weight: 500;
-            padding: 8px;
+            font-size: 0.85rem;
+            padding: 6px 8px;
             text-decoration: none;
         }
     }
 
-    // Style des blocs d'événements à l'intérieur des cases
+    // ─── Événements ─────────────────────────────────────────────────
     .fc-event {
+        border: none;
         border-radius: 6px;
-        padding: 2px 6px;
-        font-size: 0.85rem;
-        cursor: pointer;
+        padding: 2px 7px;
+        font-size: 0.8rem;
         font-weight: 500;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition:
+            filter 0.15s ease,
+            transform 0.1s ease;
+
+        &:hover {
+            filter: brightness(0.9);
+            transform: translateY(-1px);
+        }
     }
+
+    // ─── Vue liste ──────────────────────────────────────────────────
+    .fc-list-event:hover td {
+        background-color: rgba(v.$bleuclair, 0.08);
+    }
+
+    // ─── Grille : retire les bordures trop lourdes ───────────────────
+    .fc-scrollgrid {
+        border-color: rgba(v.$bleu, 0.08);
+    }
+
+    .fc-scrollgrid-section > td,
+    .fc-daygrid-day,
+    td.fc-timegrid-slot {
+        border-color: rgba(v.$bleu, 0.07);
+    }
+}
+
+/* Le fond sombre derrière la boîte */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+/* La boîte de détails elle-même */
+.modal-box {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+
+    @include v.phone-only {
+        width: 80%;
+        font-size: 0.85rem;
+    }
+}
+
+/* Le bouton pour fermer (la croix) */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #aaa;
+}
+.close-btn:hover {
+    color: black;
+}
+
+/* Le bouton pour la visio */
+.btn-visio {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
 }

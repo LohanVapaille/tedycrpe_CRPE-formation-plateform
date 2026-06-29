@@ -31,6 +31,10 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
 Route::get('/qui-suis-je', [HomeController::class, 'quiSuisJe'])->name('qui-suis-je');
 
+Route::get('/visio', function () {
+    return redirect()->away('https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR');
+})->name('visio');
+
 // Passage forcé pour le mot de passe initial
 Route::get('/configuration-password', [LoginController::class, 'showForcePasswordForm'])->name('auth.password.force');
 Route::post('/configuration-password', [LoginController::class, 'updateForcePassword'])->name('auth.password.update');
