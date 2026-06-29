@@ -47,7 +47,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/formation/cours/{id}', [FormationController::class, 'showRoute'])->name('formation.cours');
     Route::post('/formation/cours/{id}/terminer', [FormationController::class, 'terminerCours'])->name('formation.cours.terminer');
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
-
+    Route::get('/tuteur/chats', [ChatController::class, 'tutorChannels'])->name('chat.tutorChannels');
     Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');
 
 });

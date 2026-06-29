@@ -46,4 +46,28 @@ class ChatController extends Controller
 
         return response()->json($messages);
     }
+
+    public function tutorChannels()
+    {
+        if (!Auth::user()->is_tutor) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        try {
+            // On charge la relation 'user' (l'élève) et les 'messages'
+            $chats = Chat::with(['user', 'messages'])->get()->map(function ($chat) {
+                // Récupère le tout dernier message
+                $chat->latest_message = $chat->messages()->latest()->first();
+                return $chat;
+            });
+
+            return response()->json($chats);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Erreur de relations ou de modèle',
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
