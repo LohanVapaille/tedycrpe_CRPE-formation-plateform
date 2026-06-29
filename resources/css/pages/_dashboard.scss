@@ -6,7 +6,7 @@ $orange-accent: #d96b27;
 .dashboard-layout {
     display: flex;
     // 1. On force le layout à prendre pile le reste de la fenêtre visible
-    height: calc(100vh - 75px);
+    height: calc(100vh - 73px);
     width: 100%;
     overflow: hidden; // Empêche la page entière (le body) de scroller
 
@@ -25,7 +25,7 @@ $orange-accent: #d96b27;
    ========================================== */
 .dashboard-sidebar {
     width: 280px;
-    height: calc(100vh - 140px);
+    height: calc(100vh - 135px);
     background-color: v.$bleuvert;
     color: v.$blanc;
     padding: 2rem 1.5rem;

@@ -396,6 +396,12 @@ summary.faq-question {
         right: 20px;
         width: fit-content;
     }
+    @media (min-width: 1680px) {
+        bottom: 50%;
+        transform: translateY(50%);
+        right: 80px;
+        width: fit-content;
+    }
 
     h2 {
         font-size: 2.5rem;
