@@ -13,44 +13,45 @@
     @if(session('success'))
         <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
     @endif
-
-    <table>
-        <thead>
-            <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Accès</th>
-                <th>Rôle</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($users as $user)
+    <div class="table-responsive">
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $user->firstname }} {{ $user->name }}</td>
-                    <td>{{ $user->email }}</td>
-                    <td>{{ $user->access }}</td>
-                    <td>{{ $user->is_tutor ? 'Tuteur' : 'Élève' }}</td>
-                    <td style="display:flex; gap:0.5rem;">
-                        <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary">
-                            <i class='bx bx-edit'></i>
-                        </a>
-                        @if(!$user->is_tutor && $user->chats->isNotEmpty())
-                            <button class="btn btn-primary open-chat-btn" data-chat-id="{{ $user->chats->first()->id }}"
-                                data-student-name="{{ $user->firstname }} {{ $user->name }}">
-                                <i class='bx bx-message-square-dots'></i>
-                            </button>
-                        @endif
-                        <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                            onsubmit="return confirm('Supprimer ?')">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                        </form>
-                    </td>
+                    <th>Nom</th>
+                    <th>Email</th>
+                    <th>Accès</th>
+                    <th>Rôle</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach($users as $user)
+                    <tr>
+                        <td>{{ $user->firstname }} {{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->access }}</td>
+                        <td>{{ $user->is_tutor ? 'Tuteur' : 'Élève' }}</td>
+                        <td style="display:flex; gap:0.5rem;">
+                            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary">
+                                <i class='bx bx-edit'></i>
+                            </a>
+                            @if(!$user->is_tutor && $user->chats->isNotEmpty())
+                                <button class="btn btn-primary open-chat-btn" data-chat-id="{{ $user->chats->first()->id }}"
+                                    data-student-name="{{ $user->firstname }} {{ $user->name }}">
+                                    <i class='bx bx-message-square-dots'></i>
+                                </button>
+                            @endif
+                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                                onsubmit="return confirm('Supprimer ?')">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     @include('components.chat')
 

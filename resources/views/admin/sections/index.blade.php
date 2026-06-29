@@ -44,46 +44,48 @@
             <button type="submit" class="btn btn-primary">Ajouter</button>
         </form>
     </div>
-
-    {{-- Liste des sections --}}
-    <table id="sections-table">
-        <thead>
-            <tr>
-                <th>⠿</th>
-                <th>Ordre</th>
-                <th>Type</th>
-                <th>Titre</th>
-                <th>Contenu</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody id="sortable-sections">
-            @foreach($sections as $section)
-                <tr data-id="{{ $section->id }}">
-                    <td style="cursor:grab;">⠿</td>
-                    <td>{{ $section->ordre }}</td>
-                    <td><span
-                            style="background:#e2e8f0; padding:2px 8px; border-radius:4px; font-size:0.8rem;">{{ $section->type }}</span>
-                    </td>
-                    <td>{{ $section->titre ?? '—' }}</td>
-                    <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
-                        {{ $section->contenu ?? '—' }}</td>
-                    <td style="display:flex; gap:0.5rem;">
-                        <button class="btn btn-secondary edit-section-btn" data-id="{{ $section->id }}"
-                            data-type="{{ $section->type }}" data-titre="{{ $section->titre }}"
-                            data-contenu="{{ $section->contenu }}" data-ordre="{{ $section->ordre }}">
-                            <i class='bx bx-edit'></i>
-                        </button>
-                        <form action="{{ route('admin.sections.destroy', $section) }}" method="POST"
-                            onsubmit="return confirm('Supprimer ?')">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                        </form>
-                    </td>
+    <div class="table-responsive">
+        {{-- Liste des sections --}}
+        <table id="sections-table">
+            <thead>
+                <tr>
+                    <th>⠿</th>
+                    <th>Ordre</th>
+                    <th>Type</th>
+                    <th>Titre</th>
+                    <th>Contenu</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody id="sortable-sections">
+                @foreach($sections as $section)
+                    <tr data-id="{{ $section->id }}">
+                        <td style="cursor:grab;">⠿</td>
+                        <td>{{ $section->ordre }}</td>
+                        <td><span
+                                style="background:#e2e8f0; padding:2px 8px; border-radius:4px; font-size:0.8rem;">{{ $section->type }}</span>
+                        </td>
+                        <td>{{ $section->titre ?? '—' }}</td>
+                        <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+                            {{ $section->contenu ?? '—' }}
+                        </td>
+                        <td style="display:flex; gap:0.5rem;">
+                            <button class="btn btn-secondary edit-section-btn" data-id="{{ $section->id }}"
+                                data-type="{{ $section->type }}" data-titre="{{ $section->titre }}"
+                                data-contenu="{{ $section->contenu }}" data-ordre="{{ $section->ordre }}">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                            <form action="{{ route('admin.sections.destroy', $section) }}" method="POST"
+                                onsubmit="return confirm('Supprimer ?')">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
     {{-- Modal édition --}}
     <div id="edit-modal"

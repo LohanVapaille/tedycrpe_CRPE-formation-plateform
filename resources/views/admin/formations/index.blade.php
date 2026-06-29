@@ -13,43 +13,44 @@
     @if(session('success'))
         <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
     @endif
-
-    <table>
-        <thead>
-            <tr>
-                <th>Ordre</th>
-                <th>Nom</th>
-                <th>Module</th>
-                <th>Cours associés</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($matieres as $module => $liste)
+    <div class="table-responsive">
+        <table>
+            <thead>
                 <tr>
-                    <td colspan="5" style="background:#e2e8f0; font-weight:bold; padding:0.75rem 1rem;">
-                        {{ $module }}
-                    </td>
+                    <th>Ordre</th>
+                    <th>Nom</th>
+                    <th>Module</th>
+                    <th>Cours associés</th>
+                    <th>Actions</th>
                 </tr>
-                @foreach($liste as $matiere)
+            </thead>
+            <tbody>
+                @foreach($matieres as $module => $liste)
                     <tr>
-                        <td>{{ $matiere->ordre }}</td>
-                        <td>{{ $matiere->name }}</td>
-                        <td>{{ $matiere->module_associe }}</td>
-                        <td>{{ $matiere->cours->count() }} cours</td>
-                        <td style="display:flex; gap:0.5rem;">
-                            <a href="{{ route('admin.formations.edit', $matiere) }}" class="btn btn-secondary">
-                                <i class='bx bx-edit'></i>
-                            </a>
-                            <form action="{{ route('admin.formations.destroy', $matiere) }}" method="POST"
-                                onsubmit="return confirm('Supprimer ?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                            </form>
+                        <td colspan="5" style="background:#e2e8f0; font-weight:bold; padding:0.75rem 1rem;">
+                            {{ $module }}
                         </td>
                     </tr>
+                    @foreach($liste as $matiere)
+                        <tr>
+                            <td>{{ $matiere->ordre }}</td>
+                            <td>{{ $matiere->name }}</td>
+                            <td>{{ $matiere->module_associe }}</td>
+                            <td>{{ $matiere->cours->count() }} cours</td>
+                            <td style="display:flex; gap:0.5rem;">
+                                <a href="{{ route('admin.formations.edit', $matiere) }}" class="btn btn-secondary">
+                                    <i class='bx bx-edit'></i>
+                                </a>
+                                <form action="{{ route('admin.formations.destroy', $matiere) }}" method="POST"
+                                    onsubmit="return confirm('Supprimer ?')">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
+                                </form>
+                            </td>
+                        </tr>
+                    @endforeach
                 @endforeach
-            @endforeach
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 @endsection

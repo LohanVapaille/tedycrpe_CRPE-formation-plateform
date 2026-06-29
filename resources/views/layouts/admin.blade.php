@@ -5,6 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin – @yield('title')</title>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}">
@@ -22,8 +23,29 @@
             min-height: 100vh;
             font-family: sans-serif;
             background: #f4f6f9;
+            overflow-x: hidden;
         }
 
+        /* --- BURGER TOGGLE (Mobile) --- */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            z-index: 1000;
+            background: #1e293b;
+            color: white;
+            border: none;
+            padding: 0.5rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.5rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* --- SIDEBAR --- */
         .admin-sidebar {
             width: 240px;
             background: #1e293b;
@@ -33,6 +55,8 @@
             padding: 2rem 0;
             position: fixed;
             height: 100vh;
+            z-index: 999;
+            transition: transform 0.3s ease;
         }
 
         .admin-sidebar h2 {
@@ -64,10 +88,14 @@
             font-size: 1.2rem;
         }
 
+        /* --- MAIN CONTENT --- */
         .admin-content {
             margin-left: 240px;
             padding: 2rem;
             flex: 1;
+            min-width: 0;
+            /* Évite que les éléments enfants larges cassent le flex */
+            transition: padding 0.3s ease;
         }
 
         .admin-header {
@@ -75,6 +103,9 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 2rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            /* Aligne les boutons sous le titre si l'écran est trop petit */
         }
 
         .admin-header h1 {
@@ -82,6 +113,7 @@
             color: #1e293b;
         }
 
+        /* --- BUTTONS & ELEMENTS --- */
         .btn {
             padding: 0.5rem 1rem;
             border-radius: 6px;
@@ -109,13 +141,22 @@
             color: white;
         }
 
+        /* Conteneur pour rendre les tableaux scrollables horizontalement sur mobile */
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            border-radius: 8px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+            white-space: nowrap;
+            /* Empêche le texte des cellules de revenir à la ligne brutalement */
         }
 
         th {
@@ -165,8 +206,53 @@
         }
 
         .home:hover {
-            background: ##1e293b;
+            background: #1e293b;
+        }
 
+        /* --- OVERLAY MOBILE --- */
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: 998;
+        }
+
+        /* -------------------------------------------
+           MEDIA QUERIES (Écrans < 768px)
+        ------------------------------------------- */
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .admin-sidebar {
+                transform: translateX(-100%);
+                /* Masquée par défaut sur mobile */
+            }
+
+            .admin-sidebar.open {
+                transform: translateX(0);
+                /* Affichée quand on clique sur le burger */
+            }
+
+            .admin-sidebar.open+.sidebar-overlay {
+                display: block;
+            }
+
+            .admin-content {
+                margin-left: 0;
+                padding: 5rem 1rem 1.5rem 1.1rem;
+                /* Plus d'espace en haut pour le bouton burger */
+            }
+
+            .admin-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
         }
     </style>
     @stack('styles')
@@ -174,7 +260,11 @@
 
 <body>
 
-    <aside class="admin-sidebar">
+    <button class="mobile-toggle" id="menuToggle">
+        <i class='bx bx-menu'></i>
+    </button>
+
+    <aside class="admin-sidebar" id="sidebar">
         <a class="home" href="{{ route('home') }}">
             <h2>Retour au site</h2>
         </a>
@@ -195,9 +285,26 @@
         </a>
     </aside>
 
+    <div class="sidebar-overlay" id="overlay"></div>
+
     <main class="admin-content">
         @yield('content')
     </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const toggleBtn = document.getElementById('menuToggle');
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('overlay');
+
+            function toggleMenu() {
+                sidebar.classList.toggle('open');
+            }
+
+            toggleBtn.addEventListener('click', toggleMenu);
+            overlay.addEventListener('click', toggleMenu);
+        });
+    </script>
 
     @stack('scripts')
 </body>
