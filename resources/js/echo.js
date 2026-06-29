@@ -24,6 +24,6 @@ window.Echo = new Echo({
     key: import.meta.env.VITE_PUSHER_APP_KEY,
     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
     forceTLS: true,
-    authEndpoint: "/tedycrpe/public/broadcasting/auth", // ← ajoute ça
-    // authEndpoint: "/broadcasting/auth",
+    // authEndpoint: "/tedycrpe/public/broadcasting/auth", // ← ajoute ça
+    authEndpoint: "/broadcasting/auth",
 });
