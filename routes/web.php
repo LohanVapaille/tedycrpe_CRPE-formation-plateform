@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\MessageController; // N'oublie pas d'importer le MessageController
+use App\Http\Controllers\DevoirController;
 
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminFormationController;
@@ -35,6 +36,8 @@ Route::get('/visio', function () {
     return redirect()->away('https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR');
 })->name('visio');
 
+Route::post('/devoirs/store/{section}', [DevoirController::class, 'store'])->name('devoirs.store');
+
 // Passage forcé pour le mot de passe initial
 Route::get('/configuration-password', [LoginController::class, 'showForcePasswordForm'])->name('auth.password.force');
 Route::post('/configuration-password', [LoginController::class, 'updateForcePassword'])->name('auth.password.update');
@@ -49,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
     Route::get('/tuteur/chats', [ChatController::class, 'tutorChannels'])->name('chat.tutorChannels');
     Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');
+
+
 
 });
 

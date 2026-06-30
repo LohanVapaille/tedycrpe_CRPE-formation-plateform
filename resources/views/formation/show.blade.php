@@ -41,17 +41,25 @@
             </nav>
         </aside>
 
-        <!-- ZONE DE CONTENU CENTRAL (Le Cours) -->
         <main class="dashboard-main dynamic-course-content">
 
-            <!-- En-tête du cours (Comme le bloc bleu "1. Mathématiques" de ta maquette) -->
+            @if(session('success'))
+                <div style="background: #f0fff4; border: 1px solid #38a169; color: #276749; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600;">
+                    ✓ {{ session('success') }}
+                </div>
+            @endif
+            @if(session('error'))
+                <div style="background: #fff5f5; border: 1px solid #e53e3e; color: #9b2c2c; padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; font-weight: 600;">
+                    ✕ {{ session('error') }}
+                </div>
+            @endif
+
             <div class="course-main-header">
                 <div>
                     <h2>{{ $coursSelectionne->name }}</h2>
                     <p>Matière : {{ $coursSelectionne->matiere->name }}</p>
 
                     @php
-                        // On récupère la matière correspondante dans la liste où les progressions sont calculées
                         $matiereActuelle = $matieres->firstWhere('id', $coursSelectionne->id_matiere);
                         $progressionMatiere = $matiereActuelle->progression ?? 0;
                     @endphp
@@ -66,7 +74,6 @@
                 </div>
             </div>
 
-            <!-- Rendu dynamique des sections selon leur TYPE -->
             <div class="course-sections-wrapper">
                 @foreach($coursSelectionne->sections as $section)
 
@@ -99,19 +106,86 @@
                         <div class="section-render-image">
                             @if($section->titre)
                             <h4>{{ $section->titre }}</h4> @endif
-                            <img src="{{   asset('storage/' . $section->contenu) }}"
-                                alt="{{ $section->titre ?? 'Image du cours' }}">
+                            <img src="{{ asset('storage/' . $section->contenu) }}" alt="{{ $section->titre ?? 'Image du cours' }}">
                         </div>
                     @endif
 
                     @if($section->type === 'upload')
+                        @php
+                            $renduExistant = \App\Models\RenduDevoir::where('section_cours_id', $section->id)
+                                ->where('user_id', Auth::id())
+                                ->first();
+                        @endphp
+
                         <div class="section-render-upload">
-                            <h4>{{ $section->titre ?? 'Rendu de devoir' }}</h4>
-                            <p class="upload-instruction">{{ $section->contenu }}</p>
-                            <form action="#" method="POST" enctype="multipart/form-data" class="upload-box-form">
+                            <div class="upload-header">
+                                <div class="upload-icon">
+                                    <i class='bx bx-cloud-upload'></i>
+                                </div>
+                                <div class="upload-title-block">
+                                    <h4>{{ $section->titre ?? 'Rendu de devoir' }}</h4>
+                                    @if($section->contenu)
+                                        <p class="upload-instruction">{{ $section->contenu }}</p>
+                                    @endif
+                                </div>
+                            </div>
+
+                            @if($renduExistant)
+                                <div class="current-rendu-box"
+                                    style="background: #f7fafc; border: 1px solid #e2e8f0; padding: 1rem; border-radius: 8px; margin-bottom: 1.25rem; display: flex; align-items: center; justify-content: space-between;">
+                                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                                        <i class='bx bx-file' style="font-size: 1.8rem; color: #387c88;"></i>
+                                        <div>
+                                            <span style="display: block; font-size: 0.85rem; color: #718096;">Votre fichier actuel :</span>
+                                            <a href="{{ asset('storage/' . $renduExistant->chemin_fichier) }}" target="_blank"
+                                                style="color: #387c88; font-weight: 600; text-decoration: none; hover:underline;">
+                                                {{ $renduExistant->nom_origine }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <span style="background: #e6fffa; color: #234e52; font-size: 0.8rem; padding: 0.25rem 0.75rem; border-radius: 9999px; font-weight: 600;">
+                                        ✓ Rendu le {{ $renduExistant->updated_at->format('d/m/Y à H:i') }}
+                                    </span>
+                                </div>
+                            @endif
+
+                            <form action="{{ route('devoirs.store', $section) }}" method="POST" enctype="multipart/form-data"
+                                class="upload-box-form">
                                 @csrf
-                                <input type="file" name="devoir" required>
-                                <button type="submit" class="button-style btn-bleuclair">Envoyer mon fichier</button>
+                                <div class="drop-zone" id="drop-zone-{{ $section->id }}"
+                                    style="border: 2px dashed #cbd5e0; background: #fafafa; border-radius: 10px; position: relative; transition: all 0.2s ease;">
+                                    <label for="devoir-{{ $section->id }}" class="drop-zone-label"
+                                        style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2.5rem 1.5rem; text-align: center; cursor: pointer; width: 100%;">
+
+                                        <div class="drop-zone-prompt" style="pointer-events: none;">
+                                            <i class='bx bx-file-blank icon-file' style="font-size: 2.2rem; color: #a0aec0; margin-bottom: 0.75rem;"></i>
+                                            <span class="drop-text" style="display: block; font-size: 0.95rem; color: #2d3748; margin-bottom: 0.25rem;">
+                                                @if($renduExistant)
+                                                    Glissez-déposez un nouveau fichier ici pour <strong>remplacer le document actuel</strong>
+                                                @else
+                                                    Glissez-déposez votre fichier ici ou <strong>parcourez vos fichiers</strong>
+                                                @endif
+                                            </span>
+                                            <span class="drop-specs" style="font-size: 0.8rem; color: #718096;">Formats acceptés : PDF, Word, Images (Max : 5 Mo)</span>
+                                        </div>
+
+                                        <div class="drop-zone-success" style="display: none; pointer-events: none;">
+                                            <i class='bx bx-check-circle icon-success' style="font-size: 2.5rem; color: #2f855a; margin-bottom: 0.5rem;"></i>
+                                            <span style="display: block; font-weight: 600; color: #2d3748; margin-bottom: 0.25rem;">Nouveau document pris en compte !</span>
+                                            <span class="file-name-display" style="font-size: 0.95rem; color: #387c88; font-style: italic; font-weight: 600;"></span>
+                                        </div>
+
+                                    </label>
+                                    <input type="file" name="devoir" id="devoir-{{ $section->id }}" class="file-input-hidden"
+                                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer;" required>
+                                </div>
+
+                                <div class="upload-actions">
+                                    <button type="submit" class="button-style btn-bleuclair">
+                                        <i class='bx bx-send'></i>
+                                        {{ $renduExistant ? 'Modifier mon devoir' : 'Envoyer mon devoir' }}
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     @endif
@@ -119,11 +193,10 @@
                 @endforeach
             </div>
 
-            <!-- Bouton de bas de page -->
             <div class="course-footer-actions mb-5-courspage">
                 <form action="{{ route('formation.cours.terminer', $coursSelectionne->id) }}" method="POST">
                     @csrf
-                    <button type="submit" class="button-style btn-dark-blue ">
+                    <button type="submit" class="button-style btn-dark-blue">
                         Cours suivant et valider
                     </button>
                 </form>
@@ -131,7 +204,36 @@
         </main>
     </div>
 
-    <script>sidebarToggle?.addEventListener('click', () => {
+    <script>
+        document.querySelectorAll('.file-input-hidden').forEach(input => {
+            input.addEventListener('change', function () {
+                const dropZone = this.closest('.drop-zone');
+                const promptBlock = dropZone.querySelector('.drop-zone-prompt');
+                const successBlock = dropZone.querySelector('.drop-zone-success');
+                const fileNameDisplay = dropZone.querySelector('.file-name-display');
+
+                if (this.files && this.files.length > 0) {
+                    const fileName = this.files[0].name;
+
+                    promptBlock.style.display = 'none';
+                    successBlock.style.display = 'block';
+                    fileNameDisplay.textContent = fileName;
+
+                    dropZone.style.borderColor = '#2f855a';
+                    dropZone.style.backgroundColor = '#f0fff4';
+                } else {
+                    // Correction de la coquille promptBlock.style.style ici
+                    promptBlock.style.display = 'block';
+                    successBlock.style.display = 'none';
+                    dropZone.style.borderColor = '#cbd5e0';
+                    dropZone.style.backgroundColor = '#fafafa';
+                }
+            });
+        });
+    </script>
+
+    <script>
+        sidebarToggle?.addEventListener('click', () => {
             dashboardSidebar.classList.toggle('open');
             sidebarOverlay.classList.toggle('active');
             document.body.classList.toggle('no-scroll');
@@ -139,7 +241,6 @@
             sidebarToggle.style.right = isOpen ? '5px' : '0';
             sidebarToggle.style.left = isOpen ? 'auto' : '0';
 
-            // Change l'icône
             const icon = sidebarToggle.querySelector('i');
             if (isOpen) {
                 icon.classList.remove('bxs-info-circle');
@@ -156,9 +257,9 @@
             document.body.classList.remove('no-scroll');
             sidebarToggle.style.left = '0';
 
-            // Remet l'icône d'origine
             const icon = sidebarToggle.querySelector('i');
             icon.classList.remove('bx-x');
             icon.classList.add('bxs-info-circle');
-        });</script>
+        });
+    </script>
 @endsection
