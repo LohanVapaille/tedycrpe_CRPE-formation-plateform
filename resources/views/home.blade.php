@@ -142,6 +142,8 @@
                 </div>
             @endforeach
         </div>
+
+        <div style="display:flex "><a class="lirelesautreavis btn-primary " target="_blank" href="https://www.google.com/search?client=opera-gx&hs=vJ1&sa=X&sca_esv=9e14c540528a302f&q=avis%20sur%20tedy%20florette%20ei%20moissy-cramayel&rflfq=1&num=20&stick=H4sIAAAAAAAAAONgkxIxNDQyMjMzszS0MDIyMLQ0MDI2MNvAyPiKUTOxLLNYobi0SKEkNaVSIS0nvyi1pCRVITVTITc_s7i4Uje5KDE3sTI1ZxEr8WoBVUy4tHMAAAA&rldimm=11226669182201902306&tbm=lcl&hl=fr-FR&ved=0CAYQ5foLahcKEwjgme3utK-VAxUAAAAAHQAAAAAQCw&biw=1912&bih=948&dpr=1#lkt=LocalPoiReviews&arid=Ci9DQUlRQUNvZENodHljRjlvT2pFNGFWWjVNakIzWTB0d1ZXOVdRV05QVldGdVZFRRAB">Lire tous les avis</a>
     </div>
 
 
