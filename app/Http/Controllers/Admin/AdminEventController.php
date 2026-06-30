@@ -28,9 +28,11 @@ class AdminEventController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'user_id' => 'nullable|exists:users,id',
+            'type' => 'nullable|string',
+
         ]);
 
-        Event::create($request->only('title', 'description', 'start_time', 'end_time', 'user_id'));
+        Event::create($request->only('title', 'description', 'start_time', 'end_time', 'user_id', 'type'));
         return redirect()->route('admin.evenements')->with('success', 'Événement créé.');
     }
 
@@ -48,9 +50,10 @@ class AdminEventController extends Controller
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'user_id' => 'nullable|exists:users,id',
+            'type' => 'nullable|string',
         ]);
 
-        $event->update($request->only('title', 'description', 'start_time', 'end_time', 'user_id'));
+        $event->update($request->only('title', 'description', 'start_time', 'end_time', 'user_id', 'type'));
         return redirect()->route('admin.evenements')->with('success', 'Événement mis à jour.');
     }
 
