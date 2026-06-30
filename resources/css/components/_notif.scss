@@ -1,0 +1,85 @@
+.notif-badge {
+    position: absolute;
+    top: -4px;
+    right: -4px;
+    background: #ff4757;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 0.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.tutor-chat-btn,
+.tutor-channels-btn {
+    position: fixed; /* déjà le cas pour tuteur, ajoute-le pour élève si besoin */
+}
+
+/* Toast notification */
+.toast-notif {
+    position: fixed;
+    bottom: 100px;
+    right: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    padding: 0.8rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    max-width: 300px;
+    z-index: 1001;
+    cursor: pointer;
+    animation: slideIn 0.3s ease-out;
+    border-left: 4px solid #2c6e7a;
+}
+
+.toast-notif.hide {
+    animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+.toast-notif .toast-icon {
+    font-size: 1.5rem;
+}
+
+.toast-notif .toast-content strong {
+    display: block;
+    font-size: 0.85rem;
+    color: #2c6e7a;
+}
+
+.toast-notif .toast-content p {
+    margin: 0;
+    font-size: 0.8rem;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

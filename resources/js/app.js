@@ -1,5 +1,6 @@
 import "./bootstrap";
 import "./echo";
+import "./chat-notifications";
 
 document.addEventListener("DOMContentLoaded", () => {
     const menuToggle = document.getElementById("menuToggle");
