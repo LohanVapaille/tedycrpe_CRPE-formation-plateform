@@ -16,4 +16,19 @@ class SectionCours extends Model
     {
         return $this->belongsTo(Cours::class, 'id_cours');
     }
+    public function getYoutubeEmbedUrlAttribute()
+    {
+        if (!$this->contenu) {
+            return '';
+        }
+
+        // Capture l'ID YouTube peu importe le format d'URL
+        preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $this->contenu, $match);
+
+        if (isset($match[1])) {
+            return "https://www.youtube.com/embed/" . $match[1];
+        }
+
+        return $this->contenu;
+    }
 }

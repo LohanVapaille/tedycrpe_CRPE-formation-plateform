@@ -76,17 +76,22 @@
 
                     @if($section->type === 'txt')
                         <div class="section-render-text">
-                            <p>{{ $section->contenu }}</p>
+                            @if($section->titre)
+                            <h4>{{ $section->titre }}</h4> @endif
+                            <p>{!! $section->contenu !!}</p>
                         </div>
                     @endif
 
                     @if($section->type === 'video')
-                        <div class="section-render-video">
-                            @if($section->titre)
-                            <h4>{{ $section->titre }}</h4> @endif
-                            <div class="video-responsive">
-                                <iframe src="{{ $section->contenu }}" frameborder="0" allowfullscreen></iframe>
-                            </div>
+                        @if($section->titre)
+                        <h4>{{ $section->titre }}</h4> @endif
+                        <div class="video-container"
+                            style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                            <iframe src="{{ $section->youtube_embed_url }}"
+                                style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen>
+                            </iframe>
                         </div>
                     @endif
 
@@ -94,7 +99,8 @@
                         <div class="section-render-image">
                             @if($section->titre)
                             <h4>{{ $section->titre }}</h4> @endif
-                            <img src="{{ asset($section->contenu) }}" alt="{{ $section->titre ?? 'Image du cours' }}">
+                            <img src="{{   asset('storage/' . $section->contenu) }}"
+                                alt="{{ $section->titre ?? 'Image du cours' }}">
                         </div>
                     @endif
 
