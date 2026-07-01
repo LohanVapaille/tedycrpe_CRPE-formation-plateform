@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Matiere;
 use App\Models\Cours;
-use App\Models\Rendu;
+use App\Models\RenduDevoir;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,18 +24,17 @@ class FormationController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $chat = Chat::find(1);
+
         $matieres = $this->getAuthorizedMatieres($user);
-        // Récupère le chat de l'utilisateur connecté, ou le crée s'il n'existe pas
-        $user = Auth::user();
 
         if ($user->is_tutor) {
-            // Le tuteur voit le premier chat disponible (ou tu pourras plus tard lui laisser choisir)
+            // Le tuteur voit le premier chat disponible
             $chat = Chat::first();
         } else {
             // L'étudiant a son propre chat
             $chat = Chat::firstOrCreate(['id_user' => $user->id]);
         }
+
         // 1. IDs des cours terminés
         $coursTerminesIds = $user->coursTermines()->pluck('id_cours')->toArray();
         $totalCoursTermines = count($coursTerminesIds);
@@ -55,13 +54,23 @@ class FormationController extends Controller
             }
         }
 
-        // 3. Calcul des cours restants
+        // --- AJOUT : Déterminer le premier cours dynamique ---
+        // On cherche la première matière de la liste qui possède au moins un cours
+        $premiereMatiereAvecCours = $matieres->first(function ($matiere) {
+            return $matiere->cours->isNotEmpty();
+        });
 
+        // Si on trouve une matière avec des cours, on extrait son tout premier cours (trié par ordre)
+        if ($premiereMatiereAvecCours) {
+            $premierCours = $premiereMatiereAvecCours->cours->sortBy('ordre')->first();
+            $premierCoursId = $premierCours->id;
+        } else {
+            $premierCoursId = 1; // Fallback de sécurité si aucun cours n'est créé dans sa formation
+        }
+        // -----------------------------------------------------
 
         // 4. Nombre de fichiers envoyés (Devoirs)
-        // Exemple si tu as une relation "rendus" ou un modèle RenduDevoir :
-        $nombreFichiersEnvoyes = Rendu::where('id_user', $user->id)->count();
-
+        $nombreFichiersEnvoyes = RenduDevoir::where('user_id', $user->id)->count();
 
         // 5. Progression globale (pour la bannière)
         $progressionGlobale = $totalCoursFormation > 0
@@ -74,7 +83,8 @@ class FormationController extends Controller
             'progressionGlobale',
             'totalCoursTermines',
             'totalCoursFormation',
-            'nombreFichiersEnvoyes'
+            'nombreFichiersEnvoyes',
+            'premierCoursId' // On passe la variable à ta vue index
         ));
     }
 
@@ -86,7 +96,6 @@ class FormationController extends Controller
         // Valider le cours actuel en BDD sans faire de doublon
         $user->coursTermines()->syncWithoutDetaching([$id]);
 
-        // Optionnel : Trouver le cours suivant pour rediriger l'élève dessus automatiquement
         $coursActuel = Cours::findOrFail($id);
         $coursSuivant = Cours::where('id_matiere', $coursActuel->id_matiere)
             ->where('ordre', '>', $coursActuel->ordre)
@@ -98,11 +107,9 @@ class FormationController extends Controller
                 ->with('success', 'Cours validé ! Passage au chapitre suivant.');
         }
 
-        // S'il n'y a pas de cours suivant, retour au tableau de bord
-        return redirect()->route('formation.index')
+        return redirect()->route('formation.cours', $coursActuel->id)
             ->with('success', 'Félicitations, vous avez fini cette matière !');
     }
-
 
     public function showRoute($id)
     {
@@ -143,5 +150,4 @@ class FormationController extends Controller
 
         return view('formation.show', compact('matieres', 'coursSelectionne'));
     }
-
 }
