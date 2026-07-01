@@ -119,3 +119,106 @@
         }
     }
 }
+
+/* ===== Section Mon expérience ===== */
+.about-experience {
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.about-experience h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 2.5rem;
+    text-align: center;
+    color: var(--color-heading, #1a1a1a);
+    position: relative;
+}
+
+.about-experience h2::after {
+    content: "";
+    display: block;
+    width: 60px;
+    height: 4px;
+    background: var(--color-primary, #36717b);
+    border-radius: 2px;
+    margin: 0.75rem auto 0;
+}
+
+.experience-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 800px;
+    margin-inline: auto;
+}
+
+.experience-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.experience-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.experience-icon {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    background: var(--color-primary-light, #eef2ff);
+    border-radius: 50%;
+}
+
+.experience-item p {
+    margin: 0;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    color: var(--color-text, #333);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+    .about-experience {
+        margin-top: 3rem;
+        padding-top: 2rem;
+    }
+
+    .about-experience h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.75rem;
+    }
+
+    .experience-item {
+        padding: 1rem 1.1rem;
+        gap: 0.75rem;
+    }
+
+    .experience-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1.05rem;
+    }
+
+    .experience-item p {
+        font-size: 0.95rem;
+    }
+}

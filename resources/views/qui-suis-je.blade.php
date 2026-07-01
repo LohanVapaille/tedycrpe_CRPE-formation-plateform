@@ -31,6 +31,22 @@
 
             </div>
 
+            {{-- Section Mon expérience --}}
+            <div class="about-experience">
+                <h2>{{ $content['experience_titre'] ?? 'Mon expérience' }}</h2>
+
+                <ul class="experience-list">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if(isset($content['experience_' . $i]))
+                            <li class="experience-item">
+                                <span class="experience-icon">🎓</span>
+                                <p>{{ $content['experience_' . $i] }}</p>
+                            </li>
+                        @endif
+                    @endfor
+                </ul>
+            </div>
+
         </div>
     </main>
 @endsection
