@@ -49,6 +49,7 @@
 
             var calendar = new FullCalendar.Calendar(calendarEl, {
                 initialView: 'dayGridMonth',
+                timeZone: 'Europe/Paris',
                 locale: 'fr',
                 firstDay: 1,
                 slotMinTime: '08:00:00',
@@ -68,13 +69,22 @@
                 events: eventsJson,
                 eventClick: function (info) {
                     var start = info.event.start;
-                    var dateStr = start
-                        ? start.toLocaleDateString('fr-FR', {
-                            weekday: 'long', day: 'numeric',
-                            month: 'long', year: 'numeric',
-                            hour: '2-digit', minute: '2-digit'
-                        })
-                        : '';
+                    var dateStr = '';
+
+                    if (start) {
+                        // On utilise le formateur officiel de FullCalendar pour respecter la Timezone
+                        dateStr = FullCalendar.formatDate(start, {
+                            locale: 'fr',
+                            timeZone: 'Europe/Paris', // On force le même fuseau que le calendrier
+                            weekday: 'long',
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+                    }
+
                     openModal(
                         info.event.title,
                         dateStr,
