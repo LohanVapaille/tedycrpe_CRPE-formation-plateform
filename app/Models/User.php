@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function rendus()
     {
-        return $this->hasMany(Rendu::class, 'id_user');
+        return $this->hasMany(RenduDevoir::class, 'user_id');
     }
 
     /**

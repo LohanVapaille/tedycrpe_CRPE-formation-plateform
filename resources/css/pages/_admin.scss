@@ -1,0 +1,7 @@
+@use "../variables" as v;
+
+.titrecrpeadmintableau {
+    &:hover {
+        background-color: v.$bleuhover;
+    }
+}

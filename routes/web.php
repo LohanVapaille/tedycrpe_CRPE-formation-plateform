@@ -10,12 +10,14 @@ use App\Http\Controllers\AgendaController;
 use App\Http\Controllers\MessageController; // N'oublie pas d'importer le MessageController
 use App\Http\Controllers\DevoirController;
 
+
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminFormationController;
 use App\Http\Controllers\Admin\AdminCoursController;
 use App\Http\Controllers\Admin\AdminSectionController;
 use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminDevoirController;
 
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -52,6 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
     Route::get('/tuteur/chats', [ChatController::class, 'tutorChannels'])->name('chat.tutorChannels');
     Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');
+    Route::get('/admin/devoirs', [AdminDevoirController::class, 'index'])->name('admin.devoirs.index');
+    Route::get('/admin/devoirs/{rendu}/download', [AdminDevoirController::class, 'download'])->name('admin.devoirs.download');
 
 
 

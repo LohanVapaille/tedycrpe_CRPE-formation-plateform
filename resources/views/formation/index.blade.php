@@ -95,22 +95,77 @@
             </div>
 
             <section id="cours" class="matieres-secure-grid">
-                @forelse($matieres as $index => $matiere)
-                    <div class="secure-matiere-card">
-                        <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
-                        @if($matiere->cours->isNotEmpty())
-                            <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
-                                class="btn-action-course">
-                                Lire le cours
-                            </a>
-                        @else
-                            <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
-                        @endif
-                        <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
-                    </div>
-                @empty
-                    <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
-                @endforelse
+                @if(Auth::user()->access === 'all')
+                    {{-- L'utilisateur a accès à tout : on sépare par module --}}
+                    @php
+                        // On groupe les matières par module_associe
+                        $groupes = $matieres->groupBy('module_associe');
+                    @endphp
+                    @forelse($groupes as $moduleName => $matieresDuGroupe)
+                        <div class="module-group-container" style="grid-column: 1 / -1; margin-top: 1.5rem; margin-bottom: 1rem;">
+                            <h3 class="module-title"
+                                style="font-size: 1.4rem; color: #2c6e7a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; text-transform: uppercase;">
+                                {{ $moduleName === 'CRPE BAC + 3' ? 'Module BAC + 3' : 'Module CRPE BAC + 5' }}
+                            </h3>
+                        </div>
+
+                        @foreach($matieresDuGroupe as $index => $matiere)
+                            <div class="secure-matiere-card">
+                                <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
+                                @if($matiere->cours->isNotEmpty())
+                                    <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
+                                        class="btn-action-course">
+                                        Lire le cours
+                                    </a>
+                                @else
+                                    <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
+                                @endif
+                                <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
+                            </div>
+                        @endforeach
+                    @empty
+                        <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
+                    @endforelse
+                @endif
+                @if(Auth::user()->access === 'CRPE BAC + 3')
+                    {{-- L'utilisateur a accès uniquement au module BAC + 3 --}}
+                    @forelse($matieres as $index => $matiere)
+                        <div class="secure-matiere-card">
+                            <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
+                            @if($matiere->cours->isNotEmpty())
+                                <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
+                                    class="btn-action-course">
+                                    Lire le cours
+                                </a>
+                            @else
+                                <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
+                            @endif
+                            <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
+                        </div>
+                    @empty
+                        <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
+                    @endforelse
+                @endif
+                @if(Auth::user()->access === 'CRPE BAC + 5')
+                    {{-- L'utilisateur a accès uniquement au module CRPE BAC + 5 --}}
+                    @forelse($matieres as $index => $matiere)
+                        <div class="secure-matiere-card">
+                            <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
+                            @if($matiere->cours->isNotEmpty())
+                                <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
+                                    class="btn-action-course">
+                                    Lire le cours
+                                </a>
+                            @else
+                                <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
+                            @endif
+                            <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
+                        </div>
+                    @empty
+                        <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
+                    @endforelse
+                @endif
+
             </section>
 
         </main>

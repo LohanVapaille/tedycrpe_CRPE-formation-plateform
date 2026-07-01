@@ -18,13 +18,25 @@
                 <input type="text" name="name" value="{{ old('name', $cours?->name) }}" required>
             </div>
             <div class="form-group">
-                <label>Matière</label>
-                <select name="id_matiere" required>
-                    <option value="">-- Choisir --</option>
-                    @foreach($matieres as $m)
-                        <option value="{{ $m->id }}" {{ old('id_matiere', $cours?->id_matiere) == $m->id ? 'selected' : '' }}>
-                            {{ $m->name }}
-                        </option>
+                <label for="id_matiere">Matière</label>
+                <select name="id_matiere" id="id_matiere" required>
+                    <option value="">-- Sélectionner une matière --</option>
+
+                    @php
+                        // On s'assure d'avoir toutes les matières groupées par leur module associé
+                        // (Remplace $matieres par la variable contenant tes matières si nécessaire)
+                        $matieresParModules = collect($matieres)->groupBy('module_associe');
+                    @endphp
+
+                    @foreach($matieresParModules as $nomModule => $listeMatieres)
+                        {{-- optgroup permet de créer un sous-titre non sélectionnable à l'intérieur du select --}}
+                        <optgroup label="📁 {{ $nomModule === 'bac_3' ? 'Module CRPE BAC + 3' : 'Module CRPE BAC + 5' }}">
+                            @foreach($listeMatieres as $matiere)
+                                <option value="{{ $matiere->id }}" {{ (isset($cours) && $cours->id_matiere == $matiere->id) ? 'selected' : '' }}>
+                                    {{ $matiere->name }}
+                                </option>
+                            @endforeach
+                        </optgroup>
                     @endforeach
                 </select>
             </div>

@@ -277,11 +277,16 @@
         <a href="{{ route('admin.cours') }}" class="{{ request()->routeIs('admin.cours*') ? 'active' : '' }}">
             <i class='bx bx-file'></i> Cours
         </a>
-        <a href="{{ route('admin.contenu') }}" class="{{ request()->routeIs('admin.contenu*') ? 'active' : '' }}">
-            <i class='bx bx-edit-alt'></i> Contenu du site
-        </a>
+
         <a href="{{ route('admin.evenements') }}" class="{{ request()->routeIs('admin.evenements*') ? 'active' : '' }}">
             <i class='bx bx-calendar'></i> Événements
+        </a>
+        <a href="{{ route('admin.devoirs.index') }}"
+            class="{{ request()->routeIs('admin.devoirs.index') ? 'active' : '' }}">
+            <i class='bx bxs-book-content'></i> Rendus de devoirs
+        </a>
+        <a href="{{ route('admin.contenu') }}" class="{{ request()->routeIs('admin.contenu*') ? 'active' : '' }}">
+            <i class='bx bx-edit-alt'></i> Contenu du site
         </a>
     </aside>
 
