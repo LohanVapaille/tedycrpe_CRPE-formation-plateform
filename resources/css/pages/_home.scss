@@ -93,7 +93,6 @@
 
 // --- STATS CONTAINER ---
 .stats-container-accueil {
-    background-color: v.$bleuvert;
     padding: 60px 40px;
     display: flex;
     justify-content: center;
@@ -110,8 +109,9 @@
         align-items: center;
         justify-content: center;
         width: 240px;
-        background: rgba(255, 255, 255, 0.07);
-        border: 1px solid rgba(255, 255, 255, 0.15);
+        background-color: rgba(v.$bleuvert, 0.7);
+
+        border: 1px solid v.$bleuvert;
         border-radius: 16px;
         padding: 2rem 1.5rem;
         text-align: center;
@@ -570,4 +570,85 @@ summary.faq-question {
     font-size: 0.95rem;
     line-height: 1.6;
     color: #1a1a1a;
+}
+
+// --- DISCOVERY BANNER ---
+.discovery-banner-bg {
+    background: linear-gradient(135deg, #1e4d56 0%, v.$bleuvert 100%);
+    padding: 3.5rem 2rem;
+    color: v.$blanc;
+}
+
+.discovery-banner-flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+
+    p {
+        color: v.$blanc;
+    }
+
+    @media (max-width: 850px) {
+        flex-direction: column;
+        text-align: center;
+        gap: 25px;
+    }
+}
+
+.discovery-banner-content {
+    max-width: 700px;
+
+    h2 {
+        font-size: 2rem;
+        color: v.$blanc !important; // Force la couleur blanche si un style global interfère
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+
+        @include v.phone-only {
+            font-size: 1.6rem;
+        }
+    }
+
+    p {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+        margin: 0;
+        line-height: 1.5;
+
+        @include v.phone-only {
+            font-size: 1rem;
+        }
+    }
+}
+
+.discovery-banner-action {
+    flex-shrink: 0;
+
+    .btn-teal-light {
+        background-color: v.$blanc;
+        color: #1e4d56;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 28px;
+        font-weight: 600;
+        border-radius: 8px;
+        text-decoration: none;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+            background-color: #f8fafc;
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+        }
+    }
 }

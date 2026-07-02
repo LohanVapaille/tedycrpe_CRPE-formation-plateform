@@ -24,8 +24,33 @@
         </div>
     </div>
 
-    {{-- SECTION ACCOMPAGNEMENT --}}
+    {{-- SECTION PRESTATIONS PROPOSÉES --}}
+    {{-- SECTION PRESTATIONS PROPOSÉES --}}
     <div class="crpe-section dark-teal-bg">
+        <div class="crpe-container w-correct">
+            <h2 class="section-title-center">{{ $contents['prestations']->firstWhere('key', 'titre')?->value }}</h2>
+
+            <div class="prestations-modern-grid">
+                @foreach($contents['prestations']->filter(fn($c) => str_starts_with($c->key, 'etape_'))->sortBy('ordre') as $prestation)
+                    <div class="prestation-modern-card">
+                        <div class="prestation-icon-wrapper">
+                            {{-- Icône check SVG élégante --}}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5"
+                                stroke="currentColor" class="prestation-svg-icon">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+                        </div>
+                        <div class="prestation-card-content">
+                            <p>{{ $prestation->value }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+
+    {{-- SECTION ACCOMPAGNEMENT --}}
+    <div class="crpe-section light-bg">
         <div class="w-correct crpe-container">
             <h2>{{ $contents['accompagnement']->firstWhere('key', 'titre')?->value }}</h2>
             <div class="crpe-grid-steps">

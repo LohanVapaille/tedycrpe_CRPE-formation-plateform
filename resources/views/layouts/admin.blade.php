@@ -285,6 +285,10 @@
             class="{{ request()->routeIs('admin.devoirs.index') ? 'active' : '' }}">
             <i class='bx bxs-book-content'></i> Rendus de devoirs
         </a>
+        <a href="{{ route('admin.messages.index') }}"
+            class="{{ request()->routeIs('admin.messages*') ? 'active' : '' }}">
+            <i class='bx bx-envelope'></i>Gestion des emails
+        </a>
         <a href="{{ route('admin.contenu') }}" class="{{ request()->routeIs('admin.contenu*') ? 'active' : '' }}">
             <i class='bx bx-edit-alt'></i> Contenu du site
         </a>

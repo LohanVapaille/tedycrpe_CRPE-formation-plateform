@@ -47,6 +47,13 @@
         h2 {
             color: #ffffff;
         }
+        h3 {
+            color: v.$bleuclair;
+        }
+
+        li {
+            color: #ffffff;
+        }
     }
 
     .crpe-container {
@@ -104,14 +111,14 @@
 
     .step-card {
         h3 {
-            color: #ffffff;
+            color: v.$bleuvert;
             font-size: 1.2rem;
             margin-bottom: 10px;
             font-weight: 600;
         }
 
         p {
-            color: rgba(255, 255, 255, 0.9);
+            color: v.$bleuvert;
         }
     }
 }
@@ -202,5 +209,83 @@
         color: #ffffff;
         margin-top: 30px;
         margin-left: 30px;
+    }
+}
+
+/* --- SECTION PRESTATIONS (image_6d385a.png) --- */
+
+.section-title-center {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.2rem;
+    color: #ffffff;
+}
+
+/* Grille adaptative : 2 colonnes sur grand écran, 1 sur mobile */
+.prestations-modern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Style des cartes de prestations */
+.prestation-modern-card {
+    display: flex;
+    align-items: flex-start;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+/* Effet dynamique au survol */
+.prestation-modern-card:hover {
+    transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Conteneur de l'icône */
+.prestation-icon-wrapper {
+    background: #ffffff;
+    color: #1e5e65; /* Ta couleur bleu-vert sombre */
+    padding: 0.5rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.2rem;
+    flex-shrink: 0;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.prestation-svg-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Contenu textuel de la prestation */
+.prestation-card-content p {
+    margin: 0;
+    color: #f3f4f6;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .prestations-modern-grid {
+        grid-template-columns: 1fr; /* Bascule en liste propre sur mobile */
+        gap: 1rem;
+    }
+
+    .section-title-center {
+        font-size: 1.8rem;
+        margin-bottom: 2rem;
     }
 }

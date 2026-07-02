@@ -41,6 +41,23 @@
             </div>
         @endforeach
     </div>
+    {{-- SECTION BANNIÈRE CTA APPEL DÉCOUVERTE --}}
+    <div class="discovery-banner-bg">
+        <div class="crpe-container w-correct discovery-banner-flex">
+            <div class="discovery-banner-content">
+                <h2>Envie de faire décoller votre préparation au CRPE ?</h2>
+                <p>Discutons ensemble de vos objectifs lors d'un <strong>appel découverte 100% gratuit</strong> et sans engagement.</p>
+            </div>
+            <div class="discovery-banner-action">
+                <a href="{{ url('/visio') }}" class="crpe-btn btn-teal-light">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="btn-icon">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5m-9-6h.008v.008H12v-.008zM12 15h.008v.008H12V15zm0 2.25h.008v.008H12v-.008zM9.75 15h.008v.008H9.75V15zm0 2.25h.008v.008H9.75v-.008zM7.5 15h.008v.008H7.5V15zm0 2.25h.008v.008H7.5v-.008zm6.75-4.5h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V15zm0 2.25h.008v.008h-.008v-.008zm2.25-4.5h.008v.008H16.5v-.008zm0 2.25h.008v.008H16.5V15z" />
+                    </svg>
+                    Réserver mon créneau
+                </a>
+            </div>
+        </div>
+    </div>
 
     <div class="card-cta-container">
         @foreach($contents->where('section', 'cards')->sortBy('ordre') as $card)
@@ -81,37 +98,53 @@
     </div></div>
 
 
-    <div class="contact-container">
-    <div class="contact-left">
-        <div class="illustration-wrapper">
-            <img src="{{ asset('img/jemelance.png') }}" alt="Je me lance">
-            <div class="cta-overlay">
-                <h2>{!! nl2br(e($contents->firstWhere('key', 'left_title')->value ?? 'JE ME LANCE !')) !!}</h2>
-                <a class="btn-primary" target="_blank" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">En savoir plus</a>
+    <div class="contact-container" id=contact>
+        <div class="contact-left">
+            <div class="illustration-wrapper">
+                <img src="{{ asset('img/jemelance.png') }}" alt="Je me lance">
+                <div class="cta-overlay">
+                    <h2>{!! nl2br(e($contents->firstWhere('key', 'left_title')->value ?? 'JE ME LANCE !')) !!}</h2>
+                    <a class="btn-primary" target="_blank" href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">En savoir plus</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="contact-right">
-        <h3>{{ $contents->firstWhere('key', 'form_title')->value ?? 'Contacter Tedy Florette' }}</h3>
+       <div class="contact-right">
+    <h3>{{ $contents->firstWhere('key', 'form_title')->value ?? 'Contacter Tedy Florette' }}</h3>
+    
+    {{-- Messages Flash --}}
+    @if(session('success'))
+        <div style="color: #2e7d32; padding: 10px; background: #e8f5e9; border-radius: 8px; margin-bottom: 15px;">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+        @csrf
         
-        <form action="" method="POST" class="contact-form">
-            @csrf
-            <div class="form-group">
-                <label for="email">ADRESSE MAIL*</label>
-                <input type="email" id="email" name="email" required maxlength="32">
-                <span class="char-count">0/32</span>
-            </div>
+        {{-- Champ Honeypot (Anti-spam) --}}
+        <div class="honeypot-field" style="display: none !important;">
+            <input type="text" name="fax_number" value="">
+        </div>
 
-            <div class="form-group">
-                <label for="message">VOTRE MESSAGE*</label>
-                <textarea id="message" name="message" required maxlength="185" placeholder="Lorem ipsum"></textarea>
-                <span class="char-count">0/185</span>
-            </div>
+        <div class="form-group">
+            <label for="email">ADRESSE MAIL*</label>
+            <input type="email" id="email" name="email" required maxlength="32" value="{{ old('email') }}">
+            @error('email') <span style="color: red; font-size: 0.8rem;">{{ $message }}</span> @enderror
+            <span class="char-count">0/32</span>
+        </div>
 
-            <button type="submit" class="btn-submit">Envoyer</button>
-        </form>
-    </div></div>
+        <div class="form-group">
+            <label for="message">VOTRE MESSAGE*</label>
+            <textarea id="message" name="message" required maxlength="185" placeholder="Votre message ici...">{{ old('message') }}</textarea>
+            @error('message') <span style="color: red; font-size: 0.8rem;">{{ $message }}</span> @enderror
+            <span class="char-count">0/185</span>
+        </div>
+
+        <button type="submit" class="btn-submit">Envoyer</button>
+    </form>
+</div>
+    </div>
 
    
 

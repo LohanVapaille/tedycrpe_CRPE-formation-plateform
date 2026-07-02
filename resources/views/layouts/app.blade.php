@@ -58,14 +58,11 @@
 
             <!-- Colonne Centrale : Liens de navigation -->
             <div class="footer-column footer-links">
-                <a href="#">Plan du site</a>
-                <a href="#">A propos</a>
-                <a href="#">Mentions légales</a>
-                <a href="#">Données personnelles</a>
-                <a href="#">Conditions générales de vente (CGV)</a>
-                <a href="#">Newsletter</a>
-                <a href="#">Glossaire</a>
-                <a href="#">Contact</a>
+                <a href="{{ route('home') }}">Plan du site</a>
+                <a href="{{ route('qui-suis-je') }}">A propos</a>
+                <a href="{{ route('home') }}">Mentions légales</a>
+                <a href="{{ route('home') }}">Données personnelles</a>
+                <a href="{{ route('home') }}#contact">Contact</a>
                 <a href="{{ route('admin.users') }}">Admin</a>
             </div>
 
@@ -84,7 +81,8 @@
         <!-- Ligne de séparation et crédit -->
         <div class="footer-bottom">
             <hr class="footer-divider">
-            <p class="footer-credits">Site développé par <a href="#" target="_blank">Lohan Vapaille</a></p>
+            <p class="footer-credits">Site développé par <a href="https://lohanvapaille.fr" target="_blank">Lohan
+                    Vapaille</a></p>
         </div>
     </footer>
 

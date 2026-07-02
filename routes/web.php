@@ -7,8 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AgendaController;
-use App\Http\Controllers\MessageController; // N'oublie pas d'importer le MessageController
+
 use App\Http\Controllers\DevoirController;
+use App\Http\Controllers\ContactController;
 
 
 use App\Http\Controllers\Admin\AdminUserController;
@@ -17,7 +18,9 @@ use App\Http\Controllers\Admin\AdminCoursController;
 use App\Http\Controllers\Admin\AdminSectionController;
 use App\Http\Controllers\Admin\AdminContentController;
 use App\Http\Controllers\Admin\AdminEventController;
+use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminDevoirController;
+
 
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -26,8 +29,14 @@ Route::get('/crpe', [HomeController::class, 'crpe'])->name('crpe');
 // Good
 // Vérifie bien que ta route GET ressemble à ça (au singulier ou pluriel, mais identique partout) :
 Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');
+// Route publique de traitement du formulaire
+// Route existante
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// Invités (Public)
+// Route de secours : si on arrive sur /contact en GET, on redirige vers l'accueil (ou là où est ton formulaire)
+Route::get('/contact', function () {
+    return redirect()->route('home'); // Remplace 'home' par le nom de ta route d'accueil si nécessaire
+});
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
@@ -59,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
 });
 
 // routes/web.php
@@ -87,6 +97,10 @@ Route::prefix('admin')->middleware(['auth', 'tutor'])->group(function () {
     Route::get('/cours/{cours}/edit', [AdminCoursController::class, 'edit'])->name('admin.cours.edit');
     Route::put('/cours/{cours}', [AdminCoursController::class, 'update'])->name('admin.cours.update');
     Route::delete('/cours/{cours}', [AdminCoursController::class, 'destroy'])->name('admin.cours.destroy');
+
+    Route::get('/messages', [AdminMessageController::class, 'index'])->name('admin.messages.index');
+    Route::patch('/messages/{contact_message}/toggle', [AdminMessageController::class, 'toggleRead'])->name('admin.messages.toggle');
+    Route::delete('/messages/{contact_message}', [AdminMessageController::class, 'destroy'])->name('admin.messages.destroy');
 
     // Sections d'un cours
     Route::get('/cours/{cours}/sections', [AdminSectionController::class, 'index'])->name('admin.sections');
