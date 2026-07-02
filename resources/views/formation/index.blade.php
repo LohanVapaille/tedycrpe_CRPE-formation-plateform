@@ -19,7 +19,8 @@
 
             <nav class="sidebar-menu">
                 <a href="#tb" class="menu-item active"><i class='bx bxs-dashboard'></i> Tableau de bord</a>
-                <a href="{{ route('formation.cours', ['id' => 1]) }}" class="menu-item"><i class='bx bx-book-open'></i> Les
+                <a href="{{ route('formation.cours', ['id' => $premierCoursId]) }}" class="menu-item"><i
+                        class='bx bx-book-open'></i> Les
                     cours</a>
                 <a href="#" class="menu-item"><i class='bx bx-video'></i> Modules vidéos</a>
 

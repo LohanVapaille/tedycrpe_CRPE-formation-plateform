@@ -15,7 +15,7 @@
             <hr>
             <p><strong>Date & Heure :</strong> <span id="modalDate"></span></p>
             <p><strong>Description :</strong></p>
-            <p id="modalDescription"></p>
+            <p class="modalDescription" id="modalDescription"></p>
 
         </div>
     </div>

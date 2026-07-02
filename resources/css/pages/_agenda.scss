@@ -209,6 +209,7 @@
     max-width: 500px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     position: relative;
+    word-wrap: break-word;
 
     @include v.phone-only {
         width: 80%;
