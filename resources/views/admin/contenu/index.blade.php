@@ -5,6 +5,7 @@
 @section('content')
     <div class="admin-header">
         <h1>Contenu du site</h1>
+        <p>CRTL + F pour rechercher un mot</p>
     </div>
 
     @if(session('success'))

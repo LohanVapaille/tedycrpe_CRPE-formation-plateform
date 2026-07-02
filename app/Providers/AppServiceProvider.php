@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Schema; // NE PAS OUBLIER CETTE LIGNE
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Chat;
+use App\Models\Content;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,5 +44,15 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('chat', $chat);
             }
         });
+
+        if (Schema::hasTable('contents')) {
+            // Récupère toutes les clés du footer sous forme de tableau clé => valeur
+            $footerSettings = Content::where('key', 'like', 'footer_%')
+                ->pluck('value', 'key')
+                ->toArray();
+
+            // Rend la variable $footerSettings accessible dans toutes les vues Blade
+            View::share('footerSettings', $footerSettings);
+        }
     }
 }

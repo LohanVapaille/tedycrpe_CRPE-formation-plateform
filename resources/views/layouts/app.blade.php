@@ -49,11 +49,14 @@
 
             <!-- Colonne Gauche : Infos Entreprise -->
             <div class="footer-column footer-brand">
-                <h3>Tedy Florette Formation CRPE</h3>
-                <p>SAS au capital de 180 380€<br>
-                    18, rue Lucien Granet<br>
-                    33150, Cenon, France</p>
-                <p class="footer-phone">Tél : <a href="tel:+33556401402">+33 5 56 40 14 02</a></p>
+                <h3>{{ $footerSettings['footer_company_name'] ?? 'Tedy Florette Formation CRPE' }}</h3>
+                <p>{!! nl2br(e($footerSettings['footer_address'] ?? "SAS au capital de 180 380€\n18, rue Lucien Granet\n33150, Cenon, France")) !!}
+                </p>
+                <p class="footer-phone">Tél :
+                    <a href="tel:{{ str_replace(' ', '', $footerSettings['footer_phone'] ?? '+33556401402') }}">
+                        {{ $footerSettings['footer_phone'] ?? '+33 5 56 40 14 02' }}
+                    </a>
+                </p>
             </div>
 
             <!-- Colonne Centrale : Liens de navigation -->
@@ -68,15 +71,17 @@
 
             <!-- Colonne Droite : Réseaux Sociaux -->
             <div class="footer-column footer-socials">
-                <a href="#" target="_blank" class="social-link">
+                <a href="{{ $footerSettings['footer_facebook_url'] ?? '#' }}" target="_blank" class="social-link">
                     <i class="fab fa-facebook-square"></i> Facebook
                 </a>
-                <a href="#" target="_blank" class="social-link">
+                <a href="{{ $footerSettings['footer_linkedin_url'] ?? '#' }}" target="_blank" class="social-link">
                     <i class="fab fa-linkedin"></i> LinkedIn
                 </a>
             </div>
 
         </div>
+
+
 
         <!-- Ligne de séparation et crédit -->
         <div class="footer-bottom">
