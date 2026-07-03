@@ -41,9 +41,9 @@
                     <select name="access" required>
                         <option value="all" {{ old('access', $user?->access) === 'all' ? 'selected' : '' }}>Tous les cours
                         </option>
-                        <option value="CRPE BAC + 5" {{ old('access', $user?->access) === 'CRPE BAC +5' ? 'selected' : '' }}>
+                        <option value="CRPE BAC + 5" {{ old('access', $user?->access) === 'CRPE BAC + 5' ? 'selected' : '' }}>
                             CRPE BAC +5</option>
-                        <option value="CRPE BAC + 3" {{ old('access', $user?->access) === 'CRPE BAC +3' ? 'selected' : '' }}>
+                        <option value="CRPE BAC + 3" {{ old('access', $user?->access) === 'CRPE BAC + 3' ? 'selected' : '' }}>
                             CRPE BAC +3</option>
                     </select>
                 </div>

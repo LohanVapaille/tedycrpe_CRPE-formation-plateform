@@ -18,9 +18,7 @@
                 <p>{{ $contents['formation']->firstWhere('key', 'paragraphe_1')?->value }}</p>
                 <p>{{ $contents['formation']->firstWhere('key', 'paragraphe_2')?->value }}</p>
             </div>
-            <a href="" class="crpe-btn btn-darkblue">
-                {{ $contents['formation']->firstWhere('key', 'btn_texte')?->value }}
-            </a>
+
         </div>
     </div>
 

@@ -22,7 +22,7 @@
                 <a href="{{ route('formation.cours', ['id' => $premierCoursId]) }}" class="menu-item"><i
                         class='bx bx-book-open'></i> Les
                     cours</a>
-                <a href="#" class="menu-item"><i class='bx bx-video'></i> Modules vidéos</a>
+                <a href="{{ route('agenda.index') }}" class="menu-item"><i class='bx bx-calendar-alt'></i> Mon agenda</a>
 
                 <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 1rem 0;">
                 <a href="{{ route('logout') }}" class="menu-item logout-item"
@@ -60,8 +60,9 @@
                     <p class="meta-objective">Objectif : {{ Auth::user()->access }}</p>
 
                     <div class="banner-actions">
-                        <a href="#" class="btn-secondary-light">Modifier le profil</a>
-                        <a href="#" class="btn-orange">Besoin d'aide</a>
+                        <a href="#" style="background-color: green;" class=" btn-secondary-light "><i
+                                class='bx bxl-whatsapp'></i> Groupe Whatsapp</a>
+
                     </div>
                 </div>
                 <div class="banner-right">
