@@ -26,7 +26,7 @@ class ContactController extends Controller
         $messageCreated = ContactMessage::create($validated);
 
         // 4. Envoi du mail de notification
-        Mail::to('lohanvapaille@gmail.fr')->send(new NewContactMessage($messageCreated));
+        Mail::to('lohanvapaille@gmail.com')->send(new NewContactMessage($messageCreated));
 
         // Redirection vers la page précédente avec l'ancre #contact
         return redirect()->to(url()->previous() . '#contact')->with('success', 'Votre message a bien été transmis.');

@@ -121,11 +121,7 @@
 
     <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
         @csrf
-        
-        {{-- Champ Honeypot (Anti-spam) --}}
-        <div class="honeypot-field" style="display: none !important;">
-            <input type="text" name="fax_number" value="">
-        </div>
+   
 
         <div class="form-group">
             <label for="email">ADRESSE MAIL*</label>
