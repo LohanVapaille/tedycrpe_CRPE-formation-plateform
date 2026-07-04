@@ -60,8 +60,8 @@
                     <p class="meta-objective">Objectif : {{ Auth::user()->access }}</p>
 
                     <div class="banner-actions">
-                        <a href="#" style="background-color: green;" class=" btn-secondary-light "><i
-                                class='bx bxl-whatsapp'></i> Groupe Whatsapp</a>
+                        <a href="https://web.whatsapp.com" target="_blank" style="background-color: green;"
+                            class=" btn-secondary-light "><i class='bx bxl-whatsapp'></i> Groupe Whatsapp</a>
 
                     </div>
                 </div>

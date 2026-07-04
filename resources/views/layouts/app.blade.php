@@ -72,10 +72,13 @@
             <!-- Colonne Droite : Réseaux Sociaux -->
             <div class="footer-column footer-socials">
                 <a href="{{ $footerSettings['footer_facebook_url'] ?? '#' }}" target="_blank" class="social-link">
-                    <i class="fab fa-facebook-square"></i> Facebook
+                    <i class='bx bxl-facebook'></i> Facebook
                 </a>
                 <a href="{{ $footerSettings['footer_linkedin_url'] ?? '#' }}" target="_blank" class="social-link">
-                    <i class="fab fa-linkedin"></i> LinkedIn
+                    <i class='bx bxl-linkedin'></i> LinkedIn
+                </a>
+                <a href="{{ $footerSettings['footer_instagram_url'] ?? '#' }}" target="_blank" class="social-link">
+                    <i class='bx bxl-instagram'></i> Instagram
                 </a>
             </div>
 
@@ -87,7 +90,7 @@
         <div class="footer-bottom">
             <hr class="footer-divider">
             <p class="footer-credits">Site développé par <a href="https://lohanvapaille.fr" target="_blank">Lohan
-                    Vapaille</a></p>
+                    Vapaille</a> | <a href="https://lovaweb.lohanvapaille.fr" target="_blank">Lovaweb</a></p>
         </div>
     </footer>
 
