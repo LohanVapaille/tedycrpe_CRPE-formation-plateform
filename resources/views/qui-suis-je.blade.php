@@ -26,7 +26,8 @@
                         <p>{{ $content['paragraphe_3'] ?? '' }}</p>
                     </div>
 
-                    <a href="{{ route('agenda.index') }}" class="btn-discover">Découvrir le programme</a>
+                    <a href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR"
+                        target='_blank' class="btn-discover">Réserver un appel découverte</a>
                 </div>
 
             </div>
