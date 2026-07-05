@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('title', 'Mon Agenda CRPE')
-
+@section('meta_description',
+'Préparez le CRPE avec Tedy Florette grâce à des cours, des ressources et un accompagnement personnalisé.')
 @section('content')
     <div class="agenda-section">
         <div id="calendar-framework"></div>

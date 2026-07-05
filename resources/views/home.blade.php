@@ -2,6 +2,9 @@
 
 @section('title', 'Accueil')
 
+@section('meta_description',
+'Préparez le CRPE avec Tedy Florette grâce à des cours, des ressources et un accompagnement personnalisé.')
+
 @section('content')
     <div class="welcome-section ">
         <div class="w-correct">

@@ -3,9 +3,24 @@
 
 <head>
     <meta charset="UTF-8">
+
+    <title>@yield('title', 'Objectif CRPE') - TedyCRPE</title>
+    <meta name="description"
+        content="@yield('meta_description', 'Préparez le CRPE avec Tedy Florette grâce à des cours, des ressources et un accompagnement personnalisé.')">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical" href="{{ url()->current() }}">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta property="og:title" content="@yield('title')">
+    <meta property="og:description" content="@yield('meta_description')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:type" content="website">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Objectif CRPE') - TedyCRPE</title>
+
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" type="image/x-icon" href="{{ asset('img/favicon.png') }}">
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('title', 'Formation CRPE')
-
+@section('meta_description',
+'Préparez le CRPE avec Tedy Florette grâce à des cours, des ressources et un accompagnement personnalisé.')
 @section('content')
 
     {{-- HERO --}}
