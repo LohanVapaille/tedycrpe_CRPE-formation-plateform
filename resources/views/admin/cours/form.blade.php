@@ -30,7 +30,8 @@
 
                     @foreach($matieresParModules as $nomModule => $listeMatieres)
                         {{-- optgroup permet de créer un sous-titre non sélectionnable à l'intérieur du select --}}
-                        <optgroup label="📁 {{ $nomModule === 'bac_3' ? 'Module CRPE BAC + 3' : 'Module CRPE BAC + 5' }}">
+                        <optgroup
+                            label="📁 {{ $nomModule === 'CRPE BAC + 3' ? 'Module CRPE BAC + 3' : 'Module CRPE BAC + 5' }}">
                             @foreach($listeMatieres as $matiere)
                                 <option value="{{ $matiere->id }}" {{ (isset($cours) && $cours->id_matiere == $matiere->id) ? 'selected' : '' }}>
                                     {{ $matiere->name }}
