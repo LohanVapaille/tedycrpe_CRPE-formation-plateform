@@ -4,10 +4,12 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TutorController;
 use Illuminate\Support\Facades\Route;
+
+use Spatie\Sitemap\SitemapGenerator;
+
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\FormationController;
 use App\Http\Controllers\AgendaController;
-
 use App\Http\Controllers\DevoirController;
 use App\Http\Controllers\ContactController;
 
@@ -52,6 +54,13 @@ Route::post('/devoirs/store/{section}', [DevoirController::class, 'store'])->nam
 // Passage forcé pour le mot de passe initial
 Route::get('/configuration-password', [LoginController::class, 'showForcePasswordForm'])->name('auth.password.force');
 Route::post('/configuration-password', [LoginController::class, 'updateForcePassword'])->name('auth.password.update');
+
+// Route::get('/generate-sitemap', function () {
+//     SitemapGenerator::create('https://coachcrpeflorettetedy.com')
+//         ->writeToFile(public_path('sitemap.xml'));
+
+//     return 'Sitemap généré !';
+// });
 
 // Espace Connecté Privé
 Route::middleware(['auth'])->group(function () {
