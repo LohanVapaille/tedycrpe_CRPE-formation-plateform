@@ -3,6 +3,7 @@
 @section('title', $content['titre_principal'] ?? 'Qui suis-je ?')
 @section('meta_description',
 'Préparez le CRPE avec Tedy Florette grâce à des cours, des ressources et un accompagnement personnalisé.')
+
 @section('content')
     <main class="about-section">
         <div class="about-container">
