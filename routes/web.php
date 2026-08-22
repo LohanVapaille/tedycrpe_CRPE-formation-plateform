@@ -33,7 +33,7 @@ Route::get('/crpe', [HomeController::class, 'crpe'])->name('crpe');
 Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');
 // Route publique de traitement du formulaire
 // Route existante
-Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:3,1');
 
 // Route de secours : si on arrive sur /contact en GET, on redirige vers l'accueil (ou là où est ton formulaire)
 Route::get('/contact', function () {

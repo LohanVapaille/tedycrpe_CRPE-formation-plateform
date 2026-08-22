@@ -18,8 +18,8 @@ class ContactController extends Controller
 
         // 2. Validation des vrais champs
         $validated = $request->validate([
-            'email' => 'required|email|max:32',
-            'message' => 'required|string|max:185',
+            'email' => 'required|email:rfc,dns|max:32', // Vérifie que le domaine du mail existe vraiment
+            'message' => 'required|string|min:10|max:185',
         ]);
 
         // 3. Sauvegarde en BDD
