@@ -17,12 +17,12 @@ class AdminSectionController extends Controller
 
     public function store(Request $request, Cours $cours)
     {
-        // 1. Validation de base + validation conditionnelle pour l'image
+        // 1. Validation : ajout de 'fichier' dans les types autorisés et assouplissement de la règle du fichier
         $request->validate([
-            'type' => 'required|in:titre,txt,img,video,upload',
+            'type' => 'required|in:titre,txt,img,video,zonedepot,fichier',
             'titre' => 'nullable|string|max:255',
             'contenu' => 'nullable|string',
-            'image' => 'required_if:type,img|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048', // Obligatoire si type = img
+            'image' => 'required_if:type,img,fichier|file|max:10240', // Accepte tout type de fichier jusqu'à 10 Mo
             'ordre' => 'required|integer',
         ]);
 
@@ -30,11 +30,11 @@ class AdminSectionController extends Controller
         $data = $request->only('type', 'titre', 'contenu', 'ordre');
 
         if ($request->type === 'titre') {
-            $data['contenu'] = null; // Forcer à null pour un titre
-        } elseif ($request->type === 'img' && $request->hasFile('image')) {
-            // Stockage de l'image dans storage/app/public/sections
+            $data['contenu'] = null;
+        } elseif (($request->type === 'img' || $request->type === 'fichier') && $request->hasFile('image')) {
+            // Stockage de l'image ou du document téléchargeable dans storage/app/public/sections
             $path = $request->file('image')->store('sections', 'public');
-            $data['contenu'] = $path; // On enregistre le chemin dans le champ contenu
+            $data['contenu'] = $path;
         }
 
         // 3. Création
@@ -43,15 +43,14 @@ class AdminSectionController extends Controller
         return redirect()->route('admin.sections', $cours)->with('success', 'Section ajoutée.');
     }
 
-
     public function update(Request $request, SectionCours $section)
     {
-        // 1. Validation (l'image est optionnelle lors d'une modification)
+        // 1. Validation
         $request->validate([
-            'type' => 'required|in:titre,txt,img,video,upload',
+            'type' => 'required|in:titre,txt,img,video,zonedepot,fichier',
             'titre' => 'nullable|string|max:255',
             'contenu' => 'nullable|string',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:2048',
+            'image' => 'nullable|file|max:10240',
             'ordre' => 'required|integer',
         ]);
 
@@ -59,17 +58,17 @@ class AdminSectionController extends Controller
 
         if ($request->type === 'titre') {
             $data['contenu'] = null;
-        } elseif ($request->type === 'img') {
+        } elseif ($request->type === 'img' || $request->type === 'fichier') {
             if ($request->hasFile('image')) {
-                // Supprimer l'ancienne image si elle existe
+                // Supprimer l'ancien fichier s'il existe
                 if ($section->contenu && Storage::disk('public')->exists($section->contenu)) {
-                    Storage::disk('public')->delete($section->contents);
+                    Storage::disk('public')->delete($section->contenu);
                 }
-                // Stocker la nouvelle
+                // Stocker le nouveau
                 $path = $request->file('image')->store('sections', 'public');
                 $data['contenu'] = $path;
             } else {
-                // Si le type passe à image mais qu'on n'upload rien, on garde l'ancienne valeur stockée
+                // Si on ne change pas de fichier, on conserve l'ancien chemin
                 $data['contenu'] = $section->contenu;
             }
         }
@@ -79,14 +78,12 @@ class AdminSectionController extends Controller
         return back()->with('success', 'Section mise à jour.');
     }
 
-
-
     public function destroy(SectionCours $section)
     {
         $cours = $section->cours;
 
-        // Supprimer le fichier image du stockage si la section était une image
-        if ($section->type === 'img' && $section->contenu && Storage::disk('public')->exists($section->contenu)) {
+        // Supprimer le fichier du stockage si la section était une image ou un fichier
+        if (in_array($section->type, ['img', 'fichier']) && $section->contenu && Storage::disk('public')->exists($section->contenu)) {
             Storage::disk('public')->delete($section->contenu);
         }
 

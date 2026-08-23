@@ -40,7 +40,8 @@
                         <option value="txt">Texte</option>
                         <option value="img">Image</option>
                         <option value="video">Vidéo</option>
-                        <option value="upload">Upload</option>
+                        <option value="zonedepot">Zone de dépot</option>
+                        <option value="fichier">Ressource / Fichier à télécharger</option>
                     </select>
                 </div>
                 <div class="form-group field-titre" style="margin:0;">
@@ -125,7 +126,8 @@
                         <option value="txt">Texte</option>
                         <option value="img">Image</option>
                         <option value="video">Vidéo</option>
-                        <option value="upload">Upload</option>
+                        <option value="zonedepot">Zone de dépôt</option>
+                        <option value="fichier">Ressource / Fichier à télécharger</option>
                     </select>
                 </div>
                 <div class="form-group field-titre-edit">
@@ -169,7 +171,6 @@
             function adapterFormulaire(type, context = 'create') {
                 const suffix = context === 'create' ? 'create' : 'edit';
 
-                // Éléments cibles
                 const rowTitre = document.querySelector(context === 'create' ? '.field-titre' : '.field-titre-edit');
                 const rowContenu = document.querySelector(context === 'create' ? '.field-contenu' : '.field-contenu-edit');
                 const labelContenu = document.getElementById(`label-contenu-${suffix}`) || document.getElementById('label-contenu');
@@ -177,18 +178,18 @@
                 const quillWrapper = document.getElementById(`editor-container-${suffix}`);
                 const fileInput = document.getElementById(`file-${suffix}`);
 
-                // Reset par défaut
+                // Reset
                 rowTitre.classList.remove('hidden-field');
                 rowContenu.classList.remove('hidden-field');
                 quillWrapper.classList.add('hidden-field');
                 textarea.classList.remove('hidden-field');
-                textarea.type = "text";
                 fileInput.classList.add('hidden-field');
+                fileInput.removeAttribute('accept');
 
                 switch (type) {
                     case 'titre':
                         rowContenu.classList.add('hidden-field');
-                        textarea.value = ''; // Null dans la BDD
+                        textarea.value = '';
                         break;
                     case 'txt':
                         textarea.classList.add('hidden-field');
@@ -198,15 +199,22 @@
                     case 'img':
                         textarea.classList.add('hidden-field');
                         fileInput.classList.remove('hidden-field');
+                        fileInput.setAttribute('accept', 'image/*');
                         labelContenu.innerText = "Uploader l'image";
+                        break;
+                    case 'fichier':
+                        textarea.classList.add('hidden-field');
+                        fileInput.classList.remove('hidden-field');
+                        fileInput.removeAttribute('accept'); // Accepte PDF, Word, ZIP, etc.
+                        labelContenu.innerText = "Uploader le fichier / la ressource";
                         break;
                     case 'video':
                         labelContenu.innerText = "Lien de la vidéo YouTube";
                         textarea.placeholder = "https://www.youtube.com/watch?v=...";
                         break;
-                    case 'upload':
-                        labelContenu.innerText = "Description / Contenu de l'upload";
-                        textarea.placeholder = "Texte normal...";
+                    case 'zonedepot':
+                        labelContenu.innerText = "Consignes du devoir";
+                        textarea.placeholder = "Ex : Déposez votre compte-rendu au format PDF...";
                         break;
                 }
             }

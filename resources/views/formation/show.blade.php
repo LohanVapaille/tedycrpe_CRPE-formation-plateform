@@ -102,6 +102,32 @@
                         </div>
                     @endif
 
+                    @if($section->type === 'fichier')
+    <div class="section-render-resource" style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background: #ebf8ff; color: #3182ce; width: 48px; height: 48px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                <i class='bx bx-file'></i>
+            </div>
+            <div>
+                <h4 style="margin: 0 0 0.25rem 0; font-size: 1.05rem; color: #2d3748;">
+                    {{ $section->titre ?? 'Ressource téléchargeable' }}
+                </h4>
+                <span style="font-size: 0.85rem; color: #718096;">
+                    Document mis à disposition par le tuteur
+                </span>
+            </div>
+        </div>
+
+        @if($section->contenu)
+            <a href="{{ asset('storage/' . $section->contenu) }}" download class="button-style btn-bleuclair" style="display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                <i class='bx bx-download'></i> Télécharger la ressource
+            </a>
+        @else
+            <span style="color: #a0aec0; font-size: 0.85rem; font-style: italic;">Aucun fichier disponible</span>
+        @endif
+    </div>
+@endif
+
                     @if($section->type === 'img')
                         <div class="section-render-image">
                             @if($section->titre)
@@ -110,7 +136,8 @@
                         </div>
                     @endif
 
-                    @if($section->type === 'upload')
+            
+                    @if($section->type === 'zonedepot')
                         @php
                             $renduExistant = \App\Models\RenduDevoir::where('section_cours_id', $section->id)
                                 ->where('user_id', Auth::id())
