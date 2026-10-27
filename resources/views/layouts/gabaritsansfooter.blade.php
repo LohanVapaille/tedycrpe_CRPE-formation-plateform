@@ -42,7 +42,9 @@
                     <nav class="espace-nav" aria-label="Mon espace">
                         <span class="nav-section-label">Mon espace</span>
                         <a href="{{ route('formation.index') }}" class="espace-link"><i class='bx bxs-dashboard'></i> Tableau de bord</a>
-                        <a href="{{ route('formation.index') }}#cours" class="espace-link"><i class='bx bx-book-open'></i> Les cours</a>
+                        {{-- Reprend au dernier cours ouvert (sinon la liste des cours du tableau de bord) --}}
+                        <a href="{{ Auth::user()->dernier_cours_id ? route('formation.cours', Auth::user()->dernier_cours_id) : route('formation.index') . '#cours' }}"
+                            class="espace-link"><i class='bx bx-book-open'></i> Les cours</a>
                         <a href="{{ route('agenda.index') }}" class="espace-link"><i class='bx bx-calendar-alt'></i> Mon agenda</a>
                     </nav>
                 @endauth
