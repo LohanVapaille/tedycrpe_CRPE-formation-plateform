@@ -22,8 +22,18 @@
     align-items: center;
 
     @include v.tablet-up {
-        grid-template-columns: 45% 55%;
+        // fr (et non %) : l'espace entre colonnes est déduit, sinon 45% + 55% + gap déborde de l'écran
+        grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
     }
+
+    @include v.underdesktop-only {
+        gap: 30px;
+    }
+}
+
+.about-text-wrapper {
+    min-width: 0;
+    overflow-wrap: break-word;
 }
 
 /* Style de la photo avec un fond asymétrique arrondi */
