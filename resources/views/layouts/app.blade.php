@@ -182,7 +182,6 @@
                 bottom: 20px;
                 right: 20px;
                 z-index: 9999;
-                font-family: sans-serif;
                 display: flex;
                 align-items: flex-end;
                 justify-content: flex-end;

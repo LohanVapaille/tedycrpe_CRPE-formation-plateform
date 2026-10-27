@@ -5,7 +5,7 @@
     background-color: v.$bleuvert; // Le bleu-vert canard de la maquette
     color: v.$blanc;
     padding: 3rem 2rem 1.5rem 2rem;
-    font-family: Arial, sans-serif; // À adapter selon ta variable font
+    font-family: v.$font-principal;
 
     .footer-container {
         max-width: 1200px;

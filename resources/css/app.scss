@@ -141,6 +141,14 @@ body {
     box-sizing: border-box;
 }
 
+// Les navigateurs n'appliquent pas la police de la page aux champs et boutons par défaut
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
 .main-content {
     // margin-top: 48.15px;
     position: relative;
