@@ -81,7 +81,9 @@
                 <a href="{{ route('mentions-legales') }}">Mentions légales</a>
                 <a href="{{ route('donnees-personnelles') }}">Données personnelles</a>
                 <a href="{{ route('home') }}#contact">Contact</a>
-                <a href="{{ route('admin.users') }}">Admin</a>
+                @if(Auth::check() && Auth::user()->is_tutor)
+                    <a href="{{ route('admin.users') }}">Admin</a>
+                @endif
             </div>
 
             <!-- Colonne Droite : Réseaux Sociaux -->
