@@ -12,8 +12,8 @@ return new class extends Migration {
     {
         Schema::create('contact_messages', function (Blueprint $table) {
             $table->id();
-            $table->string('email', 32);
-            $table->string('message', 185);
+            $table->string('email', 100);
+            $table->text('message');
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });

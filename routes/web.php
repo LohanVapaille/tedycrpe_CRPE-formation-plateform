@@ -4,6 +4,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\TutorController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 
 use Spatie\Sitemap\SitemapGenerator;
 
@@ -23,6 +24,23 @@ use App\Http\Controllers\Admin\AdminEventController;
 use App\Http\Controllers\Admin\AdminMessageController;
 use App\Http\Controllers\Admin\AdminDevoirController;
 
+
+// Déploiement sans SSH (OVH Perso) : lance les migrations puis vide les caches.
+// Désactivée si DEPLOY_TOKEN est vide ; 404 si le jeton est faux (la route ne se révèle pas).
+Route::get('/_deploy/{token}', function (string $token) {
+    abort_unless(
+        config('app.deploy_token') && hash_equals(config('app.deploy_token'), $token),
+        404
+    );
+
+    Artisan::call('migrate', ['--force' => true]);
+    $output = Artisan::output();
+
+    Artisan::call('optimize:clear');
+    $output .= Artisan::output();
+
+    return response('<pre>' . e($output) . '</pre>');
+})->middleware('throttle:5,1');
 
 // Appelle la méthode index du HomeController pour la page d'accueil
 Route::get('/', [HomeController::class, 'index'])->name('home');

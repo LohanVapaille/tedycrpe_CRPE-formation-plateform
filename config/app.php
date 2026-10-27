@@ -123,4 +123,16 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Jeton de déploiement
+    |--------------------------------------------------------------------------
+    |
+    | Protège la route /_deploy/{token} qui lance les migrations sur un
+    | hébergement sans SSH (OVH Perso). Vide = route désactivée.
+    |
+    */
+
+    'deploy_token' => env('DEPLOY_TOKEN'),
+
 ];
