@@ -73,11 +73,8 @@
                 opacity 0.3s ease,
                 visibility 0.3s;
 
-            background-color: rgba(
-                v.$bleuvert,
-                0.85
-            ); // Légèrement plus opaque pour la lecture
-            backdrop-filter: blur(10px);
+            background-color: v.$bleuvert; // Fond opaque : le contenu de la page ne transparaît plus
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
             padding-block-start: 1.5rem;
             padding-block-end: 1rem; // Ajusté pour le mobile
 
