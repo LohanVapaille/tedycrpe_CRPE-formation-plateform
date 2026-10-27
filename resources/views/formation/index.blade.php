@@ -61,8 +61,21 @@
                     <p class="meta-objective">Objectif : {{ Auth::user()->access }}</p>
 
                     <div class="banner-actions">
-                        <a href="https://web.whatsapp.com" target="_blank" style="background-color: green;"
-                            class=" btn-secondary-light "><i class='bx bxl-whatsapp'></i> Groupe Whatsapp</a>
+                        {{-- Groupe WhatsApp selon le module de l'élève (les deux si accès complet) --}}
+                        @php
+                            $groupesWhatsapp = [
+                                'CRPE BAC + 3' => 'https://chat.whatsapp.com/IpBxR4aKDPTJ56Mq6BRfsm',
+                                'CRPE BAC + 5' => 'https://chat.whatsapp.com/KtcIEHIbFozB99vgGvkqk0',
+                            ];
+                            $accesUser = Auth::user()->access;
+                        @endphp
+                        @foreach($groupesWhatsapp as $module => $lien)
+                            @if($accesUser === 'all' || $accesUser === $module)
+                                <a href="{{ $lien }}" target="_blank" rel="noopener" style="background-color: green;"
+                                    class=" btn-secondary-light "><i class='bx bxl-whatsapp'></i>
+                                    Groupe WhatsApp{{ $accesUser === 'all' ? ' ' . str_replace('CRPE BAC + ', 'Bac+', $module) : '' }}</a>
+                            @endif
+                        @endforeach
 
                     </div>
                 </div>
