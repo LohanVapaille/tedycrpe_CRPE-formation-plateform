@@ -68,6 +68,12 @@ class FormationController extends Controller
         } else {
             $premierCoursId = 1; // Fallback de sécurité si aucun cours n'est créé dans sa formation
         }
+
+        // Reprise au dernier cours ouvert, s'il fait toujours partie de sa formation
+        $coursAccessiblesIds = $matieres->pluck('cours')->flatten()->pluck('id');
+        if ($user->dernier_cours_id && $coursAccessiblesIds->contains($user->dernier_cours_id)) {
+            $premierCoursId = $user->dernier_cours_id;
+        }
         // -----------------------------------------------------
 
         // 4. Nombre de fichiers envoyés (Devoirs)
@@ -153,6 +159,11 @@ class FormationController extends Controller
         // Sécurité d'accès
         if ($user->access !== 'all' && $coursSelectionne->matiere->module_associe !== $user->access) {
             abort(403, 'Vous n\'avez pas accès à ce contenu.');
+        }
+
+        // Mémorise le dernier cours ouvert (bouton "Accéder à ma formation" du tableau de bord)
+        if ($user->dernier_cours_id !== $coursSelectionne->id) {
+            $user->forceFill(['dernier_cours_id' => $coursSelectionne->id])->save();
         }
 
         return view('formation.show', compact('matieres', 'coursSelectionne'));
