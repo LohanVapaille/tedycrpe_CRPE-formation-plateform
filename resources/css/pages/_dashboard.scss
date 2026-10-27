@@ -1079,3 +1079,46 @@ $menu-vert: #22c55e;
         text-align: center;
     }
 }
+
+// Bandeau du cours : bouton "Tableau de bord" en haut à droite (au-dessus de la progression)
+.course-main-header {
+    .progress-container-mini {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 0.75rem;
+        align-self: flex-start;
+
+        @include v.underdesktop-only {
+            order: -1; // reste en haut à droite quand le bandeau passe en colonne
+            align-self: flex-end;
+        }
+    }
+}
+
+.course-dashboard-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 50px;
+    background-color: v.$blanc;
+    color: v.$bleu;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
+
+    i {
+        font-size: 1.1rem;
+    }
+
+    &:hover {
+        background-color: #ffffff;
+        transform: translateY(-1px);
+    }
+}

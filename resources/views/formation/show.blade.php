@@ -10,10 +10,6 @@
         </button>
         <aside class="dashboard-sidebar w-100 sidebar-menu-pagecours" id="dashboardSidebar">
 
-            <a href="{{ route('formation.index') }}" class="sidebar-back-btn">
-                <i class='bx bx-left-arrow-alt'></i>Tableau de bord
-            </a>
-
             <nav class="sidebar-menu menu-formation">
                 @if(Auth::user()->access === 'all')
                     <details class="level-group" open>
@@ -65,6 +61,9 @@
                     @endphp
                 </div>
                 <div class="progress-container-mini">
+                    <a href="{{ route('formation.index') }}" class="course-dashboard-btn">
+                        <i class='bx bxs-dashboard'></i> Tableau de bord
+                    </a>
                     <span class="matiere-progression">
                         Progression de la matière : {{ $progressionMatiere }}&nbsp;%
                     </span>
