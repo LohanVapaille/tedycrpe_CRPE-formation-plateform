@@ -69,6 +69,9 @@ class FormationController extends Controller
             $premierCoursId = 1; // Fallback de sécurité si aucun cours n'est créé dans sa formation
         }
 
+        // 1re connexion : aucun cours ouvert ni validé -> message d'accueil au lieu de "Reprenez là où..."
+        $premiereVisite = !$user->dernier_cours_id && $totalCoursTermines === 0;
+
         // Reprise au dernier cours ouvert, s'il fait toujours partie de sa formation
         $coursAccessiblesIds = $matieres->pluck('cours')->flatten()->pluck('id');
         if ($user->dernier_cours_id && $coursAccessiblesIds->contains($user->dernier_cours_id)) {
@@ -97,6 +100,7 @@ class FormationController extends Controller
             'totalCoursFormation',
             'nombreFichiersEnvoyes',
             'afficherDevoirs',
+            'premiereVisite',
             'premierCoursId' // On passe la variable à ta vue index
         ));
     }

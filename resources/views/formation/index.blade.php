@@ -56,7 +56,8 @@
             <section class="welcome-banner">
                 <div class="banner-left">
                     <h2>Bienvenue sur votre espace, {{ Auth::user()->firstname }}</h2>
-                    <p class="meta-info">Inscrit à la formation depuis Septembre 2025</p>
+                    <p class="meta-info">Inscrit à la formation depuis
+                        {{ Auth::user()->created_at?->locale('fr')->translatedFormat('F Y') }}</p>
                     <p class="meta-objective">Objectif : {{ Auth::user()->access }}</p>
 
                     <div class="banner-actions">
@@ -83,21 +84,29 @@
                 @if($afficherDevoirs)
                     <div class="stat-box">
                         <span class="stat-title">Fichiers & Devoirs</span>
-                        <span class="stat-value">{{ $nombreFichiersEnvoyes }} fichiers envoyés</span>
+                        <span class="stat-value">{{ $nombreFichiersEnvoyes }}
+                            {{ $nombreFichiersEnvoyes > 1 ? 'fichiers envoyés' : 'fichier envoyé' }}</span>
                     </div>
                 @endif
             </section>
 
-            <h3 class="block-title">Le Flux d'Activité</h3>
+            <h3 class="block-title">Le flux d'activité</h3>
             <section class="resume-activity-box">
-                <p>Reprenez là où vous vous étiez arrêté !</p>
-                <a href="{{ route('formation.cours', ['id' => $premierCoursId]) }}" class="btn-dark-blue">
-                    Accéder à ma formation
-                </a>
+                @if($premiereVisite)
+                    <p>Bienvenue ! Commencez votre formation dès maintenant.</p>
+                    <a href="{{ route('formation.cours', ['id' => $premierCoursId]) }}" class="btn-dark-blue">
+                        Commencer ma formation
+                    </a>
+                @else
+                    <p>Reprenez là où vous vous étiez arrêté !</p>
+                    <a href="{{ route('formation.cours', ['id' => $premierCoursId]) }}" class="btn-dark-blue">
+                        Accéder à ma formation
+                    </a>
+                @endif
             </section>
 
             <div class="matieres-section-header">
-                <p class="filter-label">Accéder au cours disponible :</p>
+                <p class="filter-label">Accéder aux cours disponibles :</p>
             </div>
 
             <section id="cours" class="matieres-secure-grid">
@@ -117,7 +126,7 @@
 
                         @foreach($matieresDuGroupe as $index => $matiere)
                             <div class="secure-matiere-card">
-                                <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
+                                <span class="matiere-number">{{ $matiere->name }}</span>
                                 @if($matiere->cours->isNotEmpty())
                                     <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
                                         class="btn-action-course">
@@ -137,7 +146,7 @@
                     {{-- L'utilisateur a accès uniquement au module BAC + 3 --}}
                     @forelse($matieres as $index => $matiere)
                         <div class="secure-matiere-card">
-                            <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
+                            <span class="matiere-number">{{ $matiere->name }}</span>
                             @if($matiere->cours->isNotEmpty())
                                 <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
                                     class="btn-action-course">
@@ -156,7 +165,7 @@
                     {{-- L'utilisateur a accès uniquement au module CRPE BAC + 5 --}}
                     @forelse($matieres as $index => $matiere)
                         <div class="secure-matiere-card">
-                            <span class="matiere-number">{{ $index + 1 }}. {{ $matiere->name }}</span>
+                            <span class="matiere-number">{{ $matiere->name }}</span>
                             @if($matiere->cours->isNotEmpty())
                                 <a href="{{ route('formation.cours', ['id' => $matiere->cours->first()->id]) }}"
                                     class="btn-action-course">
