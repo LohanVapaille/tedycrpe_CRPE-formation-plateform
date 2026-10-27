@@ -190,6 +190,7 @@
                         </div>
                     </div>
                     <p class="avis-text">“ {{ $commentaire }} ”</p>
+                    <button type="button" class="avis-toggle button-style" aria-expanded="false">Lire la suite</button>
                 </div>
             @endforeach
         </div>

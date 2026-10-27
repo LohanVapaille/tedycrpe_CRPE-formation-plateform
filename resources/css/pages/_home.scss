@@ -509,6 +509,9 @@ summary.faq-question {
         grid-template-columns: 1fr; // Une seule colonne sur tablette et mobile
         gap: 20px;
     }
+
+    // Un avis déplié ne doit pas étirer la carte voisine
+    align-items: start;
 }
 
 .avis-card {
@@ -544,10 +547,53 @@ summary.faq-question {
     white-space: nowrap; // Évite que les étoiles passent à la ligne
 }
 
+// Extrait de hauteur fixe (même hauteur pour toutes les cartes), "Lire la suite" pour déplier
+$avis-lignes: 6;
+$avis-lignes-mobile: 5;
+
 .avis-text {
     font-size: 0.95rem;
     line-height: 1.6;
     color: #1a1a1a;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $avis-lignes;
+    line-clamp: $avis-lignes;
+    overflow: hidden;
+    height: calc(1.6em * #{$avis-lignes});
+
+    @media (max-width: 576px) {
+        -webkit-line-clamp: $avis-lignes-mobile;
+        line-clamp: $avis-lignes-mobile;
+        height: calc(1.6em * #{$avis-lignes-mobile});
+    }
+}
+
+.avis-card.is-expanded .avis-text {
+    display: block;
+    -webkit-line-clamp: unset;
+    line-clamp: unset;
+    height: auto;
+}
+
+.avis-toggle {
+    align-self: flex-start;
+    background: none;
+    padding: 0;
+    color: v.$bleu;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: underline;
+    visibility: hidden; // garde sa place : toutes les cartes ont la même hauteur
+
+    &.is-visible {
+        visibility: visible;
+    }
+
+    &:hover {
+        color: v.$bleuhover;
+    }
 }
 
 // --- DISCOVERY BANNER ---
