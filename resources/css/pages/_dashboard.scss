@@ -206,7 +206,12 @@ body.no-scroll {
     margin-bottom: 70rem; // Pour laisser de l'espace en bas si besoin
     // 3. LE SECRET : C'est cette section unique qui gère son propre défilement
     height: 100%;
+    box-sizing: border-box; // le padding reste dans les 100%, sinon le bas de la zone sort de l'écran
     overflow-y: auto;
+
+    @include v.desktop-only {
+        padding-bottom: 7rem; // le dernier contenu ne passe pas sous le bouton fixe "Cours suivant"
+    }
 
     .block-title {
         font-size: 1.3rem;
@@ -900,6 +905,43 @@ $text-muted: #718096;
     margin-bottom: 50px;
     display: flex;
     justify-content: flex-end;
+
+    // Ordinateur : bouton fixe, aligné sur la bulle de messagerie (60px de haut, à 20px du bas)
+    // et placé juste à sa gauche, pour rester visible sans défilement
+    @include v.desktop-only {
+        position: fixed;
+        right: 96px;
+        bottom: 50px;
+        transform: translateY(50%); // centre du bouton = centre de la bulle
+        z-index: 998;
+        margin: 0;
+
+        .btn-dark-blue {
+            padding: 0.7rem 1.4rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    }
+}
+
+// Encadré "Votre fichier actuel / Rendu le..." : passe à la ligne au lieu d'écraser le badge
+.current-rendu-box {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+
+    a {
+        overflow-wrap: anywhere;
+    }
+
+    > span {
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+// Zone de dépôt : le label fait 100% + son padding, on garde le tout dans le cadre pointillé
+.drop-zone-label {
+    box-sizing: border-box;
+    overflow-wrap: anywhere;
 }
 
 // Bloc "Fiche" (ressource téléchargeable) dans une page de cours
