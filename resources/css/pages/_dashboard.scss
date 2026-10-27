@@ -341,6 +341,10 @@ body.no-scroll {
         grid-template-columns: repeat(2, 1fr);
         gap: 1.5rem;
 
+        &.stats-grid--single {
+            grid-template-columns: 1fr;
+        }
+
         @include v.phone-only {
             display: flex;
             flex-direction: column;

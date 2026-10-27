@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Matiere;
 use App\Models\Cours;
 use App\Models\RenduDevoir;
+use App\Models\SectionCours;
 use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -72,6 +73,11 @@ class FormationController extends Controller
         // 4. Nombre de fichiers envoyés (Devoirs)
         $nombreFichiersEnvoyes = RenduDevoir::where('user_id', $user->id)->count();
 
+        // Le compteur n'a de sens que si au moins un cours de sa formation contient une zone de dépôt
+        $coursIds = $matieres->pluck('cours')->flatten()->pluck('id');
+        $afficherDevoirs = $nombreFichiersEnvoyes > 0
+            || SectionCours::where('type', 'zonedepot')->whereIn('id_cours', $coursIds)->exists();
+
         // 5. Progression globale (pour la bannière)
         $progressionGlobale = $totalCoursFormation > 0
             ? round(($totalCoursTermines / $totalCoursFormation) * 100, 2)
@@ -84,6 +90,7 @@ class FormationController extends Controller
             'totalCoursTermines',
             'totalCoursFormation',
             'nombreFichiersEnvoyes',
+            'afficherDevoirs',
             'premierCoursId' // On passe la variable à ta vue index
         ));
     }

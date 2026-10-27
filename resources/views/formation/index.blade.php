@@ -74,16 +74,18 @@
             </section>
 
             <h3 id="tb" class="block-title">Tableau de bord</h3>
-            <section class="stats-grid">
+            <section class="stats-grid {{ $afficherDevoirs ? '' : 'stats-grid--single' }}">
                 <div class="stat-box">
                     <span class="stat-title">Avancement des chapitres</span>
                     <span class="stat-value">{{ $totalCoursTermines }} <span class="stat-separator">/</span>
                         {{ $totalCoursFormation }}</span>
                 </div>
-                <div class="stat-box">
-                    <span class="stat-title">Fichiers & Devoirs</span>
-                    <span class="stat-value">{{ $nombreFichiersEnvoyes }} fichiers envoyés</span>
-                </div>
+                @if($afficherDevoirs)
+                    <div class="stat-box">
+                        <span class="stat-title">Fichiers & Devoirs</span>
+                        <span class="stat-value">{{ $nombreFichiersEnvoyes }} fichiers envoyés</span>
+                    </div>
+                @endif
             </section>
 
             <h3 class="block-title">Le Flux d'Activité</h3>
