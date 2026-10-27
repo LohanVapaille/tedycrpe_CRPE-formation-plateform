@@ -35,4 +35,19 @@ class HomeController extends Controller
         $contents = Content::where('page', 'crpe')->orderBy('ordre')->get()->groupBy('section');
         return view('crpe', compact('contents'));
     }
+
+    public function mentionsLegales()
+    {
+        return view('legal.mentions-legales');
+    }
+
+    public function donneesPersonnelles()
+    {
+        return view('legal.donnees-personnelles');
+    }
+
+    public function planDuSite()
+    {
+        return view('legal.plan-du-site');
+    }
 }

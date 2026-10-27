@@ -1,0 +1,91 @@
+@use "../variables" as v;
+
+/* Pages légales : mentions légales, données personnelles, plan du site */
+.legal-section {
+    background-color: v.$blanc;
+    padding: 60px 20px 80px;
+    font-family: v.$font-principal;
+
+    .legal-container {
+        max-width: 860px;
+        margin: 0 auto;
+    }
+
+    h1 {
+        color: v.$bleuvert;
+        font-size: 2.2rem;
+        margin: 0 0 2rem;
+
+        @include v.phone-only {
+            font-size: 1.7rem;
+        }
+    }
+
+    h2 {
+        color: v.$bleu;
+        font-size: 1.25rem;
+        margin: 2.5rem 0 0.75rem;
+    }
+
+    p,
+    li {
+        color: v.$bleu;
+        line-height: 1.7;
+        overflow-wrap: break-word;
+    }
+
+    ul {
+        padding-left: 1.25rem;
+    }
+
+    a {
+        color: v.$bleuvert;
+        font-weight: 600;
+    }
+
+    // Le tableau défile horizontalement sur mobile au lieu d'élargir la page
+    .legal-table-wrapper {
+        overflow-x: auto;
+        margin: 1rem 0;
+    }
+
+    .legal-table {
+        width: 100%;
+        min-width: 680px;
+        border-collapse: collapse;
+        font-size: 0.9rem;
+
+        th,
+        td {
+            padding: 0.75rem;
+            text-align: left;
+            vertical-align: top;
+            border-bottom: 1px solid rgba(v.$bleuvert, 0.25);
+            color: v.$bleu;
+        }
+
+        th {
+            background-color: v.$bleuvert;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: rgba(v.$bleuclair, 0.2);
+        }
+    }
+}
+
+.sitemap-list {
+    list-style: none;
+    padding-left: 0 !important;
+
+    li {
+        padding: 0.4rem 0;
+    }
+
+    ul {
+        list-style: disc;
+        margin-top: 0.4rem;
+    }
+}

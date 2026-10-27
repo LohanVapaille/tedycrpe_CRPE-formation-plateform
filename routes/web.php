@@ -28,6 +28,9 @@ use App\Http\Controllers\Admin\AdminDevoirController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/qui-suis-je', [HomeController::class, 'about'])->name('about');
 Route::get('/crpe', [HomeController::class, 'crpe'])->name('crpe');
+Route::get('/mentions-legales', [HomeController::class, 'mentionsLegales'])->name('mentions-legales');
+Route::get('/donnees-personnelles', [HomeController::class, 'donneesPersonnelles'])->name('donnees-personnelles');
+Route::get('/plan-du-site', [HomeController::class, 'planDuSite'])->name('plan-du-site');
 // Good
 // Vérifie bien que ta route GET ressemble à ça (au singulier ou pluriel, mais identique partout) :
 Route::get('/formation', [FormationController::class, 'index'])->name('formation.index');

@@ -76,10 +76,10 @@
 
             <!-- Colonne Centrale : Liens de navigation -->
             <div class="footer-column footer-links">
-                <a href="{{ route('home') }}">Plan du site</a>
+                <a href="{{ route('plan-du-site') }}">Plan du site</a>
                 <a href="{{ route('qui-suis-je') }}">A propos</a>
-                <a href="{{ route('home') }}">Mentions légales</a>
-                <a href="{{ route('home') }}">Données personnelles</a>
+                <a href="{{ route('mentions-legales') }}">Mentions légales</a>
+                <a href="{{ route('donnees-personnelles') }}">Données personnelles</a>
                 <a href="{{ route('home') }}#contact">Contact</a>
                 <a href="{{ route('admin.users') }}">Admin</a>
             </div>
