@@ -210,6 +210,29 @@
                 background: #1e4d56;
             }
 
+            /* Mobile / tablette : bouton plus petit, collé au coin, et marge en bas de page
+               pour qu'il ne recouvre pas la fin du contenu */
+            @media (max-width: 1023px) {
+                #discovery-popup-container {
+                    bottom: 12px;
+                    right: 12px;
+                }
+
+                #popup-trigger-circle {
+                    width: 44px;
+                    height: 44px;
+                    opacity: 0.9;
+                }
+
+                #popup-trigger-circle i {
+                    font-size: 1.2rem !important;
+                }
+
+                .main-footer .footer-bottom {
+                    padding-bottom: 64px;
+                }
+            }
+
             /* --- STYLE DE LA BOÎTE DE DIALOGUE (OUVERTE) --- */
             #popup-content-box {
                 display: none;
