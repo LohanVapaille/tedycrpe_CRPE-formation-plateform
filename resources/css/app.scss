@@ -225,3 +225,37 @@ textarea {
         font-size: 1.5rem;
     }
 }
+
+/* ==========================================================================
+   5. BOUTONS D'ACTION DU SITE PUBLIC SUR MOBILE
+   Même largeur (pleine), même hauteur, même forme pour tous
+   ========================================================================== */
+@include v.phone-only {
+    body.site-layout .main-content {
+        .btn-primary,
+        .btn-submit,
+        .btn-discover,
+        .btn-teal-light {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            min-height: 48px;
+            box-sizing: border-box;
+            margin-left: 0;
+            margin-right: 0;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: center;
+            align-self: stretch;
+        }
+
+        // Conteneurs qui empêchaient les boutons de s'étirer
+        .discovery-banner-action {
+            width: 100%;
+        }
+    }
+}
