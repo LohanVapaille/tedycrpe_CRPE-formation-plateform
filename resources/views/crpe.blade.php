@@ -86,6 +86,12 @@
                     </div>
                 @endforeach
             </div>
+
+            <div class="crpe-final-cta">
+                <a class="welcome-btn btn-primary" target="_blank"
+                    href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">Réserver
+                    un appel découverte</a>
+            </div>
         </div>
     </div>
 

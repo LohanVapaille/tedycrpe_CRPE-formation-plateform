@@ -99,6 +99,21 @@
     }
 }
 
+// Deux sections claires qui se suivent ("Accompagnement" puis "Progression") :
+// on évite de cumuler les deux paddings, ce qui créait un grand vide
+.crpe-section.light-bg + .crpe-section.light-bg {
+    padding-top: 0;
+}
+
+.crpe-final-cta {
+    margin-top: 40px;
+    text-align: center;
+
+    .btn-primary {
+        display: inline-block;
+    }
+}
+
 .crpe-grid-steps {
     display: grid;
     grid-template-columns: 1fr;
