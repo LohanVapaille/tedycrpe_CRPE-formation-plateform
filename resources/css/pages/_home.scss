@@ -368,54 +368,31 @@ summary.faq-question {
 }
 
 .illustration-wrapper {
-    position: relative;
     display: flex;
+    flex-direction: column; // titre + bouton sous l'illustration, sans la chevaucher
     align-items: center;
-    justify-content: center;
     width: 100%;
 
     img {
         width: 100%;
-        max-width: 550px;
+        max-width: 450px;
         height: auto;
-
-        @media (max-width: 470px) {
-            opacity: 0.5; // Réduction de l'opacité sur très petit écran
-        }
     }
 }
 
 .cta-overlay {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-
-    @media (max-width: 1336px) {
-        right: 50%;
-        transform: translateX(50%);
-        width: 95%;
-        bottom: -70px;
-    }
-
-    @media (max-width: 850px) {
-        bottom: 50%;
-        transform: translateY(50%);
-        right: 20px;
-        width: fit-content;
-    }
-    @media (min-width: 1680px) {
-        bottom: 50%;
-        transform: translateY(50%);
-        right: 80px;
-        width: fit-content;
-    }
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
 
     h2 {
         font-size: 2.5rem;
         color: v.$bleuvert;
         font-weight: 800;
         line-height: 1.2;
-        margin-bottom: 15px;
+        margin: 0 0 15px;
 
         @media (max-width: 576px) {
             font-size: 1.8rem; // Réduction du texte absolu sur mobile
