@@ -232,6 +232,19 @@
     </div>
 
     <script>
+        // Liens vers les flashcards (artifacts claude.ai) affichés comme un bouton "Ouvrir les flashcards".
+        // claude.ai interdit l'affichage dans un iframe : on ouvre dans un nouvel onglet.
+        document.querySelectorAll('.section-render-text a[href*="claude.ai/artifact"], .section-render-text a[href*="claude.site"]').forEach(lien => {
+            const texte = lien.textContent.trim();
+            const libelle = (!texte || texte.startsWith('http')) ? 'Ouvrir les flashcards' : texte;
+
+            lien.classList.add('btn-flashcards');
+            lien.target = '_blank';
+            lien.rel = 'noopener';
+            lien.innerHTML = "<i class='bx bx-layer'></i><span></span><i class='bx bx-link-external btn-flashcards-ext'></i>";
+            lien.querySelector('span').textContent = libelle;
+        });
+
         document.querySelectorAll('.file-input-hidden').forEach(input => {
             input.addEventListener('change', function () {
                 const dropZone = this.closest('.drop-zone');

@@ -1040,3 +1040,42 @@ $menu-vert: #22c55e;
         }
     }
 }
+
+// Lien vers des flashcards (claude.ai) transformé en bouton dans les pages de cours
+.section-render-text a.btn-flashcards {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0.5rem 0;
+    padding: 0.75rem 1.25rem;
+    border-radius: 50px;
+    background-color: v.$bleuvert;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    transition:
+        background-color 0.2s,
+        transform 0.2s;
+
+    i {
+        font-size: 1.2rem;
+    }
+
+    .btn-flashcards-ext {
+        font-size: 0.95rem;
+        opacity: 0.8;
+    }
+
+    &:hover {
+        background-color: #2b5f68;
+        transform: translateY(-1px);
+    }
+
+    @include v.phone-only {
+        display: flex;
+        justify-content: center;
+        text-align: center;
+    }
+}
