@@ -67,6 +67,7 @@
                     week: "Semaine",
                     list: "Liste"
                 },
+                allDayText: 'Toute la journée',
                 events: eventsJson,
                 eventClick: function (info) {
                     var start = info.event.start;
