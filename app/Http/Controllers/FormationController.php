@@ -49,7 +49,7 @@ class FormationController extends Controller
             $totalCoursMatiere = $matiere->cours->count();
             if ($totalCoursMatiere > 0) {
                 $coursTerminesMatiere = $matiere->cours->whereIn('id', $coursTerminesIds)->count();
-                $matiere->progression = round(($coursTerminesMatiere / $totalCoursMatiere) * 100, 2);
+                $matiere->progression = (int) round(($coursTerminesMatiere / $totalCoursMatiere) * 100);
             } else {
                 $matiere->progression = 0;
             }
@@ -89,7 +89,7 @@ class FormationController extends Controller
 
         // 5. Progression globale (pour la bannière)
         $progressionGlobale = $totalCoursFormation > 0
-            ? round(($totalCoursTermines / $totalCoursFormation) * 100, 2)
+            ? (int) round(($totalCoursTermines / $totalCoursFormation) * 100)
             : 0;
 
         return view('formation.index', compact(
@@ -147,7 +147,7 @@ class FormationController extends Controller
             $totalCoursMatiere = $m->cours->count();
             if ($totalCoursMatiere > 0) {
                 $coursTerminesMatiere = $m->cours->whereIn('id', $coursTerminesIds)->count();
-                $m->progression = round(($coursTerminesMatiere / $totalCoursMatiere) * 100, 2);
+                $m->progression = (int) round(($coursTerminesMatiere / $totalCoursMatiere) * 100);
             } else {
                 $m->progression = 0;
             }

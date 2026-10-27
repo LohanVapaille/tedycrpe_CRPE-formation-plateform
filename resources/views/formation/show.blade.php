@@ -66,7 +66,7 @@
                 </div>
                 <div class="progress-container-mini">
                     <span class="matiere-progression">
-                        Progression de la matière : {{ $progressionMatiere }}%
+                        Progression de la matière : {{ $progressionMatiere }}&nbsp;%
                     </span>
                     <div class="progress-bar-container">
                         <div class="progress-bar-fill" style="width: {{ $progressionMatiere }}%"></div>

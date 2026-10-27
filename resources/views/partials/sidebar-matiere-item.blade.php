@@ -6,7 +6,7 @@
             <span class="matiere-folder-icon">{{ $hasActiveCourse ? "" : "" }}</span>
             <span class="matiere-label">{{ $matiere->name }}</span>
             @if(($matiere->progression ?? 0) > 0)
-                <span class="matiere-badge">{{ $matiere->progression }}%</span>
+                <span class="matiere-badge">{{ $matiere->progression }}&nbsp;%</span>
             @else
                 <span class="matiere-badge zero">0%</span>
             @endif

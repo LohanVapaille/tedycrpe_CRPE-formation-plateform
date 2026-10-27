@@ -67,7 +67,7 @@
                     </div>
                 </div>
                 <div class="banner-right">
-                    <span class="progress-label">Progression globale : {{ $progressionGlobale }}%</span>
+                    <span class="progress-label">Progression globale : {{ $progressionGlobale }}&nbsp;%</span>
                     <div class="progress-bar-container">
                         <div class="progress-bar-fill" style="width: {{ $progressionGlobale }}%"></div>
                     </div>
@@ -135,7 +135,7 @@
                                 @else
                                     <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
                                 @endif
-                                <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
+                                <span class="matiere-progression">{{ $matiere->progression ?? 0 }}&nbsp;% de progression</span>
                             </div>
                         @endforeach
                     @empty
@@ -155,7 +155,7 @@
                             @else
                                 <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
                             @endif
-                            <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
+                            <span class="matiere-progression">{{ $matiere->progression ?? 0 }}&nbsp;% de progression</span>
                         </div>
                     @empty
                         <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
@@ -174,7 +174,7 @@
                             @else
                                 <span class="btn-action-course" style="opacity:0.5; cursor:not-allowed;">Bientôt disponible</span>
                             @endif
-                            <span class="matiere-progression">{{ $matiere->progression ?? 0 }}% de progression</span>
+                            <span class="matiere-progression">{{ $matiere->progression ?? 0 }}&nbsp;% de progression</span>
                         </div>
                     @empty
                         <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
