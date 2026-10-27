@@ -7,6 +7,14 @@
         <button id="close-chat-btn" class="close-chat-btn">&times;</button>
     </div>
 
+    {{-- Message d'accueil côté élève (délai de réponse à confirmer avec Tedy) --}}
+    @unless(Auth::user()->is_tutor)
+        <div class="chat-welcome">
+            <i class='bx bx-time-five'></i>
+            <p>Bonjour ! Posez ici vos questions sur la formation. Tedy vous répond sous <strong>48 h</strong> (jours ouvrés).</p>
+        </div>
+    @endunless
+
     <div class="chat-body" id="chat-messages-container"></div>
 
     <div class="chat-footer">
