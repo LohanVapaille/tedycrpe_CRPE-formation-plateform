@@ -106,6 +106,7 @@ Route::prefix('admin')->middleware(['auth', 'tutor'])->group(function () {
     Route::get('/cours', [AdminCoursController::class, 'index'])->name('admin.cours');
     Route::get('/cours/create', [AdminCoursController::class, 'create'])->name('admin.cours.create');
     Route::post('/cours', [AdminCoursController::class, 'store'])->name('admin.cours.store');
+    Route::post('/cours/reorder', [AdminCoursController::class, 'reorder'])->name('admin.cours.reorder');
     Route::get('/cours/{cours}/edit', [AdminCoursController::class, 'edit'])->name('admin.cours.edit');
     Route::put('/cours/{cours}', [AdminCoursController::class, 'update'])->name('admin.cours.update');
     Route::delete('/cours/{cours}', [AdminCoursController::class, 'destroy'])->name('admin.cours.destroy');

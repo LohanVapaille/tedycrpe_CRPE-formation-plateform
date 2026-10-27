@@ -61,4 +61,19 @@ class AdminCoursController extends Controller
         $cours->delete();
         return redirect()->route('admin.cours')->with('success', 'Cours supprimé.');
     }
+
+    // Glisser-déposer dans la liste : reçoit les ids des cours d'une matière dans le nouvel ordre
+    public function reorder(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:cours,id',
+        ]);
+
+        foreach ($request->ids as $index => $id) {
+            Cours::where('id', $id)->update(['ordre' => $index + 1]);
+        }
+
+        return response()->json(['status' => 'ok']);
+    }
 }
