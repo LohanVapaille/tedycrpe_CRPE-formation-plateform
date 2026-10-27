@@ -36,17 +36,40 @@
             </button>
 
             <!-- Le wrapper qui englobe tes deux blocs -->
-            <div class="nav-wrapper" id="navWrapper">
-                <nav class="main-nav">
+            <div class="nav-wrapper {{ Auth::check() ? 'nav-wrapper--espace' : '' }}" id="navWrapper">
+                {{-- Mobile connecté : section "Mon espace" en premier dans le menu burger --}}
+                @auth
+                    <nav class="espace-nav" aria-label="Mon espace">
+                        <span class="nav-section-label">Mon espace</span>
+                        <a href="{{ route('formation.index') }}" class="espace-link"><i class='bx bxs-dashboard'></i> Tableau de bord</a>
+                        <a href="{{ route('formation.index') }}#cours" class="espace-link"><i class='bx bx-book-open'></i> Les cours</a>
+                        <a href="{{ route('agenda.index') }}" class="espace-link"><i class='bx bx-calendar-alt'></i> Mon agenda</a>
+                    </nav>
+                @endauth
 
+                <nav class="main-nav">
+                    @auth
+                        <span class="nav-section-label">Le site</span>
+                    @endauth
                     <a href="{{ route('crpe') }}" class="nav-link">Formation CRPE</a>
-                    <a href="{{ route('agenda.index') }}" class="nav-link">Agenda</a>
+                    {{-- Déjà présent dans "Mon espace" sur mobile --}}
+                    <a href="{{ route('agenda.index') }}" class="nav-link nav-link--agenda">Agenda</a>
                     <a href="{{ route('qui-suis-je') }}" class="nav-link">Qui suis-je ?</a>
                 </nav>
 
                 <div class="user-actions">
                     <a href="{{ route('formation.index') }}" class="account-btn">Mon compte</a>
                 </div>
+
+                @auth
+                    <a href="{{ route('logout') }}" class="espace-logout"
+                        onclick="event.preventDefault(); document.getElementById('logout-form-header').submit();">
+                        <i class='bx bx-log-out'></i> Se déconnecter
+                    </a>
+                    <form id="logout-form-header" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        @csrf
+                    </form>
+                @endauth
             </div>
         </div>
     </header>

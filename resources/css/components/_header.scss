@@ -114,6 +114,104 @@
         }
     }
 
+    // --- Menu burger mobile, élève connecté : "Mon espace" puis "Le site" ---
+    .nav-section-label,
+    .espace-nav,
+    .espace-logout {
+        display: none;
+    }
+
+    .nav-wrapper--espace {
+        @include v.phone-only {
+            align-items: stretch;
+            gap: 0.75rem;
+            padding: 1rem 1.25rem 1.25rem;
+            box-sizing: border-box;
+
+            .nav-section-label {
+                display: block;
+                font-size: 0.7rem;
+                font-weight: 700;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: v.$bleuclair;
+                margin: 0.25rem 0 0.25rem 0.25rem;
+            }
+
+            // Mon espace : grandes lignes avec icône, sur fond légèrement éclairci
+            .espace-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 0.35rem;
+            }
+
+            .espace-link {
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+                padding: 0.75rem 1rem;
+                border-radius: 10px;
+                background: rgba(255, 255, 255, 0.08);
+                color: #ffffff;
+                text-decoration: none;
+                font-weight: 600;
+                font-size: 1rem;
+
+                i {
+                    font-size: 1.25rem;
+                    color: v.$bleuclair;
+                }
+
+                &:active,
+                &:hover {
+                    background: rgba(255, 255, 255, 0.16);
+                }
+            }
+
+            // Le site : liens secondaires alignés à gauche
+            .main-nav {
+                align-items: stretch;
+                gap: 0.1rem;
+                padding-top: 0.75rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.15);
+
+                .nav-link {
+                    padding: 0.55rem 1rem;
+                    font-size: 0.95rem;
+                    opacity: 0.85;
+                }
+
+                // Doublon de "Mon agenda"
+                .nav-link--agenda {
+                    display: none;
+                }
+            }
+
+            // "Mon compte" ramène au tableau de bord : inutile une fois connecté
+            .user-actions {
+                display: none;
+            }
+
+            .espace-logout {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 0.5rem;
+                margin-top: 0.5rem;
+                padding: 0.7rem 1rem;
+                border: 1px solid rgba(255, 179, 179, 0.6);
+                border-radius: 50px;
+                color: #ffc9c9;
+                text-decoration: none;
+                font-weight: 600;
+
+                &:hover {
+                    background: rgba(255, 179, 179, 0.12);
+                }
+            }
+        }
+    }
+
     // Bouton de compte (ton code intact)
     .account-btn {
         background-color: v.$bleu;

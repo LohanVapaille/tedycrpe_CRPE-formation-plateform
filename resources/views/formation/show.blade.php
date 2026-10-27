@@ -5,8 +5,8 @@
 @section('content')
     <div class="dashboard-layout fade-in">
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        <button class="dashboard-toggle-btn showone" id="sidebarToggle">
-            <i class='dashboard-toggle-btn-i bx bxs-info-circle'></i>
+        <button class="dashboard-toggle-btn showone" id="sidebarToggle" aria-label="Liste des cours">
+            <i class='dashboard-toggle-btn-i bx bx-list-ul'></i>
         </button>
         <aside class="dashboard-sidebar w-100 sidebar-menu-pagecours" id="dashboardSidebar">
 
@@ -267,16 +267,17 @@
             const isOpen = dashboardSidebar.classList.contains('open');
             // Bouton collé au bord du menu ouvert, sans sortir de l'écran (menu pleine largeur sur mobile)
             sidebarToggle.style.left = isOpen
-                ? Math.min(dashboardSidebar.offsetWidth, window.innerWidth - 55) + 'px'
+                ? (dashboardSidebar.offsetWidth - 56) + 'px' // croix dans le coin haut droit du menu
                 : '0';
+            sidebarToggle.classList.toggle('is-open', isOpen);
 
             const icon = sidebarToggle.querySelector('i');
             if (isOpen) {
-                icon.classList.remove('bxs-info-circle');
+                icon.classList.remove('bx-list-ul');
                 icon.classList.add('bx-x');
             } else {
                 icon.classList.remove('bx-x');
-                icon.classList.add('bxs-info-circle');
+                icon.classList.add('bx-list-ul');
             }
         });
 
@@ -285,10 +286,11 @@
             sidebarOverlay.classList.remove('active');
             document.body.classList.remove('no-scroll');
             sidebarToggle.style.left = '0';
+            sidebarToggle.classList.remove('is-open');
 
             const icon = sidebarToggle.querySelector('i');
             icon.classList.remove('bx-x');
-            icon.classList.add('bxs-info-circle');
+            icon.classList.add('bx-list-ul');
         });
     </script>
 @endsection

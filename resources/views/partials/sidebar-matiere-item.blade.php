@@ -1,15 +1,20 @@
-@php $hasActiveCourse = $matiere->cours->contains('id', $coursSelectionne->id); @endphp
+@php
+    $hasActiveCourse = $matiere->cours->contains('id', $coursSelectionne->id);
+    $progression = $matiere->progression ?? 0;
+@endphp
 
-<div class="matiere-group">
+<div class="matiere-group {{ $hasActiveCourse ? 'is-current' : '' }}">
     <details {{ $hasActiveCourse ? 'open' : '' }}>
         <summary class="matiere-title-sidebar">
-            <span class="matiere-folder-icon">{{ $hasActiveCourse ? "" : "" }}</span>
             <span class="matiere-label">{{ $matiere->name }}</span>
-            @if(($matiere->progression ?? 0) > 0)
-                <span class="matiere-badge">{{ $matiere->progression }}&nbsp;%</span>
-            @else
-                <span class="matiere-badge zero">0%</span>
-            @endif
+            <span class="matiere-badge {{ $progression >= 100 ? 'done' : ($progression > 0 ? 'started' : 'zero') }}">
+                @if($progression >= 100)
+                    <i class='bx bx-check'></i>
+                @else
+                    {{ $progression }}&nbsp;%
+                @endif
+            </span>
+            <i class='bx bx-chevron-right matiere-chevron'></i>
         </summary>
 
         <ul class="sub-cours-list">
