@@ -165,9 +165,10 @@
 
 
     <div class="avis-section w-correct">
-        <h2>Ce que les élèves pensent de la formation</h2>
-        <p class="avis-subtitle">porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...
-        </p>
+        <h2>{{ $contents->firstWhere('key', 'titre_avis')->value ?? 'Ce que les élèves pensent de la formation' }}</h2>
+        @if(filled($contents->firstWhere('key', 'phrase_avis')->value ?? null))
+            <p class="avis-subtitle">{{ $contents->firstWhere('key', 'phrase_avis')->value }}</p>
+        @endif
 
         <div class="avis-container">
             @foreach($contents->where('section', 'avis-p')->sortBy('ordre') as $item)
