@@ -190,7 +190,10 @@
             sidebarOverlay.classList.toggle('active');
             document.body.classList.toggle('no-scroll');
             const isOpen = dashboardSidebar.classList.contains('open');
-            sidebarToggle.style.left = isOpen ? '248px' : '0';
+            // Bouton collé au bord du menu ouvert, sans sortir de l'écran
+            sidebarToggle.style.left = isOpen
+                ? Math.min(dashboardSidebar.offsetWidth, window.innerWidth - 55) + 'px'
+                : '0';
 
             const icon = sidebarToggle.querySelector('i');
             if (isOpen) {

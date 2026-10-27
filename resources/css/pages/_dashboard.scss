@@ -35,7 +35,7 @@ $orange-accent: #d96b27;
     flex-shrink: 0;
     overflow-y: auto; // Permet de scroller si le contenu de la sidebar est grand
 
-    @include v.phone-only {
+    @include v.underdesktop-only {
         position: fixed;
         top: 0;
         left: 0;
@@ -144,6 +144,10 @@ $orange-accent: #d96b27;
     @include v.phone-only {
         width: calc(100vw - 48px);
     }
+    // Tablette : menu replié comme sur mobile, mais sans prendre tout l'écran
+    @media (min-width: #{v.$breakpoint-tablet}) and (max-width: #{v.$breakpoint-desktop - 1px}) {
+        width: 320px;
+    }
 }
 body.no-scroll {
     overflow: hidden;
@@ -154,7 +158,7 @@ body.no-scroll {
 .sidebar-overlay {
     display: none;
 
-    @include v.phone-only {
+    @include v.underdesktop-only {
         &.active {
             display: block;
             position: fixed;
@@ -172,7 +176,7 @@ body.no-scroll {
 .dashboard-toggle-btn {
     display: none;
 
-    @include v.phone-only {
+    @include v.underdesktop-only {
         display: flex !important;
         align-items: center;
         justify-content: center;
