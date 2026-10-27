@@ -36,7 +36,7 @@
     <div class="stats-container-accueil">
         @foreach($contents->where('section', 'stats')->sortBy('ordre') as $stat)
             @php 
-                            // Si la valeur ne contient pas de "|", on met une valeur par défaut pour éviter le bug
+                                        // Si la valeur ne contient pas de "|", on met une valeur par défaut pour éviter le bug
                 $parts = str_contains($stat->value, '|') ? explode('|', $stat->value) : [$stat->value, ''];
                 $chiffre = $parts[0];
                 $texte = $parts[1];
@@ -73,7 +73,7 @@
     <div class="card-cta-container">
         @foreach($contents->where('section', 'cards')->sortBy('ordre') as $card)
             @php 
-                            // On extrait : Titre | Icône Boxicons | Lien de redirection
+                                        // On extrait : Titre | Icône Boxicons | Lien de redirection
                 [$titre, $icone, $lien] = explode('|', $card->value);
             @endphp
             <a href="{{ route($lien) }}" class="card-cta-link">
@@ -110,7 +110,7 @@
     </div>
 
 
-    <div class="contact-container" id=contact>
+    <div class="contact-container">
         <div class="contact-left">
             <div class="illustration-wrapper">
                 <img src="{{ asset('img/jemelance.png') }}" alt="Je me lance">
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <div class="contact-right">
+        <div class="contact-right" id="contact">
             <h3>{{ $contents->firstWhere('key', 'form_title')->value ?? 'Contacter Tedy Florette' }}</h3>
 
             {{-- Messages Flash --}}
@@ -173,7 +173,7 @@
         <div class="avis-container">
             @foreach($contents->where('section', 'avis-p')->sortBy('ordre') as $item)
                 @php 
-                                    // On découpe proprement et on s'assure d'avoir 3 éléments
+                                                    // On découpe proprement et on s'assure d'avoir 3 éléments
                     $parts = explode('|', $item->value);
                     $nom = $parts[0] ?? 'Élève anonyme';
                     $commentaire = $parts[1] ?? 'Pas de commentaire.';

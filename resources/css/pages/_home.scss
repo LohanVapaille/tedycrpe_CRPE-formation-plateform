@@ -425,6 +425,7 @@ summary.faq-question {
 
 .contact-right {
     flex: 1;
+    scroll-margin-top: 90px; // Évite que l'en-tête sticky masque le haut du formulaire (lien #contact)
     background-color: v.$bleuclair;
     border-bottom-left-radius: 80px;
     padding: 50px;
