@@ -139,17 +139,17 @@
 
                 <div class="form-group">
                     <label for="email">ADRESSE MAIL*</label>
-                    <input type="email" id="email" name="email" required maxlength="32" value="{{ old('email') }}">
+                    <input type="email" id="email" name="email" required maxlength="100" value="{{ old('email') }}">
                     @error('email') <span style="color: red; font-size: 0.8rem;">{{ $message }}</span> @enderror
-                    <span class="char-count">0/32</span>
+                    <span class="char-count">0/100</span>
                 </div>
 
                 <div class="form-group">
                     <label for="message">VOTRE MESSAGE*</label>
-                    <textarea id="message" name="message" required maxlength="185"
+                    <textarea id="message" name="message" required maxlength="1000"
                         placeholder="Votre message ici...">{{ old('message') }}</textarea>
                     @error('message') <span style="color: red; font-size: 0.8rem;">{{ $message }}</span> @enderror
-                    <span class="char-count">0/185</span>
+                    <span class="char-count">0/1000</span>
                 </div>
 
                 {{-- Champ piège Honeypot invisible pour les humains --}}

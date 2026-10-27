@@ -21,4 +21,16 @@ document.addEventListener("DOMContentLoaded", () => {
             menuIcon.classList.add("bx-menu");
         }
     });
+
+    // Compteur de caractères des champs ayant un maxlength (formulaire de contact)
+    document.querySelectorAll(".form-group .char-count").forEach((counter) => {
+        const field = counter.parentElement.querySelector("[maxlength]");
+        if (!field) return;
+
+        const update = () => {
+            counter.textContent = `${field.value.length}/${field.maxLength}`;
+        };
+        field.addEventListener("input", update);
+        update();
+    });
 });
