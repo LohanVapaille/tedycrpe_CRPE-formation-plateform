@@ -13,7 +13,10 @@
         <aside class="dashboard-sidebar" id="dashboardSidebar">
 
             <div class="user-profile">
-                <div class="avatar-placeholder">👤</div>
+                {{-- Avatar aux initiales (ex. "LV") --}}
+                <div class="avatar-placeholder" aria-hidden="true">
+                    {{ mb_strtoupper(mb_substr(Auth::user()->firstname ?? '', 0, 1) . mb_substr(Auth::user()->name ?? '', 0, 1)) }}
+                </div>
                 <h3 class="user-fullname">{{ Auth::user()->firstname }} {{ Auth::user()->name }}</h3>
             </div>
 
