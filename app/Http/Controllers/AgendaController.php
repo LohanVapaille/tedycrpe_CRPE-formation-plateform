@@ -26,6 +26,8 @@ class AgendaController extends Controller
         // Le reste du code de formatage pour FullCalendar reste le même !
         $events = $eventsData->map(function ($event) {
             $color = $event->user_id ? '#36717b' : '#89c2cd'; // Privé vs Public
+            // Texte blanc sur le bleu-vert (privé), bleu nuit sur le bleu clair (public) : lisible dans les deux cas
+            $textColor = $event->user_id ? '#ffffff' : '#212e53';
 
             return [
                 'title' => ($event->user_id ? '🔒 ' : '') . $event->title,
@@ -33,6 +35,7 @@ class AgendaController extends Controller
                 'end' => $event->end_time->toIso8601String(),
                 'backgroundColor' => $color,
                 'borderColor' => $color,
+                'textColor' => $textColor,
                 'description' => $event->description,
             ];
         });

@@ -1,11 +1,26 @@
-@extends('layouts.app')
+{{-- Élève connecté : agenda dans l'espace (même en-tête et menu mobile), avec retour au tableau de bord --}}
+@extends(Auth::check() ? 'layouts.gabaritsansfooter' : 'layouts.app')
 
 @section('title', 'Mon Agenda CRPE')
 @section('meta_description',
 'Préparez le CRPE avec Tedy Florette grâce à des cours, des ressources et un accompagnement personnalisé.')
 @section('content')
-    <div class="agenda-section">
+    <div class="agenda-section {{ Auth::check() ? 'agenda-section--espace' : '' }}">
+        @auth
+            <div class="agenda-espace-header">
+                <h1>Mon agenda</h1>
+                <a href="{{ route('formation.index') }}" class="agenda-dashboard-btn">
+                    <i class='bx bxs-dashboard'></i> Tableau de bord
+                </a>
+            </div>
+        @endauth
         <div id="calendar-framework"></div>
+        <p class="agenda-legende">
+            <span class="agenda-pastille agenda-pastille--public"></span> Événements de la formation
+            @auth
+                <span class="agenda-pastille agenda-pastille--prive"></span> 🔒 Mes rendez-vous
+            @endauth
+        </p>
     </div>
 
     {{-- Modale EN DEHORS de agenda-section --}}
@@ -67,7 +82,11 @@
                     week: "Semaine",
                     list: "Liste"
                 },
-                allDayText: 'Toute la journée',
+                // Libellé sur deux lignes : tient dans la colonne des heures sans déborder
+                allDayContent: { html: '<span class="fc-allday-label">Toute la<br>journée</span>' },
+                slotLabelFormat: { hour: '2-digit', minute: '2-digit', hour12: false },
+                nowIndicator: true,
+                dayMaxEvents: 3,
                 events: eventsJson,
                 eventClick: function (info) {
                     var start = info.event.start;
