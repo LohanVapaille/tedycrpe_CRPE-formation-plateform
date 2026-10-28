@@ -28,7 +28,14 @@ class AdminContentController extends Controller
             $content->update(['value' => 'img/upload/' . $filename]);
 
         } elseif ($request->has('parts') && is_array($request->parts)) {
-            $content->update(['value' => implode('|', $request->parts)]);
+            $parts = array_map(fn($p) => trim((string) $p), $request->parts);
+
+            // Parties 2, 3... toutes vides : on enregistre un texte simple, sans "|" final
+            // (sinon le "|" s'affiche sur le site, ex. titre de l'accueil)
+            $suivantesVides = count(array_filter(array_slice($parts, 1), fn($p) => $p !== '')) === 0;
+            $value = $suivantesVides ? $parts[0] : implode('|', $parts);
+
+            $content->update(['value' => $value]);
 
         } else {
             $request->validate(['value' => 'required|string']);

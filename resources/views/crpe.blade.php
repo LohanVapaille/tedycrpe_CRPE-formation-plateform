@@ -42,7 +42,13 @@
                             </svg>
                         </div>
                         <div class="prestation-card-content">
-                            <p>{{ $prestation->value }}</p>
+                            {{-- "Titre|Texte" : titre en gras puis texte à la ligne (plus de "|" affiché) --}}
+                            @php [$prestationTitre, $prestationTexte] = array_pad(explode('|', $prestation->value, 2), 2, ''); @endphp
+                            @if(trim($prestationTexte) !== '')
+                                <p><strong>{{ trim($prestationTitre) }}</strong><br>{{ trim($prestationTexte) }}</p>
+                            @else
+                                <p>{{ trim($prestationTitre) }}</p>
+                            @endif
                         </div>
                     </div>
                 @endforeach

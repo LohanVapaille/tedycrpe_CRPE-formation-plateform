@@ -10,7 +10,8 @@
 @section('content')
     <div class="welcome-section ">
         <div class="w-correct">
-            <h1>{{ $contents->firstWhere('key', 'title')->value ?? 'Texte de présentation par défaut.' }}</h1>
+            {{-- rtrim : un ancien enregistrement du back-office a pu laisser un "|" final --}}
+            <h1>{{ rtrim($contents->firstWhere('key', 'title')->value ?? 'Texte de présentation par défaut.', '| ') }}</h1>
 
             <a class="welcome-btn btn-primary" target="_blank"
                 href="https://calendar.google.com/calendar/u/0/appointments/schedules/AcZssZ2QBMwbgmWglOJHrCIE-S12yVzNahg0GGqPIl1MA4xwXlgmRzXVDucuTl8lkXu7zH_U0ekXkyAR">Réserver
