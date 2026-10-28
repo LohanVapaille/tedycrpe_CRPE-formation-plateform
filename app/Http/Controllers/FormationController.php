@@ -198,7 +198,15 @@ class FormationController extends Controller
         $section->loadMissing('cours.matiere');
 
         abort_unless($section->type === 'fichier' && $section->contenu, 404);
-        abort_unless(Storage::disk('public')->exists($section->contenu), 404);
+
+        // Le fichier peut être dans storage/app/public (Laravel standard) ou directement dans
+        // public/storage (cas de la prod OVH, sans lien symbolique) : on prend le premier qui existe
+        $chemin = collect([
+            Storage::disk('public')->path($section->contenu),
+            public_path('storage/' . $section->contenu),
+        ])->first(fn($c) => is_file($c));
+
+        abort_unless($chemin, 404);
 
         // Même règle d'accès que pour afficher le cours
         if ($user->module() !== 'all' && $section->cours->matiere->module_associe !== $user->module()) {
@@ -210,6 +218,6 @@ class FormationController extends Controller
         $extension = pathinfo($section->contenu, PATHINFO_EXTENSION);
         $nomFichier = $extension ? "{$titre}.{$extension}" : $titre;
 
-        return Storage::disk('public')->download($section->contenu, $nomFichier);
+        return response()->download($chemin, $nomFichier);
     }
 }
