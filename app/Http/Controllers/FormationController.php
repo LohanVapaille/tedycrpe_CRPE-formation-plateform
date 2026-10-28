@@ -114,19 +114,36 @@ class FormationController extends Controller
         // Valider le cours actuel en BDD sans faire de doublon
         $user->coursTermines()->syncWithoutDetaching([$id]);
 
-        $coursActuel = Cours::findOrFail($id);
-        $coursSuivant = Cours::where('id_matiere', $coursActuel->id_matiere)
-            ->where('ordre', '>', $coursActuel->ordre)
-            ->orderBy('ordre', 'asc')
-            ->first();
+        $coursActuel = Cours::with('matiere')->findOrFail($id);
+
+        // 1. Cours suivant dans la même matière (liste déjà triée par ordre, puis id)
+        $coursMatiere = $coursActuel->matiere->cours->values();
+        $position = $coursMatiere->search(fn($c) => $c->id === $coursActuel->id);
+        $coursSuivant = $position !== false ? $coursMatiere->get($position + 1) : null;
 
         if ($coursSuivant) {
             return redirect()->route('formation.cours', $coursSuivant->id)
                 ->with('success', 'Cours validé ! Passage au chapitre suivant.');
         }
 
+        // 2. Dernier cours de la matière : premier cours de la matière suivante du même niveau (Bac +5 / Bac +3)
+        $matieresDuNiveau = $this->getAuthorizedMatieres($user)
+            ->where('module_associe', $coursActuel->matiere->module_associe)
+            ->values();
+        $positionMatiere = $matieresDuNiveau->search(fn($m) => $m->id === $coursActuel->id_matiere);
+
+        $matiereSuivante = $positionMatiere === false ? null : $matieresDuNiveau
+            ->slice($positionMatiere + 1)
+            ->first(fn($m) => $m->cours->isNotEmpty());
+
+        if ($matiereSuivante) {
+            return redirect()->route('formation.cours', $matiereSuivante->cours->first()->id)
+                ->with('success', 'Félicitations, vous avez terminé ce module ! Passage au module suivant : ' . $matiereSuivante->name . '.');
+        }
+
+        // 3. Plus aucun module après : fin du parcours
         return redirect()->route('formation.cours', $coursActuel->id)
-            ->with('success', 'Félicitations, vous avez fini cette matière !');
+            ->with('success', 'Félicitations, vous avez terminé ce module !');
     }
 
     public function showRoute($id)
