@@ -25,6 +25,38 @@ class User extends Authenticatable
     ];
 
     /**
+     * Accès "e-learning" : mêmes cours que le module de base, sans le groupe WhatsApp.
+     */
+    public const ACCES_ELEARNING = [
+        'CRPE BAC + 5 E-learning' => 'CRPE BAC + 5',
+        'CRPE BAC + 3 E-learning' => 'CRPE BAC + 3',
+    ];
+
+    /**
+     * Toutes les valeurs possibles du champ "access" (libellé affiché dans l'admin).
+     */
+    public const ACCES = [
+        'all' => 'Tous les cours',
+        'CRPE BAC + 5' => 'CRPE BAC +5',
+        'CRPE BAC + 5 E-learning' => 'CRPE BAC +5 E-learning',
+        'CRPE BAC + 3' => 'CRPE BAC +3',
+        'CRPE BAC + 3 E-learning' => 'CRPE BAC +3 E-learning',
+    ];
+
+    /**
+     * Module de cours auquel l'utilisateur a accès ("all", "CRPE BAC + 5" ou "CRPE BAC + 3").
+     */
+    public function module(): string
+    {
+        return self::ACCES_ELEARNING[$this->access] ?? $this->access;
+    }
+
+    public function isElearning(): bool
+    {
+        return array_key_exists($this->access, self::ACCES_ELEARNING);
+    }
+
+    /**
      * Les attributs qui doivent être masqués pour la sérialisation.
      */
     protected $hidden = [

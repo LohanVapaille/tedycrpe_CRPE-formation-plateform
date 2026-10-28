@@ -29,7 +29,7 @@
                     <tr>
                         <td>{{ $user->firstname }} {{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->access }}</td>
+                        <td>{{ \App\Models\User::ACCES[$user->access] ?? $user->access }}</td>
                         <td>{{ $user->is_tutor ? 'Tuteur' : 'Élève' }}</td>
                         <td style="display:flex; gap:0.5rem;">
                             <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary">

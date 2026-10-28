@@ -67,9 +67,10 @@
                                 'CRPE BAC + 3' => 'https://chat.whatsapp.com/IpBxR4aKDPTJ56Mq6BRfsm',
                                 'CRPE BAC + 5' => 'https://chat.whatsapp.com/KtcIEHIbFozB99vgGvkqk0',
                             ];
-                            $accesUser = Auth::user()->access;
+                            $accesUser = Auth::user()->module();
                         @endphp
-                        @foreach($groupesWhatsapp as $module => $lien)
+                        {{-- Élèves "E-learning" : pas de groupe WhatsApp --}}
+                        @foreach(Auth::user()->isElearning() ? [] : $groupesWhatsapp as $module => $lien)
                             @if($accesUser === 'all' || $accesUser === $module)
                                 <a href="{{ $lien }}" target="_blank" rel="noopener" style="background-color: green;"
                                     class=" btn-secondary-light "><i class='bx bxl-whatsapp'></i>
@@ -123,7 +124,7 @@
             </div>
 
             <section id="cours" class="matieres-secure-grid">
-                @if(Auth::user()->access === 'all')
+                @if(Auth::user()->module() === 'all')
                     {{-- L'utilisateur a accès à tout : on sépare par module --}}
                     @php
                         // On groupe les matières par module_associe
@@ -155,7 +156,7 @@
                         <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
                     @endforelse
                 @endif
-                @if(Auth::user()->access === 'CRPE BAC + 3')
+                @if(Auth::user()->module() === 'CRPE BAC + 3')
                     {{-- L'utilisateur a accès uniquement au module BAC + 3 --}}
                     @forelse($matieres as $index => $matiere)
                         <div class="secure-matiere-card">
@@ -174,7 +175,7 @@
                         <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
                     @endforelse
                 @endif
-                @if(Auth::user()->access === 'CRPE BAC + 5')
+                @if(Auth::user()->module() === 'CRPE BAC + 5')
                     {{-- L'utilisateur a accès uniquement au module CRPE BAC + 5 --}}
                     @forelse($matieres as $index => $matiere)
                         <div class="secure-matiere-card">

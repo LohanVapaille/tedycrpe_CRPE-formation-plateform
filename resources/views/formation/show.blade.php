@@ -11,7 +11,7 @@
         <aside class="dashboard-sidebar w-100 sidebar-menu-pagecours" id="dashboardSidebar">
 
             <nav class="sidebar-menu menu-formation">
-                @if(Auth::user()->access === 'all')
+                @if(Auth::user()->module() === 'all')
                     <details class="level-group" open>
                         <summary class="level-title-sidebar">🎓 CRPE Bac +5</summary>
                         <div class="level-content">

@@ -39,12 +39,10 @@
                 <div class="form-group">
 
                     <select name="access" required>
-                        <option value="all" {{ old('access', $user?->access) === 'all' ? 'selected' : '' }}>Tous les cours
-                        </option>
-                        <option value="CRPE BAC + 5" {{ old('access', $user?->access) === 'CRPE BAC + 5' ? 'selected' : '' }}>
-                            CRPE BAC +5</option>
-                        <option value="CRPE BAC + 3" {{ old('access', $user?->access) === 'CRPE BAC + 3' ? 'selected' : '' }}>
-                            CRPE BAC +3</option>
+                        @foreach(\App\Models\User::ACCES as $valeur => $libelle)
+                            <option value="{{ $valeur }}" {{ old('access', $user?->access) === $valeur ? 'selected' : '' }}>
+                                {{ $libelle }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

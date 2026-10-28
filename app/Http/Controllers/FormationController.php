@@ -16,8 +16,8 @@ class FormationController extends Controller
     private function getAuthorizedMatieres($user)
     {
         $query = Matiere::with('cours')->orderBy('ordre', 'asc');
-        if ($user->access !== 'all') {
-            $query->where('module_associe', $user->access);
+        if ($user->module() !== 'all') {
+            $query->where('module_associe', $user->module());
         }
         return $query->get();
     }
@@ -134,8 +134,8 @@ class FormationController extends Controller
 
         // 1. Récupérer toutes les matières autorisées
         $queryMatieres = Matiere::with('cours')->orderBy('ordre', 'asc');
-        if ($user->access !== 'all') {
-            $queryMatieres->where('module_associe', $user->access);
+        if ($user->module() !== 'all') {
+            $queryMatieres->where('module_associe', $user->module());
         }
         $matieres = $queryMatieres->get();
 
@@ -161,7 +161,7 @@ class FormationController extends Controller
         ])->findOrFail($id);
 
         // Sécurité d'accès
-        if ($user->access !== 'all' && $coursSelectionne->matiere->module_associe !== $user->access) {
+        if ($user->module() !== 'all' && $coursSelectionne->matiere->module_associe !== $user->module()) {
             abort(403, 'Vous n\'avez pas accès à ce contenu.');
         }
 

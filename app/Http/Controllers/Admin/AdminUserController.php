@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AdminUserController extends Controller
 {
@@ -26,7 +27,7 @@ class AdminUserController extends Controller
             'name' => 'required|string|max:60',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:2',
-            'access' => 'required|string|max:20',
+            'access' => ['required', Rule::in(array_keys(User::ACCES))],
             'is_tutor' => 'boolean',
             'academie' => 'nullable|string|max:60',
         ]);
@@ -55,7 +56,7 @@ class AdminUserController extends Controller
             'firstname' => 'required|string|max:60',
             'name' => 'required|string|max:60',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'access' => 'required|string|max:20',
+            'access' => ['required', Rule::in(array_keys(User::ACCES))],
             'is_tutor' => 'boolean',
             'academie' => 'nullable|string|max:60',
         ]);
