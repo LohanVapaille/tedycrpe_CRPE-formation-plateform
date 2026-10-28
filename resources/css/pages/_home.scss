@@ -676,3 +676,18 @@ $avis-lignes-mobile: 5;
         }
     }
 }
+
+// Mobile : conteneurs des boutons d'action en pleine largeur, pour que les boutons
+// "Réserver mon créneau" et "En savoir plus" aient la même largeur que les autres
+@include v.phone-only {
+    .discovery-banner-bg {
+        padding: 3rem 1rem; // même marge latérale que les autres sections
+    }
+
+    .discovery-banner-action,
+    .presentation-tedy .presentation-text,
+    .cta-overlay {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
