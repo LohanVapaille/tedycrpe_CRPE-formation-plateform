@@ -11,7 +11,7 @@ class AdminFormationController extends Controller
     // AdminFormationController.php
     public function index()
     {
-        $matieres = Matiere::with('cours')
+        $matieres = Matiere::with('cours', 'bloc')
             ->orderBy('module_associe', 'desc') // CRPE BAC + 5 avant CRPE BAC + 3
             ->orderBy('ordre')
             ->get()
@@ -30,10 +30,11 @@ class AdminFormationController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'module_associe' => 'required|string|max:100',
+            'bloc_id' => 'nullable|exists:blocs,id',
             'ordre' => 'required|integer',
         ]);
 
-        Matiere::create($request->only('name', 'module_associe', 'ordre'));
+        Matiere::create($request->only('name', 'module_associe', 'bloc_id', 'ordre'));
         return redirect()->route('admin.formations')->with('success', 'Module créé.');
     }
 
@@ -47,10 +48,11 @@ class AdminFormationController extends Controller
         $request->validate([
             'name' => 'required|string|max:50',
             'module_associe' => 'required|string|max:100',
+            'bloc_id' => 'nullable|exists:blocs,id',
             'ordre' => 'required|integer',
         ]);
 
-        $matiere->update($request->only('name', 'module_associe', 'ordre'));
+        $matiere->update($request->only('name', 'module_associe', 'bloc_id', 'ordre'));
         return redirect()->route('admin.formations')->with('success', 'Module mis à jour.');
     }
 

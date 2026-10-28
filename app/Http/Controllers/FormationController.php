@@ -127,9 +127,12 @@ class FormationController extends Controller
         }
 
         // 2. Dernier cours de la matière : premier cours de la matière suivante du même niveau (Bac +5 / Bac +3)
-        $matieresDuNiveau = $this->getAuthorizedMatieres($user)
-            ->where('module_associe', $coursActuel->matiere->module_associe)
-            ->values();
+        // (dans l'ordre d'affichage : blocs Leçon, EPS, Entretien, puis ordre du module)
+        $matieresDuNiveau = Matiere::parBloc(
+            $this->getAuthorizedMatieres($user)
+                ->where('module_associe', $coursActuel->matiere->module_associe)
+                ->values()
+        )->flatMap(fn($groupe) => $groupe['matieres'])->values();
         $positionMatiere = $matieresDuNiveau->search(fn($m) => $m->id === $coursActuel->id_matiere);
 
         $matiereSuivante = $positionMatiere === false ? null : $matieresDuNiveau

@@ -26,6 +26,17 @@
                 </select>
             </div>
             <div class="form-group">
+                <label>Bloc</label>
+                <select name="bloc_id">
+                    <option value="">Aucun</option>
+                    @foreach(\App\Models\Bloc::orderBy('ordre')->get() as $bloc)
+                        <option value="{{ $bloc->id }}" {{ (string) old('bloc_id', $matiere?->bloc_id) === (string) $bloc->id ? 'selected' : '' }}>{{ $bloc->name }}</option>
+                    @endforeach
+                </select>
+                <small style="color:#64748b;">Regroupe le module sous ce titre dans l'espace élève.
+                    <a href="{{ route('admin.blocs') }}">Gérer les blocs</a></small>
+            </div>
+            <div class="form-group">
                 <label>Ordre</label>
                 <input type="number" name="ordre" value="{{ old('ordre', $matiere?->ordre ?? 1) }}" required>
             </div>

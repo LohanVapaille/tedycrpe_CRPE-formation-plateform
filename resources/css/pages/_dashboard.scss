@@ -1122,3 +1122,42 @@ $menu-vert: #22c55e;
         transform: translateY(-1px);
     }
 }
+
+// Blocs Leçon / EPS / Entretien
+// Tableau de bord : intertitre sur toute la largeur de la grille des modules
+.matieres-secure-grid .bloc-title {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1rem 0 0;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: v.$bleu;
+
+    // Trait qui prolonge le titre jusqu'au bord
+    &::after {
+        content: "";
+        flex: 1;
+        height: 2px;
+        background: rgba(v.$bleuvert, 0.25);
+        border-radius: 2px;
+    }
+}
+
+// Menu des cours : petite étiquette au-dessus de chaque bloc
+.sidebar-bloc-title {
+    display: block;
+    margin: 0.75rem 0 0.15rem 0.75rem;
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+
+    &:first-child {
+        margin-top: 0.25rem;
+    }
+}

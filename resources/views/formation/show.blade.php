@@ -15,24 +15,20 @@
                     <details class="level-group" open>
                         <summary class="level-title-sidebar">🎓 CRPE Bac +5</summary>
                         <div class="level-content">
-                            @foreach($matieres->where('module_associe', 'CRPE BAC + 5') as $matiere)
-                                @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
-                            @endforeach
+                            @include('partials.sidebar-matieres-par-bloc', ['matieres' => $matieres->where('module_associe', 'CRPE BAC + 5')])
                         </div>
                     </details>
 
                     <details class="level-group" open>
                         <summary class="level-title-sidebar">🎓 CRPE Bac +3</summary>
                         <div class="level-content">
-                            @foreach($matieres->where('module_associe', 'CRPE BAC + 3') as $matiere)
-                                @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
-                            @endforeach
+                            @include('partials.sidebar-matieres-par-bloc', ['matieres' => $matieres->where('module_associe', 'CRPE BAC + 3')])
                         </div>
                     </details>
                 @else
-                    @foreach($matieres as $matiere)
-                        @include('partials.sidebar-matiere-item', ['matiere' => $matiere])
-                    @endforeach
+                    <div class="level-content">
+                        @include('partials.sidebar-matieres-par-bloc', ['matieres' => $matieres])
+                    </div>
                 @endif
             </nav>
         </aside>
@@ -54,22 +50,12 @@
                 <div>
                     <h2>{{ $coursSelectionne->name }}</h2>
                     <p>Module : {{ $coursSelectionne->matiere->name }}</p>
-
-                    @php
-                        $matiereActuelle = $matieres->firstWhere('id', $coursSelectionne->id_matiere);
-                        $progressionMatiere = $matiereActuelle->progression ?? 0;
-                    @endphp
                 </div>
+                {{-- La progression est consultable sur le tableau de bord et dans le menu des cours --}}
                 <div class="progress-container-mini">
                     <a href="{{ route('formation.index') }}" class="course-dashboard-btn">
                         <i class='bx bxs-dashboard'></i> Tableau de bord
                     </a>
-                    <span class="matiere-progression">
-                        Progression du module : {{ $progressionMatiere }}&nbsp;%
-                    </span>
-                    <div class="progress-bar-container">
-                        <div class="progress-bar-fill" style="width: {{ $progressionMatiere }}%"></div>
-                    </div>
                 </div>
             </div>
 

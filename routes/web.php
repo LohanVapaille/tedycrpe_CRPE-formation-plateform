@@ -17,6 +17,7 @@ use App\Http\Controllers\ContactController;
 
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\AdminFormationController;
+use App\Http\Controllers\Admin\AdminBlocController;
 use App\Http\Controllers\Admin\AdminCoursController;
 use App\Http\Controllers\Admin\AdminSectionController;
 use App\Http\Controllers\Admin\AdminContentController;
@@ -120,6 +121,13 @@ Route::prefix('admin')->middleware(['auth', 'tutor'])->group(function () {
     Route::get('/formations/{matiere}/edit', [AdminFormationController::class, 'edit'])->name('admin.formations.edit');
     Route::put('/formations/{matiere}', [AdminFormationController::class, 'update'])->name('admin.formations.update');
     Route::delete('/formations/{matiere}', [AdminFormationController::class, 'destroy'])->name('admin.formations.destroy');
+
+    // Blocs (regroupement des modules : Leçon, EPS, Entretien...)
+    Route::get('/blocs', [AdminBlocController::class, 'index'])->name('admin.blocs');
+    Route::post('/blocs', [AdminBlocController::class, 'store'])->name('admin.blocs.store');
+    Route::post('/blocs/reorder', [AdminBlocController::class, 'reorder'])->name('admin.blocs.reorder');
+    Route::put('/blocs/{bloc}', [AdminBlocController::class, 'update'])->name('admin.blocs.update');
+    Route::delete('/blocs/{bloc}', [AdminBlocController::class, 'destroy'])->name('admin.blocs.destroy');
 
     // Cours
     Route::get('/cours', [AdminCoursController::class, 'index'])->name('admin.cours');

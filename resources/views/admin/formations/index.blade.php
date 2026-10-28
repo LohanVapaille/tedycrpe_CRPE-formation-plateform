@@ -19,7 +19,8 @@
                 <tr>
                     <th>Ordre</th>
                     <th>Nom</th>
-                    <th>Module</th>
+                    <th>Niveau</th>
+                    <th>Bloc</th>
                     <th>Cours associés</th>
                     <th>Actions</th>
                 </tr>
@@ -27,7 +28,7 @@
             <tbody>
                 @foreach($matieres as $module => $liste)
                     <tr>
-                        <td colspan="5" style="background:#e2e8f0; font-weight:bold; padding:0.75rem 1rem;">
+                        <td colspan="6" style="background:#e2e8f0; font-weight:bold; padding:0.75rem 1rem;">
                             {{ $module }}
                         </td>
                     </tr>
@@ -36,6 +37,7 @@
                             <td>{{ $matiere->ordre }}</td>
                             <td>{{ $matiere->name }}</td>
                             <td>{{ $matiere->module_associe }}</td>
+                            <td>{{ $matiere->bloc?->name ?? '—' }}</td>
                             <td>{{ $matiere->cours->count() }} cours</td>
                             <td style="display:flex; gap:0.5rem;">
                                 <a href="{{ route('admin.formations.edit', $matiere) }}" class="btn btn-secondary">

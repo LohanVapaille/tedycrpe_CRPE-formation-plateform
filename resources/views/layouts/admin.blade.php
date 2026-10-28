@@ -276,6 +276,9 @@
         <a href="{{ route('admin.formations') }}" class="{{ request()->routeIs('admin.formations*') ? 'active' : '' }}">
             <i class='bx bx-book'></i> Modules
         </a>
+        <a href="{{ route('admin.blocs') }}" class="{{ request()->routeIs('admin.blocs*') ? 'active' : '' }}">
+            <i class='bx bx-category'></i> Blocs
+        </a>
         <a href="{{ route('admin.cours') }}" class="{{ request()->routeIs('admin.cours*') ? 'active' : '' }}">
             <i class='bx bx-file'></i> Cours
         </a>
