@@ -134,7 +134,7 @@
                         <div class="module-group-container" style="grid-column: 1 / -1; margin-top: 1.5rem; margin-bottom: 1rem;">
                             <h3 class="module-title"
                                 style="font-size: 1.4rem; color: #2c6e7a; border-bottom: 2px solid #e2e8f0; padding-bottom: 0.5rem; text-transform: uppercase;">
-                                {{ $moduleName === 'CRPE BAC + 3' ? 'Module BAC + 3' : 'Module CRPE BAC + 5' }}
+                                {{ $moduleName === 'CRPE BAC + 3' ? 'CRPE BAC + 3' : 'CRPE BAC + 5' }}
                             </h3>
                         </div>
 
@@ -153,7 +153,7 @@
                             </div>
                         @endforeach
                     @empty
-                        <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
+                        <p class="no-data">Aucun module n'est disponible pour le moment.</p>
                     @endforelse
                 @endif
                 @if(Auth::user()->module() === 'CRPE BAC + 3')
@@ -172,7 +172,7 @@
                             <span class="matiere-progression">{{ $matiere->progression ?? 0 }}&nbsp;% de progression</span>
                         </div>
                     @empty
-                        <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
+                        <p class="no-data">Aucun module n'est disponible pour le moment.</p>
                     @endforelse
                 @endif
                 @if(Auth::user()->module() === 'CRPE BAC + 5')
@@ -191,7 +191,7 @@
                             <span class="matiere-progression">{{ $matiere->progression ?? 0 }}&nbsp;% de progression</span>
                         </div>
                     @empty
-                        <p class="no-data">Aucune matière n'est disponible pour le moment.</p>
+                        <p class="no-data">Aucun module n'est disponible pour le moment.</p>
                     @endforelse
                 @endif
 

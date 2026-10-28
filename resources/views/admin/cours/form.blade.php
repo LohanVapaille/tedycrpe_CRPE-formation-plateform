@@ -18,9 +18,9 @@
                 <input type="text" name="name" value="{{ old('name', $cours?->name) }}" required>
             </div>
             <div class="form-group">
-                <label for="id_matiere">Matière</label>
+                <label for="id_matiere">Module</label>
                 <select name="id_matiere" id="id_matiere" required>
-                    <option value="">-- Sélectionner une matière --</option>
+                    <option value="">-- Sélectionner un module --</option>
 
                     @php
                         // On s'assure d'avoir toutes les matières groupées par leur module associé

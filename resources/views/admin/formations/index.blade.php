@@ -4,9 +4,9 @@
 
 @section('content')
     <div class="admin-header">
-        <h1>Matières</h1>
+        <h1>Modules</h1>
         <a href="{{ route('admin.formations.create') }}" class="btn btn-primary">
-            <i class='bx bx-plus'></i> Nouvelle matière
+            <i class='bx bx-plus'></i> Nouveau module
         </a>
     </div>
 

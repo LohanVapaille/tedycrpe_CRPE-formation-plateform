@@ -1,10 +1,10 @@
 {{-- resources/views/admin/formations/form.blade.php --}}
 @extends('layouts.admin')
-@section('title', $matiere ? 'Modifier' : 'Nouvelle matière')
+@section('title', $matiere ? 'Modifier' : 'Nouveau module')
 
 @section('content')
     <div class="admin-header">
-        <h1>{{ $matiere ? 'Modifier la matière' : 'Nouvelle matière' }}</h1>
+        <h1>{{ $matiere ? 'Modifier le module' : 'Nouveau module' }}</h1>
         <a href="{{ route('admin.formations') }}" class="btn btn-secondary">← Retour</a>
     </div>
 
@@ -15,7 +15,7 @@
             @if($matiere) @method('PUT') @endif
 
             <div class="form-group">
-                <label>Nom de la matière</label>
+                <label>Nom du module</label>
                 <input type="text" name="name" value="{{ old('name', $matiere?->name) }}" required>
             </div>
             <div class="form-group">

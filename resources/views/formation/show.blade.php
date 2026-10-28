@@ -53,7 +53,7 @@
             <div class="course-main-header">
                 <div>
                     <h2>{{ $coursSelectionne->name }}</h2>
-                    <p>Matière : {{ $coursSelectionne->matiere->name }}</p>
+                    <p>Module : {{ $coursSelectionne->matiere->name }}</p>
 
                     @php
                         $matiereActuelle = $matieres->firstWhere('id', $coursSelectionne->id_matiere);
@@ -65,7 +65,7 @@
                         <i class='bx bxs-dashboard'></i> Tableau de bord
                     </a>
                     <span class="matiere-progression">
-                        Progression de la matière : {{ $progressionMatiere }}&nbsp;%
+                        Progression du module : {{ $progressionMatiere }}&nbsp;%
                     </span>
                     <div class="progress-bar-container">
                         <div class="progress-bar-fill" style="width: {{ $progressionMatiere }}%"></div>

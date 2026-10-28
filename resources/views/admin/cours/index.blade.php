@@ -15,7 +15,7 @@
     @endif
 
     <p style="color:#64748b; margin-bottom:1rem;">
-        <i class='bx bx-move-vertical'></i> Glissez un cours par la poignée <i class='bx bx-grid-vertical'></i> pour changer son ordre dans la matière : l'ordre est enregistré automatiquement.
+        <i class='bx bx-move-vertical'></i> Glissez un cours par la poignée <i class='bx bx-grid-vertical'></i> pour changer son ordre dans le module : l'ordre est enregistré automatiquement.
     </p>
 
     @php
@@ -30,7 +30,7 @@
                 <tr>
                     <th>Ordre</th>
                     <th>Nom</th>
-                    <th>Matière</th>
+                    <th>Module</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -39,14 +39,14 @@
                     <tr style="background: #1e293b; color: #ffffff;">
                         <td colspan="4" class="titrecrpeadmintableau"
                             style="font-weight: bold; padding: 1rem; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 0.5px;">
-                            📁 {{ $nomModule === 'CRPE BAC + 3' ? 'Module BAC + 3' : 'Module CRPE BAC + 5' }}
+                            📁 {{ $nomModule === 'CRPE BAC + 3' ? 'CRPE BAC + 3' : 'CRPE BAC + 5' }}
                         </td>
                     </tr>
                 </tbody>
 
                 @foreach($listeCours->groupBy('id_matiere') as $idMatiere => $liste)
                     @php
-                        $nomMatiere = $liste->first()->matiere->name ?? 'Matière inconnue';
+                        $nomMatiere = $liste->first()->matiere->name ?? 'Module inconnu';
                         $groupeId = 'groupe-' . ($nomModule === 'CRPE BAC + 3' ? 'bac3' : 'bac5') . '-' . $idMatiere;
                     @endphp
 

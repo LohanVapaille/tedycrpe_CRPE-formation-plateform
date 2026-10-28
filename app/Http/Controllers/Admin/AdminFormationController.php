@@ -34,7 +34,7 @@ class AdminFormationController extends Controller
         ]);
 
         Matiere::create($request->only('name', 'module_associe', 'ordre'));
-        return redirect()->route('admin.formations')->with('success', 'Matière créée.');
+        return redirect()->route('admin.formations')->with('success', 'Module créé.');
     }
 
     public function edit(Matiere $matiere)
@@ -51,12 +51,12 @@ class AdminFormationController extends Controller
         ]);
 
         $matiere->update($request->only('name', 'module_associe', 'ordre'));
-        return redirect()->route('admin.formations')->with('success', 'Matière mise à jour.');
+        return redirect()->route('admin.formations')->with('success', 'Module mis à jour.');
     }
 
     public function destroy(Matiere $matiere)
     {
         $matiere->delete();
-        return redirect()->route('admin.formations')->with('success', 'Matière supprimée.');
+        return redirect()->route('admin.formations')->with('success', 'Module supprimé.');
     }
 }
