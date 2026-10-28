@@ -11,7 +11,7 @@
     @unless(Auth::user()->is_tutor)
         <div class="chat-welcome">
             <i class='bx bx-time-five'></i>
-            <p>Bonjour ! Posez ici vos questions sur la formation. Tedy vous répond sous <strong>48 h</strong> (jours ouvrés).</p>
+            <p>Bonjour ! Posez ici vos questions sur la formation : vos messages arrivent directement à Tedy, qui vous répond sous <strong>48 h</strong> (jours ouvrés).</p>
         </div>
     @endunless
 
