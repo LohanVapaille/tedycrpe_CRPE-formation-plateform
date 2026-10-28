@@ -90,6 +90,7 @@ Route::middleware(['auth'])->group(function () {
     // NOUVELLE ROUTE : Affichage d'un cours spécifique
     Route::get('/formation/cours/{id}', [FormationController::class, 'showRoute'])->name('formation.cours');
     Route::post('/formation/cours/{id}/terminer', [FormationController::class, 'terminerCours'])->name('formation.cours.terminer');
+    Route::get('/formation/ressource/{section}', [FormationController::class, 'telechargerRessource'])->name('formation.ressource');
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
     Route::get('/tuteur/chats', [ChatController::class, 'tutorChannels'])->name('chat.tutorChannels');
     Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');

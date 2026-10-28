@@ -118,7 +118,7 @@
         </div>
 
         @if($section->contenu)
-            <a href="{{ asset('storage/' . $section->contenu) }}" download class="button-style btn-bleuclair resource-download-btn">
+            <a href="{{ route('formation.ressource', $section) }}" class="button-style btn-bleuclair resource-download-btn">
                 <i class='bx bx-download'></i> Télécharger la ressource
             </a>
         @else

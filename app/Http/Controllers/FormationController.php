@@ -10,6 +10,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class FormationController extends Controller
 {
@@ -171,5 +172,27 @@ class FormationController extends Controller
         }
 
         return view('formation.show', compact('matieres', 'coursSelectionne'));
+    }
+
+    // Téléchargement d'une ressource ("fichier") sous le titre de la section plutôt que le nom aléatoire du stockage
+    public function telechargerRessource(SectionCours $section)
+    {
+        $user = Auth::user();
+        $section->loadMissing('cours.matiere');
+
+        abort_unless($section->type === 'fichier' && $section->contenu, 404);
+        abort_unless(Storage::disk('public')->exists($section->contenu), 404);
+
+        // Même règle d'accès que pour afficher le cours
+        if ($user->module() !== 'all' && $section->cours->matiere->module_associe !== $user->module()) {
+            abort(403, 'Vous n\'avez pas accès à ce contenu.');
+        }
+
+        // Titre de la section sans les caractères interdits dans un nom de fichier, + extension d'origine
+        $titre = trim(preg_replace('/[\\\\\/:*?"<>|]+/', '-', $section->titre ?: 'Ressource'));
+        $extension = pathinfo($section->contenu, PATHINFO_EXTENSION);
+        $nomFichier = $extension ? "{$titre}.{$extension}" : $titre;
+
+        return Storage::disk('public')->download($section->contenu, $nomFichier);
     }
 }
