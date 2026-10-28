@@ -226,6 +226,29 @@ textarea {
     }
 }
 
+// Mobile / tablette : boutons flottants (discussion élève, canaux tuteur) plus petits et collés au coin,
+// pour qu'ils passent le moins possible sur les champs et les textes
+@include v.underdesktop-only {
+    .tutor-chat-btn,
+    #open-channels-btn {
+        width: 44px !important;
+        height: 44px !important;
+        bottom: 12px !important;
+        right: 12px !important;
+        opacity: 0.9;
+        font-size: 1.2rem !important;
+
+        i {
+            font-size: 1.2rem;
+        }
+    }
+
+    // Marge sous le pied de page : le bouton flottant ne cache pas la dernière ligne
+    .main-footer .footer-bottom {
+        padding-bottom: 64px;
+    }
+}
+
 /* ==========================================================================
    5. BOUTONS D'ACTION DU SITE PUBLIC SUR MOBILE
    Même largeur (pleine), même hauteur, même forme pour tous

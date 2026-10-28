@@ -226,10 +226,6 @@
                 #popup-trigger-circle i {
                     font-size: 1.2rem !important;
                 }
-
-                .main-footer .footer-bottom {
-                    padding-bottom: 64px;
-                }
             }
 
             /* --- STYLE DE LA BOÎTE DE DIALOGUE (OUVERTE) --- */
