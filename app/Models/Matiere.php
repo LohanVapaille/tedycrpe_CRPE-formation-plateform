@@ -11,6 +11,7 @@ class Matiere extends Model
 
     public function cours(): HasMany
     {
-        return $this->hasMany(Cours::class, 'id_matiere');
+        // Toujours dans l'ordre défini dans l'admin (glisser-déposer)
+        return $this->hasMany(Cours::class, 'id_matiere')->orderBy('ordre')->orderBy('id');
     }
 }
