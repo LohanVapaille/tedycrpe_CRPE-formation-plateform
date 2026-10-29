@@ -472,7 +472,7 @@
 
         th {
             background: #f8fafc;
-            padding: 0.85rem 1rem;
+            padding: 0.7rem 0.85rem;
             text-align: left;
             font-size: 0.75rem;
             font-weight: 600;
@@ -483,7 +483,7 @@
         }
 
         td {
-            padding: 0.85rem 1rem;
+            padding: 0.6rem 0.85rem;
             border-top: 1px solid #f1f5f9;
             font-size: 0.9rem;
             vertical-align: middle;
@@ -491,6 +491,43 @@
 
         tr:hover td {
             background: #f8fafc;
+        }
+
+        /* Cellule sur deux lignes : texte principal + info secondaire (ex. nom + email) */
+        .cell-sub {
+            display: block;
+            max-width: 320px;
+            font-size: 0.8rem;
+            color: var(--admin-muted);
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Colonne d'actions : collée à droite, reste visible même si le tableau défile */
+        .col-actions {
+            position: sticky;
+            right: 0;
+            width: 1%;
+            text-align: right;
+            background: white;
+            box-shadow: -8px 0 8px -8px rgba(15, 23, 42, 0.12);
+        }
+
+        th.col-actions {
+            background: #f8fafc;
+        }
+
+        .table-actions {
+            display: flex;
+            gap: 0.35rem;
+            justify-content: flex-end;
+        }
+
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            padding: 0;
+            font-size: 1.05rem;
         }
 
         .form-group {
@@ -701,6 +738,22 @@
             height: 100vh;
             background: rgba(15, 23, 42, 0.5);
             z-index: 998;
+        }
+
+        /* Écrans moyens (≈ 1024 px) : menu et marges plus étroits pour laisser la place aux tableaux */
+        @media (min-width: 769px) and (max-width: 1280px) {
+            .admin-sidebar {
+                width: 220px;
+            }
+
+            .admin-content {
+                margin-left: 220px;
+                padding: 1.5rem;
+            }
+
+            .cell-sub {
+                max-width: 220px;
+            }
         }
 
         /* -------------------------------------------

@@ -45,48 +45,44 @@
         <table id="users-table">
             <thead>
                 <tr>
-                    <th>Nom</th>
-                    <th>Email</th>
+                    <th>Utilisateur</th>
                     <th>Académie</th>
                     <th>Accès</th>
-                    <th>Rôle</th>
-                    <th style="text-align:right;">Actions</th>
+                    <th class="col-actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
                     <tr data-filter="{{ $user->is_tutor ? 'tuteur' : $user->access }}">
-                        <td><strong>{{ $user->firstname }} {{ $user->name }}</strong></td>
-                        <td>{{ $user->email }}</td>
+                        <td class="cell-user">
+                            <strong>{{ $user->firstname }} {{ $user->name }}</strong>
+                            @if($user->is_tutor)
+                                <span class="pill is-brand"><i class='bx bx-crown'></i> Tuteur</span>
+                            @endif
+                            <span class="cell-sub" title="{{ $user->email }}">{{ $user->email }}</span>
+                        </td>
                         <td>{{ $user->academie ?: '—' }}</td>
                         <td>
                             <span class="pill {{ $pillAcces[$user->access] ?? '' }}">
                                 {{ \App\Models\User::ACCES[$user->access] ?? $user->access }}
                             </span>
                         </td>
-                        <td>
-                            @if($user->is_tutor)
-                                <span class="pill is-brand"><i class='bx bx-crown'></i> Tuteur</span>
-                            @else
-                                <span class="pill">Élève</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div style="display:flex; gap:0.4rem; justify-content:flex-end;">
+                        <td class="col-actions">
+                            <div class="table-actions">
                                 @if(!$user->is_tutor && $user->chats->isNotEmpty())
-                                    <button type="button" class="btn btn-secondary open-chat-btn" title="Discuter"
+                                    <button type="button" class="btn btn-secondary btn-icon open-chat-btn" title="Discuter"
                                         data-chat-id="{{ $user->chats->first()->id }}"
                                         data-student-name="{{ $user->firstname }} {{ $user->name }}">
                                         <i class='bx bx-message-square-dots'></i>
                                     </button>
                                 @endif
-                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary" title="Modifier">
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary btn-icon" title="Modifier">
                                     <i class='bx bx-edit'></i>
                                 </a>
                                 <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
                                     onsubmit="return confirm('Supprimer {{ addslashes($user->firstname . ' ' . $user->name) }} ? Cette action est définitive.')">
                                     @csrf @method('DELETE')
-                                    <button class="btn btn-danger" title="Supprimer"><i class='bx bx-trash'></i></button>
+                                    <button class="btn btn-danger btn-icon" title="Supprimer"><i class='bx bx-trash'></i></button>
                                 </form>
                             </div>
                         </td>

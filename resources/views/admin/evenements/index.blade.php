@@ -19,7 +19,7 @@
                     <th>Fin</th>
                     <th>Visibilité</th>
                     <th>Élève concerné</th>
-                    <th>Actions</th>
+                    <th class="col-actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,15 +40,17 @@
                             @endif
                         </td>
                         <td>{{ $event->user ? $event->user->firstname . ' ' . $event->user->name : '—' }}</td>
-                        <td style="display:flex; gap:0.5rem;">
-                            <a href="{{ route('admin.evenements.edit', $event) }}" class="btn btn-secondary">
-                                <i class='bx bx-edit'></i>
-                            </a>
-                            <form action="{{ route('admin.evenements.destroy', $event) }}" method="POST"
-                                onsubmit="return confirm('Supprimer ?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                            </form>
+                        <td class="col-actions">
+                            <div class="table-actions">
+                                <a href="{{ route('admin.evenements.edit', $event) }}" class="btn btn-secondary btn-icon">
+                                    <i class='bx bx-edit'></i>
+                                </a>
+                                <form action="{{ route('admin.evenements.destroy', $event) }}" method="POST"
+                                    onsubmit="return confirm('Supprimer ?')">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-danger btn-icon"><i class='bx bx-trash'></i></button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

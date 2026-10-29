@@ -76,7 +76,7 @@
                     <th>Type</th>
                     <th>Titre</th>
                     <th>Contenu</th>
-                    <th>Actions</th>
+                    <th class="col-actions">Actions</th>
                 </tr>
             </thead>
             <tbody id="sortable-sections">
@@ -91,17 +91,19 @@
                         <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
                             {{ strip_tags($section->contenu) ?? '—' }}
                         </td>
-                        <td style="display:flex; gap:0.5rem;">
-                            <button class="btn btn-secondary edit-section-btn" data-id="{{ $section->id }}"
-                                data-type="{{ $section->type }}" data-titre="{{ $section->titre }}"
-                                data-contenu="{{ $section->contenu }}" data-ordre="{{ $section->ordre }}">
-                                <i class='bx bx-edit'></i>
-                            </button>
-                            <form action="{{ route('admin.sections.destroy', $section) }}" method="POST"
-                                onsubmit="return confirm('Supprimer ?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                            </form>
+                        <td class="col-actions">
+                            <div class="table-actions">
+                                <button class="btn btn-secondary edit-section-btn" data-id="{{ $section->id }}"
+                                    data-type="{{ $section->type }}" data-titre="{{ $section->titre }}"
+                                    data-contenu="{{ $section->contenu }}" data-ordre="{{ $section->ordre }}">
+                                    <i class='bx bx-edit'></i>
+                                </button>
+                                <form action="{{ route('admin.sections.destroy', $section) }}" method="POST"
+                                    onsubmit="return confirm('Supprimer ?')">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-danger btn-icon"><i class='bx bx-trash'></i></button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach

@@ -19,7 +19,7 @@
                     <th>Niveau</th>
                     <th>Bloc</th>
                     <th>Cours associés</th>
-                    <th>Actions</th>
+                    <th class="col-actions">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -41,15 +41,17 @@
                             <td>{{ $matiere->module_associe }}</td>
                             <td>{{ $matiere->bloc?->name ?? '—' }}</td>
                             <td>{{ $matiere->cours->count() }} cours</td>
-                            <td style="display:flex; gap:0.5rem;">
-                                <a href="{{ route('admin.formations.edit', $matiere) }}" class="btn btn-secondary">
-                                    <i class='bx bx-edit'></i>
-                                </a>
-                                <form action="{{ route('admin.formations.destroy', $matiere) }}" method="POST"
-                                    onsubmit="return confirm('Supprimer ?')">
-                                    @csrf @method('DELETE')
-                                    <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                                </form>
+                            <td class="col-actions">
+                                <div class="table-actions">
+                                    <a href="{{ route('admin.formations.edit', $matiere) }}" class="btn btn-secondary btn-icon">
+                                        <i class='bx bx-edit'></i>
+                                    </a>
+                                    <form action="{{ route('admin.formations.destroy', $matiere) }}" method="POST"
+                                        onsubmit="return confirm('Supprimer ?')">
+                                        @csrf @method('DELETE')
+                                        <button class="btn btn-danger btn-icon"><i class='bx bx-trash'></i></button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @endforeach

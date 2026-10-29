@@ -28,7 +28,7 @@
                     <th>Ordre</th>
                     <th>Nom</th>
                     <th>Module</th>
-                    <th>Actions</th>
+                    <th class="col-actions">Actions</th>
                 </tr>
             </thead>
             @forelse($coursParModules as $nomModule => $listeCours)
@@ -66,18 +66,20 @@
                                 </td>
                                 <td>{{ $c->name }}</td>
                                 <td>{{ $c->matiere->name }}</td>
-                                <td style="display:flex; gap:0.5rem;">
-                                    <a href="{{ route('admin.sections', $c) }}" class="btn btn-primary">
-                                        <i class='bx bx-list-ul'></i> Sections
-                                    </a>
-                                    <a href="{{ route('admin.cours.edit', $c) }}" class="btn btn-secondary">
-                                        <i class='bx bx-edit'></i>
-                                    </a>
-                                    <form action="{{ route('admin.cours.destroy', $c) }}" method="POST"
-                                        onsubmit="return confirm('Supprimer ?')">
-                                        @csrf @method('DELETE')
-                                        <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                                    </form>
+                                <td class="col-actions">
+                                    <div class="table-actions">
+                                        <a href="{{ route('admin.sections', $c) }}" class="btn btn-primary">
+                                            <i class='bx bx-list-ul'></i> Sections
+                                        </a>
+                                        <a href="{{ route('admin.cours.edit', $c) }}" class="btn btn-secondary btn-icon">
+                                            <i class='bx bx-edit'></i>
+                                        </a>
+                                        <form action="{{ route('admin.cours.destroy', $c) }}" method="POST"
+                                            onsubmit="return confirm('Supprimer ?')">
+                                            @csrf @method('DELETE')
+                                            <button class="btn btn-danger btn-icon"><i class='bx bx-trash'></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

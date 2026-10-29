@@ -33,7 +33,7 @@
                     <th style="width:70px;">Ordre</th>
                     <th>Nom</th>
                     <th>Modules</th>
-                    <th>Actions</th>
+                    <th class="col-actions">Actions</th>
                 </tr>
             </thead>
             <tbody id="sortable-blocs">
@@ -51,15 +51,17 @@
                             </form>
                         </td>
                         <td>{{ $bloc->matieres_count }} module{{ $bloc->matieres_count > 1 ? 's' : '' }}</td>
-                        <td style="display:flex; gap:0.5rem;">
-                            <button type="submit" form="rename-{{ $bloc->id }}" class="btn btn-secondary" title="Enregistrer le nom">
-                                <i class='bx bx-save'></i>
-                            </button>
-                            <form action="{{ route('admin.blocs.destroy', $bloc) }}" method="POST"
-                                onsubmit="return confirm('Supprimer le bloc « {{ addslashes($bloc->name) }} » ? Ses modules ne sont pas supprimés : ils apparaîtront dans « Autres ».')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger" title="Supprimer"><i class='bx bx-trash'></i></button>
-                            </form>
+                        <td class="col-actions">
+                            <div class="table-actions">
+                                <button type="submit" form="rename-{{ $bloc->id }}" class="btn btn-secondary btn-icon" title="Enregistrer le nom">
+                                    <i class='bx bx-save'></i>
+                                </button>
+                                <form action="{{ route('admin.blocs.destroy', $bloc) }}" method="POST"
+                                    onsubmit="return confirm('Supprimer le bloc « {{ addslashes($bloc->name) }} » ? Ses modules ne sont pas supprimés : ils apparaîtront dans « Autres ».')">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-danger btn-icon" title="Supprimer"><i class='bx bx-trash'></i></button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @empty
