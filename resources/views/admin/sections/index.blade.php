@@ -22,9 +22,6 @@
         <a href="{{ route('admin.cours') }}" class="btn btn-secondary">← Retour</a>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
 
     {{-- Formulaire ajout section --}}
     <div class="card" style="margin-bottom:2rem;">
@@ -35,7 +32,7 @@
             <div style="display:grid; grid-template-columns:1fr 1fr 80px; gap:1rem; align-items:end;">
                 <div class="form-group" style="margin:0;">
                     <label>Type</label>
-                    <select name="type" id="create-type" required>
+                    <select name="type" id="create-type" required data-native>
                         <option value="titre">Titre</option>
                         <option value="txt">Texte</option>
                         <option value="img">Image</option>
@@ -121,7 +118,7 @@
                 @csrf @method('PUT')
                 <div class="form-group">
                     <label>Type</label>
-                    <select name="type" id="edit-type">
+                    <select name="type" id="edit-type" data-native>
                         <option value="titre">Titre</option>
                         <option value="txt">Texte</option>
                         <option value="img">Image</option>

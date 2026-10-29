@@ -8,9 +8,6 @@
         <p>CRTL + F pour rechercher un mot</p>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
 
     @foreach($contents as $page => $items)
         <details style="margin-bottom:1rem; background:white; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.08);">

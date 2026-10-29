@@ -33,6 +33,12 @@ class User extends Authenticatable
     ];
 
     /**
+     * Accès "3ème voie/Interne" : uniquement les modules cochés comme tels dans l'admin
+     * (oral de leçon Bac +5 et oral 2 Bac +3), sur les deux niveaux.
+     */
+    public const ACCES_TROISIEME_VOIE = '3ème voie/Interne';
+
+    /**
      * Toutes les valeurs possibles du champ "access" (libellé affiché dans l'admin).
      */
     public const ACCES = [
@@ -41,6 +47,7 @@ class User extends Authenticatable
         'CRPE BAC + 5 E-learning' => 'CRPE BAC +5 E-learning',
         'CRPE BAC + 3' => 'CRPE BAC +3',
         'CRPE BAC + 3 E-learning' => 'CRPE BAC +3 E-learning',
+        self::ACCES_TROISIEME_VOIE => '3ème voie/Interne',
     ];
 
     /**
@@ -54,6 +61,31 @@ class User extends Authenticatable
     public function isElearning(): bool
     {
         return array_key_exists($this->access, self::ACCES_ELEARNING);
+    }
+
+    public function isTroisiemeVoie(): bool
+    {
+        return $this->access === self::ACCES_TROISIEME_VOIE;
+    }
+
+    /**
+     * Les cours de l'utilisateur couvrent-ils les deux niveaux (affichage groupé Bac +5 / Bac +3) ?
+     */
+    public function voitPlusieursNiveaux(): bool
+    {
+        return $this->module() === 'all' || $this->isTroisiemeVoie();
+    }
+
+    /**
+     * L'utilisateur a-t-il accès à ce module ?
+     */
+    public function aAccesA(Matiere $matiere): bool
+    {
+        return match (true) {
+            $this->module() === 'all' => true,
+            $this->isTroisiemeVoie() => $matiere->acces_troisieme_voie,
+            default => $matiere->module_associe === $this->module(),
+        };
     }
 
     /**

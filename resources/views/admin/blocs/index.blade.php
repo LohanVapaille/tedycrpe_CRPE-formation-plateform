@@ -7,12 +7,6 @@
         <h1>Blocs</h1>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
-    @if($errors->any())
-        <p style="color:#dc2626; margin-bottom:1rem;">{{ $errors->first() }}</p>
-    @endif
 
     <p style="color:#64748b; margin-bottom:1rem;">
         Les blocs regroupent les modules dans l'espace élève (tableau de bord et menu des cours), sous un titre comme

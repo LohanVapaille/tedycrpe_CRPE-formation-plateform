@@ -11,7 +11,7 @@ class AdminUserController extends Controller
 {
     public function index()
     {
-        $users = User::orderBy('name')->get();
+        $users = User::with('chats:id,id_user')->orderBy('name')->get();
         return view('admin.users.index', compact('users'));
     }
 

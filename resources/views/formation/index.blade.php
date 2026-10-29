@@ -72,8 +72,8 @@
                             ];
                             $accesUser = Auth::user()->module();
                         @endphp
-                        {{-- Élèves "E-learning" : pas de groupe WhatsApp --}}
-                        @foreach(Auth::user()->isElearning() ? [] : $groupesWhatsapp as $module => $lien)
+                        {{-- Élèves "E-learning" et "3ème voie/Interne" : pas de groupe WhatsApp --}}
+                        @foreach(Auth::user()->isElearning() || Auth::user()->isTroisiemeVoie() ? [] : $groupesWhatsapp as $module => $lien)
                             @if($accesUser === 'all' || $accesUser === $module)
                                 <a href="{{ $lien }}" target="_blank" rel="noopener" style="background-color: green;"
                                     class=" btn-secondary-light "><i class='bx bxl-whatsapp'></i>
@@ -131,7 +131,7 @@
                     // Accès complet : un groupe par niveau (Bac +5 / Bac +3) ; sinon un seul groupe sans titre
                     $niveaux = match (true) {
                         $matieres->isEmpty() => collect(),
-                        Auth::user()->module() === 'all' => $matieres->groupBy('module_associe'),
+                        Auth::user()->voitPlusieursNiveaux() => $matieres->sortByDesc('module_associe')->groupBy('module_associe'),
                         default => collect(['' => $matieres]),
                     };
                 @endphp

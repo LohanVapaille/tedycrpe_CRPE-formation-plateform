@@ -16,6 +16,7 @@ use App\Http\Controllers\ContactController;
 
 
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AdminFormationController;
 use App\Http\Controllers\Admin\AdminBlocController;
 use App\Http\Controllers\Admin\AdminCoursController;
@@ -107,6 +108,9 @@ Route::middleware(['auth'])->group(function () {
 
 // routes/web.php
 Route::prefix('admin')->middleware(['auth', 'tutor'])->group(function () {
+
+    // Tableau de bord
+    Route::get('/', [AdminDashboardController::class, 'index'])->name('admin.dashboard');
 
     // Users
     Route::get('/users', [AdminUserController::class, 'index'])->name('admin.users');

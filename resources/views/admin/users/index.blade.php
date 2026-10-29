@@ -2,134 +2,110 @@
 @extends('layouts.admin')
 @section('title', 'Utilisateurs')
 
+@php
+    $pillAcces = [
+        'CRPE BAC + 3' => 'is-blue',
+        'CRPE BAC + 3 E-learning' => 'is-blue',
+        'CRPE BAC + 5' => 'is-purple',
+        'CRPE BAC + 5 E-learning' => 'is-purple',
+        '3ème voie/Interne' => 'is-amber',
+    ];
+@endphp
+
 @section('content')
     <div class="admin-header">
-        <h1>Utilisateurs</h1>
+        <div>
+            <h1>Utilisateurs</h1>
+            <p class="admin-subtitle">{{ $users->where('is_tutor', false)->count() }} élève(s) ·
+                {{ $users->where('is_tutor', true)->count() }} tuteur(s)</p>
+        </div>
         <a href="{{ route('admin.users.create') }}" class="btn btn-primary">
             <i class='bx bx-plus'></i> Nouvel utilisateur
         </a>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
+    <div class="admin-toolbar">
+        <div class="admin-search">
+            <i class='bx bx-search'></i>
+            <input type="search" placeholder="Rechercher un nom, un email, une académie…" autocomplete="off"
+                data-table-search="#users-table" data-table-filter="#users-filter" data-table-empty="#users-empty">
+        </div>
+        <div style="min-width: 220px;">
+            <select id="users-filter" data-native class="form-select">
+                <option value="">Toutes les formules</option>
+                @foreach(\App\Models\User::ACCES as $valeur => $libelle)
+                    <option value="{{ $valeur }}">{{ $libelle }}</option>
+                @endforeach
+                <option value="tuteur">Tuteurs</option>
+            </select>
+        </div>
+    </div>
+
     <div class="table-responsive">
-        <table>
+        <table id="users-table">
             <thead>
                 <tr>
                     <th>Nom</th>
                     <th>Email</th>
+                    <th>Académie</th>
                     <th>Accès</th>
                     <th>Rôle</th>
-                    <th>Actions</th>
+                    <th style="text-align:right;">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($users as $user)
-                    <tr>
-                        <td>{{ $user->firstname }} {{ $user->name }}</td>
+                    <tr data-filter="{{ $user->is_tutor ? 'tuteur' : $user->access }}">
+                        <td><strong>{{ $user->firstname }} {{ $user->name }}</strong></td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ \App\Models\User::ACCES[$user->access] ?? $user->access }}</td>
-                        <td>{{ $user->is_tutor ? 'Tuteur' : 'Élève' }}</td>
-                        <td style="display:flex; gap:0.5rem;">
-                            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary">
-                                <i class='bx bx-edit'></i>
-                            </a>
-                            @if(!$user->is_tutor && $user->chats->isNotEmpty())
-                                <button class="btn btn-primary open-chat-btn" data-chat-id="{{ $user->chats->first()->id }}"
-                                    data-student-name="{{ $user->firstname }} {{ $user->name }}">
-                                    <i class='bx bx-message-square-dots'></i>
-                                </button>
+                        <td>{{ $user->academie ?: '—' }}</td>
+                        <td>
+                            <span class="pill {{ $pillAcces[$user->access] ?? '' }}">
+                                {{ \App\Models\User::ACCES[$user->access] ?? $user->access }}
+                            </span>
+                        </td>
+                        <td>
+                            @if($user->is_tutor)
+                                <span class="pill is-brand"><i class='bx bx-crown'></i> Tuteur</span>
+                            @else
+                                <span class="pill">Élève</span>
                             @endif
-                            <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
-                                onsubmit="return confirm('Supprimer ?')">
-                                @csrf @method('DELETE')
-                                <button class="btn btn-danger"><i class='bx bx-trash'></i></button>
-                            </form>
+                        </td>
+                        <td>
+                            <div style="display:flex; gap:0.4rem; justify-content:flex-end;">
+                                @if(!$user->is_tutor && $user->chats->isNotEmpty())
+                                    <button type="button" class="btn btn-secondary open-chat-btn" title="Discuter"
+                                        data-chat-id="{{ $user->chats->first()->id }}"
+                                        data-student-name="{{ $user->firstname }} {{ $user->name }}">
+                                        <i class='bx bx-message-square-dots'></i>
+                                    </button>
+                                @endif
+                                <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-secondary" title="Modifier">
+                                    <i class='bx bx-edit'></i>
+                                </a>
+                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST"
+                                    onsubmit="return confirm('Supprimer {{ addslashes($user->firstname . ' ' . $user->name) }} ? Cette action est définitive.')">
+                                    @csrf @method('DELETE')
+                                    <button class="btn btn-danger" title="Supprimer"><i class='bx bx-trash'></i></button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        <p class="admin-search-empty" id="users-empty">Aucun utilisateur ne correspond à la recherche.</p>
     </div>
-
-    @include('components.chat')
 
     @push('scripts')
         <script>
-            // Même JS que backoffice pour le chat
+            // Le chat (popup, envoi, temps réel) est géré par chat-notifications.js
             document.addEventListener('DOMContentLoaded', () => {
-                const baseUrl = "{{ url('') }}";
-                const currentUserId = {{ Auth::id() }};
-                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-                const chatPopup = document.getElementById('chat-popup');
-                const chatMessagesContainer = document.getElementById('chat-messages-container');
-                const chatInput = document.getElementById('chat-input');
-                const sendBtn = document.getElementById('send-btn');
-                const chatStudentName = document.getElementById('chat-student-name');
-
-                let activeChatId = null;
-                let activeEchoChannel = null;
-
-                function appendMessage(contenu, direction, writerName = '', createdAt = null) {
-                    const div = document.createElement('div');
-                    div.classList.add('message', direction);
-                    const timeStr = createdAt
-                        ? new Date(createdAt).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
-                        : new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-                    div.innerHTML = `${writerName ? `<span class="message-author">${writerName}</span>` : ''}<p>${contenu}</p><span class="message-time">${timeStr}</span>`;
-                    chatMessagesContainer.appendChild(div);
-                    chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
-                }
-
-                function loadHistory(chatId) {
-                    chatMessagesContainer.innerHTML = '<p>Chargement...</p>';
-                    fetch(`${baseUrl}/chat/${chatId}/messages`, {
-                        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken }
-                    }).then(r => r.json()).then(messages => {
-                        chatMessagesContainer.innerHTML = '';
-                        messages.forEach(msg => {
-                            const direction = msg.id_writer === currentUserId ? 'outgoing' : 'incoming';
-                            const writerName = direction === 'incoming' ? `${msg.writer.firstname} ${msg.writer.name}` : '';
-                            appendMessage(msg.contenu, direction, writerName, msg.created_at);
-                        });
-                    });
-                }
-
-                document.querySelectorAll('.open-chat-btn').forEach(btn => {
+                document.querySelectorAll('.open-chat-btn').forEach((btn) => {
                     btn.addEventListener('click', () => {
-                        const chatId = btn.dataset.chatId;
-                        activeChatId = chatId;
-                        chatStudentName.textContent = `Discussion avec ${btn.dataset.studentName}`;
-                        if (activeEchoChannel) window.Echo.leave(activeEchoChannel);
-                        loadHistory(chatId);
-                        chatPopup.classList.add('active');
-                        activeEchoChannel = `chat.${chatId}`;
-                        window.Echo.private(activeEchoChannel).listen('.MessageSent', (e) => {
-                            if (e.message.id_writer !== currentUserId)
-                                appendMessage(e.message.contenu, 'incoming', `${e.message.writer.firstname} ${e.message.writer.name}`, e.message.created_at);
-                        });
+                        window.openChat?.(parseInt(btn.dataset.chatId), btn.dataset.studentName);
                     });
                 });
-
-                sendBtn.addEventListener('click', sendMessage);
-                chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendMessage(); });
-
-                function sendMessage() {
-                    if (!chatInput.value.trim() || !activeChatId) return;
-                    const formData = new FormData();
-                    formData.append('contenu', chatInput.value.trim());
-                    formData.append('id_chat', activeChatId);
-                    formData.append('_token', csrfToken);
-                    fetch(`${baseUrl}/chat/store`, {
-                        method: 'POST', body: formData,
-                        headers: { 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'application/json', 'X-CSRF-TOKEN': csrfToken, 'X-Socket-ID': window.Echo?.socketId() ?? '' }
-                    }).then(r => r.json()).then(data => {
-                        if (data.status === 'success') { appendMessage(data.message.contenu, 'outgoing', '', data.message.created_at); chatInput.value = ''; }
-                    });
-                }
-
-                document.getElementById('close-chat-btn').addEventListener('click', () => chatPopup.classList.remove('active'));
             });
         </script>
     @endpush

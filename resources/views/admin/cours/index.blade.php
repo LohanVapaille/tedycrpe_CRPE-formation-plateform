@@ -10,9 +10,6 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
 
     <p style="color:#64748b; margin-bottom:1rem;">
         <i class='bx bx-move-vertical'></i> Glissez un cours par la poignée <i class='bx bx-grid-vertical'></i> pour changer son ordre dans le module : l'ordre est enregistré automatiquement.

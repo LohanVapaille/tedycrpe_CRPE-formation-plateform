@@ -3,12 +3,22 @@
 
 @section('content')
     <div class="admin-header">
-        <h1>Rendus des Devoirs</h1>
+        <div>
+            <h1>Rendus des devoirs</h1>
+            <p class="admin-subtitle">{{ $students->count() }} élève(s) ayant rendu au moins un devoir</p>
+        </div>
     </div>
 
-    @if(session('error'))
-        <p style="color:red; margin-bottom:1rem;">{{ session('error') }}</p>
+    @if($students->isNotEmpty())
+        <div class="admin-toolbar">
+            <div class="admin-search">
+                <i class='bx bx-search'></i>
+                <input type="search" id="devoirs-search" placeholder="Rechercher un élève…" autocomplete="off">
+            </div>
+        </div>
+        <p class="admin-search-empty" id="devoirs-empty">Aucun élève ne correspond à la recherche.</p>
     @endif
+
 
     <div class="devoirs-container" style="display: flex; flex-direction: column; gap: 1.5rem;">
         @forelse($students as $student)
@@ -19,12 +29,12 @@
                 });
             @endphp
 
-            <div class="card"
+            <div class="card devoir-student" data-search="{{ $student->firstname }} {{ $student->name }} {{ $student->email }}"
                 style="background: white; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
                 <div style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;"
                     onclick="toggleStudent('student-{{ $student->id }}', this)">
                     <h3 style="margin: 0; color: #1e293b;">
-                        <span class="toggle-icon" style="margin-right: 0.5px;">▶</span> {{ $student->name }}
+                        <span class="toggle-icon" style="margin-right: 0.5px;">▶</span> {{ $student->firstname }} {{ $student->name }}
                         <span style="font-size: 0.9rem; color: #64748b; font-weight: normal;">({{ $student->email }})</span>
                     </h3>
                     <span
@@ -40,7 +50,7 @@
                         <div class="module-block" style="margin-bottom: 1.5rem;">
                             <h4
                                 style="margin: 0 0 0.75rem 0; color: #2c6e7a; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.5px;">
-                                📁 {{ $nomModule === 'bac_3' ? 'Module CRPE BAC + 3' : 'Module CRPE BAC + 5' }}
+                                📁 {{ $nomModule === 'Non défini' ? 'Module non défini' : 'Module ' . $nomModule }}
                             </h4>
 
                             <div class="table-responsive">
@@ -94,6 +104,19 @@
 
     @push('scripts')
         <script>
+            document.getElementById('devoirs-search')?.addEventListener('input', (e) => {
+                const normaliser = (s) => [...s.normalize('NFD')]
+                    .filter((c) => c.charCodeAt(0) < 0x300 || c.charCodeAt(0) > 0x36f).join('').toLowerCase();
+                const termes = normaliser(e.target.value.trim()).split(/\s+/).filter(Boolean);
+                let visibles = 0;
+                document.querySelectorAll('.devoir-student').forEach((card) => {
+                    const ok = termes.every((t) => normaliser(card.dataset.search).includes(t));
+                    card.style.display = ok ? '' : 'none';
+                    if (ok) visibles++;
+                });
+                document.getElementById('devoirs-empty').style.display = visibles ? 'none' : 'block';
+            });
+
             function toggleStudent(studentId, headerDiv) {
                 const container = document.getElementById(studentId);
                 const icon = headerDiv.querySelector('.toggle-icon');

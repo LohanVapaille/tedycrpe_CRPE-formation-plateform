@@ -152,6 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
         loadHistory(chatId);
     }
 
+    // Accessible depuis les pages (ex. bouton « Discuter » de la liste des utilisateurs)
+    window.openChat = openChat;
+
     function onIncomingMessage(e) {
         const msg = e.message;
         if (msg.id_writer === currentUserId) return;

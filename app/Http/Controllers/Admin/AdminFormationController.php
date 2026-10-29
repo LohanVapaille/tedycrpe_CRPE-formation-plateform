@@ -34,7 +34,8 @@ class AdminFormationController extends Controller
             'ordre' => 'required|integer',
         ]);
 
-        Matiere::create($request->only('name', 'module_associe', 'bloc_id', 'ordre'));
+        Matiere::create($request->only('name', 'module_associe', 'bloc_id', 'ordre')
+            + ['acces_troisieme_voie' => $request->boolean('acces_troisieme_voie')]);
         return redirect()->route('admin.formations')->with('success', 'Module créé.');
     }
 
@@ -52,7 +53,8 @@ class AdminFormationController extends Controller
             'ordre' => 'required|integer',
         ]);
 
-        $matiere->update($request->only('name', 'module_associe', 'bloc_id', 'ordre'));
+        $matiere->update($request->only('name', 'module_associe', 'bloc_id', 'ordre')
+            + ['acces_troisieme_voie' => $request->boolean('acces_troisieme_voie')]);
         return redirect()->route('admin.formations')->with('success', 'Module mis à jour.');
     }
 

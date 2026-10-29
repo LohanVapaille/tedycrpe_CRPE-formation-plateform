@@ -82,7 +82,7 @@
                 <a href="{{ route('donnees-personnelles') }}">Données personnelles</a>
                 <a href="{{ route('home') }}#contact">Contact</a>
                 @if(Auth::check() && Auth::user()->is_tutor)
-                    <a href="{{ route('admin.users') }}">Admin</a>
+                    <a href="{{ route('admin.dashboard') }}">Admin</a>
                 @endif
             </div>
 

@@ -7,12 +7,6 @@
             <h1 class="h3 mb-0 text-gray-800">Boîte de réception des contacts</h1>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" onclick="this.parentElement.remove()" aria-label="Close"></button>
-            </div>
-        @endif
 
         <div class="card shadow mb-4">
             <div class="card-body p-0">

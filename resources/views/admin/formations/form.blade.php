@@ -40,6 +40,14 @@
                 <label>Ordre</label>
                 <input type="number" name="ordre" value="{{ old('ordre', $matiere?->ordre ?? 1) }}" required>
             </div>
+            <div class="form-group">
+                <label for="acces_troisieme_voie" class="form-check-inline">
+                    <input type="checkbox" name="acces_troisieme_voie" value="1" id="acces_troisieme_voie"
+                        {{ old('acces_troisieme_voie', $matiere?->acces_troisieme_voie) ? 'checked' : '' }}>
+                    Accessible en « 3ème voie/Interne »
+                </label>
+                <p class="form-hint">Les élèves ayant l'accès « 3ème voie/Interne » ne voient que les modules cochés.</p>
+            </div>
 
             <button type="submit" class="btn btn-primary">Enregistrer</button>
         </form>

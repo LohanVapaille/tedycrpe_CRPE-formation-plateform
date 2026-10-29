@@ -10,9 +10,6 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
     <div class="table-responsive">
         <table>
             <thead>

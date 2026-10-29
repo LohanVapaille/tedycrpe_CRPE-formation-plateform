@@ -10,9 +10,6 @@
         </a>
     </div>
 
-    @if(session('success'))
-        <p style="color:green; margin-bottom:1rem;">{{ session('success') }}</p>
-    @endif
     <div class="table-responsive">
         <table>
             <thead>
@@ -35,7 +32,12 @@
                     @foreach($liste as $matiere)
                         <tr>
                             <td>{{ $matiere->ordre }}</td>
-                            <td>{{ $matiere->name }}</td>
+                            <td>
+                                {{ $matiere->name }}
+                                @if($matiere->acces_troisieme_voie)
+                                    <span class="pill is-amber" title="Visible par les élèves 3ème voie/Interne">3ème voie</span>
+                                @endif
+                            </td>
                             <td>{{ $matiere->module_associe }}</td>
                             <td>{{ $matiere->bloc?->name ?? '—' }}</td>
                             <td>{{ $matiere->cours->count() }} cours</td>

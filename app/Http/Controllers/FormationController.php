@@ -16,11 +16,7 @@ class FormationController extends Controller
 {
     private function getAuthorizedMatieres($user)
     {
-        $query = Matiere::with('cours')->orderBy('ordre', 'asc');
-        if ($user->module() !== 'all') {
-            $query->where('module_associe', $user->module());
-        }
-        return $query->get();
+        return Matiere::with('cours')->accessiblesPar($user)->orderBy('ordre', 'asc')->get();
     }
 
     public function index()
@@ -154,11 +150,7 @@ class FormationController extends Controller
         $user = Auth::user();
 
         // 1. Récupérer toutes les matières autorisées
-        $queryMatieres = Matiere::with('cours')->orderBy('ordre', 'asc');
-        if ($user->module() !== 'all') {
-            $queryMatieres->where('module_associe', $user->module());
-        }
-        $matieres = $queryMatieres->get();
+        $matieres = $this->getAuthorizedMatieres($user);
 
         // 2. Récupérer les cours terminés pour calculer les pourcentages
         $coursTerminesIds = $user->coursTermines()->pluck('id_cours')->toArray();
@@ -182,7 +174,7 @@ class FormationController extends Controller
         ])->findOrFail($id);
 
         // Sécurité d'accès
-        if ($user->module() !== 'all' && $coursSelectionne->matiere->module_associe !== $user->module()) {
+        if (!$user->aAccesA($coursSelectionne->matiere)) {
             abort(403, 'Vous n\'avez pas accès à ce contenu.');
         }
 
@@ -212,7 +204,7 @@ class FormationController extends Controller
         abort_unless($chemin, 404);
 
         // Même règle d'accès que pour afficher le cours
-        if ($user->module() !== 'all' && $section->cours->matiere->module_associe !== $user->module()) {
+        if (!$user->aAccesA($section->cours->matiere)) {
             abort(403, 'Vous n\'avez pas accès à ce contenu.');
         }
 

@@ -8,11 +8,6 @@
         <a href="{{ route('admin.evenements') }}" class="btn btn-secondary">← Retour</a>
     </div>
 
-    @if($errors->any())
-        <div style="color:red; margin-bottom:1rem;">
-            <ul>@foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach</ul>
-        </div>
-    @endif
 
     <div class="card" style="max-width:600px;">
         <form action="{{ $event ? route('admin.evenements.update', $event) : route('admin.evenements.store') }}"

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -9,7 +10,23 @@ use Illuminate\Support\Collection;
 
 class Matiere extends Model
 {
-    protected $fillable = ['name', 'module_associe', 'bloc_id', 'ordre'];
+    protected $fillable = ['name', 'module_associe', 'bloc_id', 'ordre', 'acces_troisieme_voie'];
+
+    protected $casts = [
+        'acces_troisieme_voie' => 'boolean',
+    ];
+
+    /**
+     * Modules que l'utilisateur a le droit de voir, selon son accès.
+     */
+    public function scopeAccessiblesPar(Builder $query, User $user): Builder
+    {
+        return match (true) {
+            $user->module() === 'all' => $query,
+            $user->isTroisiemeVoie() => $query->where('acces_troisieme_voie', true),
+            default => $query->where('module_associe', $user->module()),
+        };
+    }
 
     public function cours(): HasMany
     {
