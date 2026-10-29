@@ -95,6 +95,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/chat/store', [ChatController::class, 'store'])->name('chat.store');
     Route::get('/tuteur/chats', [ChatController::class, 'tutorChannels'])->name('chat.tutorChannels');
     Route::get('/chat/{chat}/messages', [ChatController::class, 'history'])->name('chat.history');
+    Route::post('/chat/{chat}/read', [ChatController::class, 'markRead'])->name('chat.read');
+    Route::get('/chat/unread', [ChatController::class, 'unread'])->name('chat.unread');
     Route::get('/admin/devoirs', [AdminDevoirController::class, 'index'])->name('admin.devoirs.index');
     Route::get('/admin/devoirs/{rendu}/download', [AdminDevoirController::class, 'download'])->name('admin.devoirs.download');
 

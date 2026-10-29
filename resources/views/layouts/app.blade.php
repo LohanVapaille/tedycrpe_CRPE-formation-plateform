@@ -113,15 +113,7 @@
 
 
     @auth
-        <script>
-            window.chatConfig = {
-                currentUserId: {{ Auth::id() }},
-                isTuteur: {{ Auth::user()->is_tutor ? 'true' : 'false' }},
-                initialChatId: {{ !Auth::user()->is_tutor ? ($chat->id ?? 'null') : 'null' }},
-                baseUrl: "{{ url('') }}",
-                csrfToken: "{{ csrf_token() }}"
-            };
-        </script>
+        @include('components.chat-config')
 
         @include('components.chat')
 

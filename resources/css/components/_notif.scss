@@ -83,3 +83,86 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* Liste des conversations du tuteur */
+.channels-empty {
+    text-align: center;
+    color: gray;
+    margin-top: 2rem;
+    font-family: sans-serif;
+
+    &.is-error {
+        color: #d63031;
+    }
+}
+
+.channel-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid #f0f0f0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: sans-serif;
+    transition: background 0.2s;
+
+    &:hover {
+        background: #f5f9fa;
+    }
+
+    .channel-avatar {
+        font-size: 1.5rem;
+    }
+
+    .channel-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .channel-name {
+        margin: 0;
+        font-weight: 600;
+        font-size: 0.9rem;
+        color: #333;
+    }
+
+    .channel-preview {
+        margin: 0;
+        font-size: 0.75rem;
+        color: gray;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .channel-unread {
+        flex-shrink: 0;
+        min-width: 22px;
+        height: 22px;
+        padding: 0 6px;
+        border-radius: 11px;
+        background: #ff4757;
+        color: white;
+        font-size: 0.7rem;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Conversation avec nouveaux messages : mise en avant */
+    &.has-unread {
+        background: #eef6f7;
+        border-left: 4px solid #2c6e7a;
+
+        .channel-name {
+            color: #2c6e7a;
+        }
+
+        .channel-preview {
+            color: #333;
+            font-weight: 600;
+        }
+    }
+}

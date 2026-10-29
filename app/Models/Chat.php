@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Chat extends Model
 {
@@ -27,5 +28,13 @@ class Chat extends Model
     public function messages(): HasMany
     {
         return $this->hasMany(Message::class, 'id_chat');
+    }
+
+    /**
+     * Dernier message du chat (une seule requête pour toute une liste).
+     */
+    public function latestMessage(): HasOne
+    {
+        return $this->hasOne(Message::class, 'id_chat')->latestOfMany();
     }
 }

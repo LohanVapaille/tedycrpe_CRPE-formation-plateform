@@ -5,54 +5,82 @@ document.addEventListener("DOMContentLoaded", () => {
     let activeChatId = isTuteur ? null : window.chatConfig.initialChatId;
 
     const chatPopup = document.getElementById("chat-popup");
-    const chatMessagesContainer = document.getElementById(
-        "chat-messages-container",
-    );
+    const chatMessagesContainer = document.getElementById("chat-messages-container");
     const chatInput = document.getElementById("chat-input");
     const sendBtn = document.getElementById("send-btn");
     const chatStudentName = document.getElementById("chat-student-name");
-    const chatNotifBadge = document.getElementById("chat-notif-badge");
-    const channelsNotifBadge = document.getElementById("channels-notif-badge");
+    const channelsPopup = document.getElementById("channels-popup");
+    const badge = document.getElementById(isTuteur ? "channels-notif-badge" : "chat-notif-badge");
 
-    let unreadCount = 0;
-    let currentEchoChannel = null;
-    const listenedChannels = new Set();
+    // Non lus : la base de données fait foi, le temps réel ne fait qu'accélérer la mise à jour
+    let unreadTotal = window.chatConfig.initialUnread || 0;
 
-    const scrollToBottom = () => {
-        if (chatMessagesContainer)
-            chatMessagesContainer.scrollTop =
-                chatMessagesContainer.scrollHeight;
+    const POLL_CONNECTED_MS = 60000;
+    const POLL_FALLBACK_MS = 15000;
+
+    const jsonHeaders = {
+        "X-Requested-With": "XMLHttpRequest",
+        Accept: "application/json",
+        "X-CSRF-TOKEN": csrfToken,
     };
 
+    const escapeHtml = (str) =>
+        String(str ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+    const fullName = (u) => (u ? `${u.firstname ?? ""} ${u.name ?? ""}`.trim() : "");
+
+    const isRealtimeConnected = () => window.Echo?.connector?.pusher?.connection?.state === "connected";
+
+    const isChatOpen = (chatId) =>
+        chatPopup && chatPopup.classList.contains("active") && activeChatId == chatId;
+
+    const isChannelsOpen = () => channelsPopup && channelsPopup.classList.contains("active");
+
+    const scrollToBottom = () => {
+        if (chatMessagesContainer) chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+    };
+
+    function updateBadge() {
+        if (!badge) return;
+        badge.textContent = unreadTotal > 9 ? "9+" : unreadTotal;
+        badge.style.display = unreadTotal > 0 ? "flex" : "none";
+    }
+
+    function appendMessage(contenu, direction, writerName = "", createdAt = null) {
+        if (!chatMessagesContainer) return;
+        const messageDiv = document.createElement("div");
+        messageDiv.classList.add("message", direction);
+        const timeStr = (createdAt ? new Date(createdAt) : new Date()).toLocaleTimeString("fr-FR", {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+
+        messageDiv.innerHTML = `
+            ${writerName ? `<span class="message-author">${escapeHtml(writerName)}</span>` : ""}
+            <p>${escapeHtml(contenu)}</p>
+            <span class="message-time">${timeStr}</span>
+        `;
+        chatMessagesContainer.appendChild(messageDiv);
+        scrollToBottom();
+    }
+
+    // Charge l'historique ; côté serveur, cela marque aussi les messages reçus comme lus
     function loadHistory(chatId) {
         if (!chatMessagesContainer) return;
-        chatMessagesContainer.innerHTML = "";
-        fetch(`${baseUrl}/chat/${chatId}/messages`, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                Accept: "application/json",
-                "X-CSRF-TOKEN": csrfToken,
-            },
-        })
+        fetch(`${baseUrl}/chat/${chatId}/messages`, { headers: jsonHeaders })
             .then((r) => r.json())
             .then((messages) => {
+                chatMessagesContainer.innerHTML = "";
                 messages.forEach((msg) => {
-                    const direction =
-                        msg.id_writer === currentUserId
-                            ? "outgoing"
-                            : "incoming";
-                    const writerName =
-                        direction === "incoming"
-                            ? `${msg.writer.firstname} ${msg.writer.name}`
-                            : "";
-                    appendMessage(
-                        msg.contenu,
-                        direction,
-                        writerName,
-                        msg.created_at,
-                    );
+                    const direction = msg.id_writer === currentUserId ? "outgoing" : "incoming";
+                    appendMessage(msg.contenu, direction, direction === "incoming" ? fullName(msg.writer) : "", msg.created_at);
                 });
+                refreshUnread();
             });
+    }
+
+    function markRead(chatId) {
+        fetch(`${baseUrl}/chat/${chatId}/read`, { method: "POST", headers: jsonHeaders }).then(refreshUnread);
     }
 
     function sendMessage() {
@@ -61,58 +89,23 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData();
         formData.append("contenu", chatInput.value.trim());
         formData.append("id_chat", activeChatId);
-        formData.append("_token", csrfToken);
+
+        sendBtn && (sendBtn.disabled = true);
 
         fetch(`${baseUrl}/chat/store`, {
             method: "POST",
             body: formData,
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                Accept: "application/json",
-                "X-CSRF-TOKEN": csrfToken,
-                "X-Socket-ID": window.Echo?.socketId() ?? "",
-            },
+            headers: { ...jsonHeaders, "X-Socket-ID": window.Echo?.socketId() ?? "" },
         })
             .then((r) => r.json())
             .then((data) => {
                 if (data.status === "success") {
-                    appendMessage(
-                        data.message.contenu,
-                        "outgoing",
-                        "",
-                        data.message.created_at,
-                    );
+                    appendMessage(data.message.contenu, "outgoing", "", data.message.created_at);
                     chatInput.value = "";
+                    refreshUnread();
                 }
-            });
-    }
-
-    function appendMessage(
-        contenu,
-        direction,
-        writerName = "",
-        createdAt = null,
-    ) {
-        if (!chatMessagesContainer) return;
-        const messageDiv = document.createElement("div");
-        messageDiv.classList.add("message", direction);
-        const timeStr = createdAt
-            ? new Date(createdAt).toLocaleTimeString("fr-FR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-              })
-            : new Date().toLocaleTimeString("fr-FR", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-              });
-
-        messageDiv.innerHTML = `
-            ${writerName ? `<span class="message-author">${writerName}</span>` : ""}
-            <p>${contenu}</p>
-            <span class="message-time">${timeStr}</span>
-        `;
-        chatMessagesContainer.appendChild(messageDiv);
-        scrollToBottom();
+            })
+            .finally(() => sendBtn && (sendBtn.disabled = false));
     }
 
     function showToast(authorName, message, chatId) {
@@ -121,15 +114,15 @@ document.addEventListener("DOMContentLoaded", () => {
         toast.innerHTML = `
             <div class="toast-icon">💬</div>
             <div class="toast-content">
-                <strong>${authorName}</strong>
-                <p>${message}</p>
+                <strong>${escapeHtml(authorName)}</strong>
+                <p>${escapeHtml(message)}</p>
             </div>
         `;
         document.body.appendChild(toast);
 
         toast.addEventListener("click", () => {
             toast.remove();
-            openChatFromNotif(chatId, authorName);
+            openChat(chatId, authorName);
         });
 
         setTimeout(() => {
@@ -138,22 +131,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 5000);
     }
 
-    function updateBadge() {
-        const badge = isTuteur ? channelsNotifBadge : chatNotifBadge;
-        if (!badge) return;
-
-        if (unreadCount > 0) {
-            badge.textContent = unreadCount > 9 ? "9+" : unreadCount;
-            badge.style.display = "flex";
-        } else {
-            badge.style.display = "none";
-        }
-    }
-
-    function openChatFromNotif(chatId, authorName = "") {
-        const hasChatUI = document.getElementById("chat-popup");
-
-        if (!hasChatUI) {
+    function openChat(chatId, authorName = "") {
+        if (!chatPopup) {
             // Le popup n'existe pas sur cette page → on redirige vers le dashboard
             sessionStorage.setItem("open_chat_id", chatId);
             sessionStorage.setItem("open_chat_author", authorName);
@@ -162,51 +141,88 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         activeChatId = chatId;
-        currentEchoChannel = chatId;
 
         if (isTuteur && chatStudentName && authorName) {
             chatStudentName.textContent = `Discussion avec ${authorName}`;
         }
 
+        if (isChannelsOpen()) closeChannels();
         chatPopup.classList.add("active");
         chatPopup.style.display = "flex";
         loadHistory(chatId);
+    }
 
-        unreadCount = 0;
+    function onIncomingMessage(e) {
+        const msg = e.message;
+        if (msg.id_writer === currentUserId) return;
+
+        const authorName = fullName(msg.writer);
+
+        if (isChatOpen(msg.id_chat)) {
+            appendMessage(msg.contenu, "incoming", authorName, msg.created_at);
+            markRead(msg.id_chat);
+            return;
+        }
+
+        unreadTotal++;
         updateBadge();
+        showToast(authorName, msg.contenu, msg.id_chat);
+        if (isChannelsOpen()) loadChannels();
     }
 
-    function listenToChannel(chatId) {
-        if (typeof window.Echo === "undefined") return;
-        if (listenedChannels.has(chatId)) return;
+    /* Filet de sécurité : relit les non lus en base (connexion temps réel coupée, onglet en veille…) */
+    let pollTimer = null;
 
-        listenedChannels.add(chatId);
-
-        window.Echo.private(`chat.${chatId}`).listen(".MessageSent", (e) => {
-            if (e.message.id_writer === currentUserId) return;
-
-            const authorName = `${e.message.writer.firstname} ${e.message.writer.name}`;
-            const isThisChatOpen =
-                chatPopup &&
-                chatPopup.classList.contains("active") &&
-                currentEchoChannel === chatId;
-
-            if (isThisChatOpen) {
-                appendMessage(
-                    e.message.contenu,
-                    "incoming",
-                    authorName,
-                    e.message.created_at,
-                );
-            } else {
-                unreadCount++;
+    function refreshUnread() {
+        return fetch(`${baseUrl}/chat/unread`, { headers: jsonHeaders })
+            .then((r) => (r.ok ? r.json() : null))
+            .then((data) => {
+                if (!data) return;
+                const previous = unreadTotal;
+                unreadTotal = data.total;
                 updateBadge();
-                showToast(authorName, e.message.contenu, chatId);
-            }
-        });
+
+                if (unreadTotal > previous && !isRealtimeConnected()) {
+                    // Nouveau message détecté sans le temps réel : on rafraîchit ce qui est affiché
+                    if (activeChatId && data.chats[activeChatId] && isChatOpen(activeChatId)) {
+                        loadHistory(activeChatId);
+                    } else if (isChannelsOpen()) {
+                        loadChannels();
+                    }
+                }
+            })
+            .catch(() => {});
     }
 
-    // Événements communs (seulement si le popup existe sur cette page)
+    function schedulePoll() {
+        clearTimeout(pollTimer);
+        pollTimer = setTimeout(() => {
+            if (!document.hidden) refreshUnread();
+            schedulePoll();
+        }, isRealtimeConnected() ? POLL_CONNECTED_MS : POLL_FALLBACK_MS);
+    }
+
+    document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) refreshUnread();
+    });
+
+    /* Temps réel */
+    if (window.Echo) {
+        if (isTuteur) {
+            // Un seul canal pour tous les élèves (au lieu d'un abonnement par conversation)
+            window.Echo.private("tutor").listen(".MessageSent", onIncomingMessage);
+        } else if (activeChatId) {
+            window.Echo.private(`chat.${activeChatId}`).listen(".MessageSent", onIncomingMessage);
+        }
+
+        // Au retour de connexion, on resynchronise ce qui a pu être manqué
+        window.Echo.connector?.pusher?.connection?.bind("connected", refreshUnread);
+    }
+
+    updateBadge();
+    schedulePoll();
+
+    /* Événements communs (seulement si le popup existe sur cette page) */
     document.getElementById("close-chat-btn")?.addEventListener("click", () => {
         chatPopup.classList.remove("active");
         chatPopup.style.display = "none";
@@ -219,140 +235,92 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /* ÉLÈVE */
     if (!isTuteur) {
-        document
-            .querySelector(".tutor-chat-btn")
-            ?.addEventListener("click", (e) => {
-                e.preventDefault();
-                chatPopup.classList.add("active");
-                chatPopup.style.display = "flex";
-                currentEchoChannel = activeChatId;
-                if (activeChatId) loadHistory(activeChatId);
-                unreadCount = 0;
-                updateBadge();
-            });
-
-        if (activeChatId) {
-            listenToChannel(activeChatId);
-        }
+        document.querySelector(".tutor-chat-btn")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            if (activeChatId) openChat(activeChatId);
+        });
     }
 
     /* TUTEUR */
-    if (isTuteur) {
-        const channelsPopup = document.getElementById("channels-popup");
+    function closeChannels() {
+        channelsPopup.classList.remove("active");
+        channelsPopup.style.display = "none";
+    }
 
-        document
-            .getElementById("open-channels-btn")
-            ?.addEventListener("click", (e) => {
-                e.preventDefault();
-                channelsPopup.classList.add("active");
-                channelsPopup.style.display = "flex";
-                loadChannels();
-            });
+    function loadChannels() {
+        const channelsListContainer = document.getElementById("channels-list-container");
+        if (!channelsListContainer) return;
 
-        document
-            .getElementById("close-channels-btn")
-            ?.addEventListener("click", (e) => {
-                e.preventDefault();
-                channelsPopup.classList.remove("active");
-                channelsPopup.style.display = "none";
-            });
-
-        function loadChannels() {
-            const channelsListContainer = document.getElementById(
-                "channels-list-container",
-            );
-            if (!channelsListContainer) return;
-
-            channelsListContainer.innerHTML =
-                '<p style="text-align: center; color: gray; margin-top: 2rem; font-family: sans-serif;">Chargement...</p>';
-
-            fetch(`${baseUrl}/tuteur/chats`, {
-                headers: {
-                    "X-Requested-With": "XMLHttpRequest",
-                    Accept: "application/json",
-                },
-            })
-                .then((r) => {
-                    if (!r.ok)
-                        throw new Error(
-                            "Réponse serveur incorrecte status " + r.status,
-                        );
-                    return r.json();
-                })
-                .then((chats) => {
-                    channelsListContainer.innerHTML = "";
-
-                    if (!chats || chats.length === 0) {
-                        channelsListContainer.innerHTML =
-                            '<p style="text-align: center; color: gray; margin-top: 2rem; font-family: sans-serif;">Aucune conversation trouvée.</p>';
-                        return;
-                    }
-
-                    chats.forEach((c) => {
-                        const student = c.user;
-                        if (!student) return;
-
-                        const item = document.createElement("div");
-                        item.style.cssText =
-                            "display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem; border-bottom: 1px solid #f0f0f0; cursor: pointer; transition: background 0.2s;";
-                        item.innerHTML = `
-                            <div style="font-size: 1.5rem;">👤</div>
-                            <div style="flex: 1; font-family: sans-serif;">
-                                <p style="margin: 0; font-weight: 600; font-size: 0.9rem; color: #333;">${student.firstname} ${student.name}</p>
-                                <p style="margin: 0; font-size: 0.75rem; color: gray; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-                                    ${c.latest_message ? c.latest_message.contenu : "Pas de message"}
-                                </p>
-                            </div>
-                        `;
-
-                        item.addEventListener("click", () => {
-                            channelsPopup.classList.remove("active");
-                            channelsPopup.style.display = "none";
-                            openChatFromNotif(
-                                c.id,
-                                `${student.firstname} ${student.name}`,
-                            );
-                        });
-                        channelsListContainer.appendChild(item);
-                    });
-                })
-                .catch((err) => {
-                    console.error("Erreur lors du fetch des canaux :", err);
-                    channelsListContainer.innerHTML =
-                        '<p style="text-align: center; color: red; margin-top: 2rem; font-family: sans-serif;">Erreur de chargement.</p>';
-                });
+        if (!channelsListContainer.children.length) {
+            channelsListContainer.innerHTML = '<p class="channels-empty">Chargement...</p>';
         }
 
-        // Écoute tous ses chats dès le chargement, peu importe la page
-        fetch(`${baseUrl}/tuteur/chats`, {
-            headers: {
-                "X-Requested-With": "XMLHttpRequest",
-                Accept: "application/json",
-            },
-        })
-            .then((r) => r.json())
+        fetch(`${baseUrl}/tuteur/chats`, { headers: jsonHeaders })
+            .then((r) => {
+                if (!r.ok) throw new Error("Réponse serveur incorrecte status " + r.status);
+                return r.json();
+            })
             .then((chats) => {
-                chats.forEach((c) => listenToChannel(c.id));
+                channelsListContainer.innerHTML = "";
+
+                // Le serveur trie déjà : conversations avec non lus en haut, puis les plus récentes
+                const visibles = chats.filter((c) => c.user);
+                if (!visibles.length) {
+                    channelsListContainer.innerHTML = '<p class="channels-empty">Aucune conversation trouvée.</p>';
+                    return;
+                }
+
+                visibles.forEach((c) => {
+                    const studentName = fullName(c.user);
+                    const unread = c.unread_count || 0;
+
+                    const item = document.createElement("div");
+                    item.className = "channel-item" + (unread ? " has-unread" : "");
+                    item.innerHTML = `
+                        <div class="channel-avatar">👤</div>
+                        <div class="channel-info">
+                            <p class="channel-name">${escapeHtml(studentName)}</p>
+                            <p class="channel-preview">${c.latest_message ? escapeHtml(c.latest_message.contenu) : "Pas de message"}</p>
+                        </div>
+                        ${unread ? `<span class="channel-unread">${unread > 9 ? "9+" : unread}</span>` : ""}
+                    `;
+
+                    item.addEventListener("click", () => openChat(c.id, studentName));
+                    channelsListContainer.appendChild(item);
+                });
+            })
+            .catch((err) => {
+                console.error("Erreur lors du fetch des canaux :", err);
+                channelsListContainer.innerHTML = '<p class="channels-empty is-error">Erreur de chargement.</p>';
             });
     }
 
-    // Ouverture automatique après redirection depuis une notif
+    if (isTuteur) {
+        document.getElementById("open-channels-btn")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            channelsPopup.classList.add("active");
+            channelsPopup.style.display = "flex";
+            loadChannels();
+        });
+
+        document.getElementById("close-channels-btn")?.addEventListener("click", (e) => {
+            e.preventDefault();
+            closeChannels();
+        });
+    }
+
+    /* Ouverture automatique après redirection depuis une notif */
     const urlParams = new URLSearchParams(window.location.search);
     const openChatParam = urlParams.get("open_chat");
     const storedChatId = sessionStorage.getItem("open_chat_id");
 
     if (openChatParam || storedChatId) {
-        const chatIdToOpen = openChatParam || storedChatId;
+        const chatIdToOpen = parseInt(openChatParam || storedChatId);
         const authorName = sessionStorage.getItem("open_chat_author") || "";
+        sessionStorage.removeItem("open_chat_id");
+        sessionStorage.removeItem("open_chat_author");
 
-        setTimeout(() => {
-            openChatFromNotif(parseInt(chatIdToOpen), authorName);
-            sessionStorage.removeItem("open_chat_id");
-            sessionStorage.removeItem("open_chat_author");
-
-            if (openChatParam) {
-                window.history.replaceState({}, "", window.location.pathname);
-            }
-        }, 300);
+        if (openChatParam) window.history.replaceState({}, "", window.location.pathname);
+        if (chatPopup) openChat(chatIdToOpen, authorName);
     }
 });

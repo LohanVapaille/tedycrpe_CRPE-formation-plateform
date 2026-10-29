@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Chat;
 use App\Models\Content;
+use App\Models\Message;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -30,18 +31,26 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer('*', function ($view) {
             if (Auth::check()) {
-                $user = Auth::user();
+                // once() : une seule série de requêtes par page, même si le composer
+                // est appelé pour chaque vue et partial
+                $data = once(function () {
+                    $user = Auth::user();
 
-                if ($user->is_tutor) {
-                    // Le tuteur voit par défaut le premier chat ou un chat générique
-                    $chat = Chat::first();
-                } else {
-                    // L'élève récupère ou crée automatiquement son propre chat
-                    // Note : vérifie bien si ta colonne en BDD s'appelle id_user ou user_id
-                    $chat = Chat::firstOrCreate(['id_user' => $user->id]);
-                }
+                    if ($user->is_tutor) {
+                        // Le tuteur voit par défaut le premier chat ou un chat générique
+                        $chat = Chat::first();
+                    } else {
+                        // L'élève récupère ou crée automatiquement son propre chat
+                        $chat = Chat::firstOrCreate(['id_user' => $user->id]);
+                    }
 
-                $view->with('chat', $chat);
+                    return [
+                        'chat' => $chat,
+                        'chatUnread' => Message::unreadFor($user)->count(),
+                    ];
+                });
+
+                $view->with($data);
             }
         });
 

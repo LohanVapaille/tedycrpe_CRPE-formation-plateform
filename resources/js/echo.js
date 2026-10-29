@@ -1,29 +1,23 @@
-// import Echo from "laravel-echo";
-// import Pusher from "pusher-js";
-
-// window.Pusher = Pusher;
-
-// window.Echo = new Echo({
-//     broadcaster: "reverb",
-//     key: import.meta.env.VITE_REVERB_APP_KEY,
-//     wsHost: import.meta.env.VITE_REVERB_HOST,
-//     wsPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
-//     wssPort: import.meta.env.VITE_REVERB_PORT ?? 8080,
-//     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "http") === "https",
-//     enabledTransports: ["ws", "wss"],
-//     authEndpoint: "/tedycrpe/public/broadcasting/auth",
-// });
-
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 window.Pusher = Pusher;
 
-window.Echo = new Echo({
-    broadcaster: "pusher",
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    forceTLS: true,
-    authEndpoint: "/tedycrpe/public/broadcasting/auth", // ← ajoute ça
-    // authEndpoint: "/broadcasting/auth",
-});
+// Connexion temps réel uniquement pour un utilisateur connecté (économise les connexions Pusher).
+// La clé et l'URL viennent du serveur (window.chatConfig) : le même build fonctionne en local et en prod,
+// quel que soit le sous-dossier (/tedycrpe/public en local, racine du domaine en prod).
+const config = window.chatConfig;
+const pusherKey = config?.pusherKey || import.meta.env.VITE_PUSHER_APP_KEY;
+
+if (config && pusherKey) {
+    window.Echo = new Echo({
+        broadcaster: "pusher",
+        key: pusherKey,
+        cluster: config.pusherCluster || import.meta.env.VITE_PUSHER_APP_CLUSTER || "eu",
+        forceTLS: true,
+        authEndpoint: `${config.baseUrl}/broadcasting/auth`,
+        auth: {
+            headers: { "X-CSRF-TOKEN": config.csrfToken },
+        },
+    });
+}
