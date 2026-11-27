@@ -26,6 +26,12 @@
             </div>
 
             <div class="form-group">
+                <label>Lien de visio <small style="color:#888; font-weight:normal;">(facultatif)</small></label>
+                <input type="url" name="visio_link" value="{{ old('visio_link', $event?->visio_link) }}"
+                    placeholder="https://meet.google.com/…" maxlength="500">
+            </div>
+
+            <div class="form-group">
                 <label>Date de début</label>
                 <input type="datetime-local" name="start_time"
                     value="{{ old('start_time', $event?->start_time?->format('Y-m-d\TH:i')) }}" required>

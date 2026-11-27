@@ -25,6 +25,7 @@ class AdminEventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'visio_link' => 'nullable|url:http,https|max:500',
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'user_id' => 'nullable|exists:users,id',
@@ -32,7 +33,7 @@ class AdminEventController extends Controller
 
         ]);
 
-        Event::create($request->only('title', 'description', 'start_time', 'end_time', 'user_id', 'type'));
+        Event::create($request->only('title', 'description', 'visio_link', 'start_time', 'end_time', 'user_id', 'type'));
         return redirect()->route('admin.evenements')->with('success', 'Événement créé.');
     }
 
@@ -47,13 +48,14 @@ class AdminEventController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
+            'visio_link' => 'nullable|url:http,https|max:500',
             'start_time' => 'required|date',
             'end_time' => 'required|date|after:start_time',
             'user_id' => 'nullable|exists:users,id',
             'type' => 'nullable|string',
         ]);
 
-        $event->update($request->only('title', 'description', 'start_time', 'end_time', 'user_id', 'type'));
+        $event->update($request->only('title', 'description', 'visio_link', 'start_time', 'end_time', 'user_id', 'type'));
         return redirect()->route('admin.evenements')->with('success', 'Événement mis à jour.');
     }
 

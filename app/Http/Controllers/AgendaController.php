@@ -37,6 +37,9 @@ class AgendaController extends Controller
                 'borderColor' => $color,
                 'textColor' => $textColor,
                 'description' => $event->description,
+                // Le lien de visio n'est transmis qu'aux utilisateurs connectés
+                'visioLink' => Auth::check() ? $event->visio_link : null,
+                'hasVisio' => (bool) $event->visio_link,
             ];
         });
 

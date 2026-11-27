@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Event extends Model
 {
-    protected $fillable = ['title', 'description', 'type', 'start_time', 'end_time', 'user_id', 'type'];
+    protected $fillable = ['title', 'description', 'visio_link', 'type', 'start_time', 'end_time', 'user_id'];
 
     /**
      * Convertit automatiquement les colonnes de date en objets Carbon.
