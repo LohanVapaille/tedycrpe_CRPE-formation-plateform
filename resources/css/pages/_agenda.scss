@@ -290,13 +290,27 @@
 
 /* Le bouton pour la visio */
 .btn-visio {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     margin-top: 15px;
-    padding: 10px 15px;
-    background: #007bff;
+    padding: 10px 18px;
+    background: v.$bleuvert;
     color: white;
+    font-weight: 700;
     text-decoration: none;
-    border-radius: 5px;
+    border-radius: 50px;
+    transition: background 0.2s;
+
+    &:hover {
+        background: v.$bleu;
+    }
+}
+
+.modal-visio-locked {
+    margin-top: 15px;
+    color: #777;
+    font-size: 0.9rem;
 }
 
 // ─── Agenda dans l'espace élève : titre + bouton "Tableau de bord" ───

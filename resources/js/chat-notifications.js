@@ -29,6 +29,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const fullName = (u) => (u ? `${u.firstname ?? ""} ${u.name ?? ""}`.trim() : "");
 
+    // Initiales pour l'avatar (ex. "Lohan Vapaille" → "LV")
+    const initials = (u) =>
+        u ? `${(u.firstname ?? "").trim().charAt(0)}${(u.name ?? "").trim().charAt(0)}`.toUpperCase() || "?" : "?";
+
     const isRealtimeConnected = () => window.Echo?.connector?.pusher?.connection?.state === "connected";
 
     const isChatOpen = (chatId) =>
@@ -280,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     const item = document.createElement("div");
                     item.className = "channel-item" + (unread ? " has-unread" : "");
                     item.innerHTML = `
-                        <div class="channel-avatar">👤</div>
+                        <div class="channel-avatar" aria-hidden="true">${escapeHtml(initials(c.user))}</div>
                         <div class="channel-info">
                             <p class="channel-name">${escapeHtml(studentName)}</p>
                             <p class="channel-preview">${c.latest_message ? escapeHtml(c.latest_message.contenu) : "Pas de message"}</p>

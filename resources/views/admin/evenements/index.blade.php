@@ -25,7 +25,13 @@
             <tbody>
                 @foreach($events as $event)
                     <tr>
-                        <td>{{ $event->title }}</td>
+                        <td>
+                            {{ $event->title }}
+                            @if($event->visio_link)
+                                <a href="{{ $event->visio_link }}" target="_blank" rel="noopener noreferrer"
+                                    title="Lien de visio" style="color:#36717b; margin-left:4px;"><i class='bx bx-video'></i></a>
+                            @endif
+                        </td>
                         <td>{{ $event->start_time->format('d/m/Y H:i') }}</td>
                         <td>{{ $event->end_time->format('d/m/Y H:i') }}</td>
                         <td>

@@ -33,6 +33,12 @@
             <p><strong>Description :</strong></p>
             <p class="modalDescription" id="modalDescription"></p>
 
+            <a id="modalVisio" class="btn-visio" href="#" target="_blank" rel="noopener noreferrer" style="display: none;">
+                <i class='bx bx-video'></i> Rejoindre la visio
+            </a>
+            <p id="modalVisioLocked" class="modal-visio-locked" style="display: none;">
+                <i class='bx bx-lock-alt'></i> Lien de visio disponible une fois connecté.
+            </p>
         </div>
     </div>
 
@@ -41,10 +47,16 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/locales/fr.global.min.js"></script>
 
     <script>
-        function openModal(title, date, description) {
+        function openModal(title, date, description, visioLink, hasVisio) {
             document.getElementById('modalTitle').textContent = title;
             document.getElementById('modalDate').textContent = date;
             document.getElementById('modalDescription').textContent = description || 'Aucune description.';
+
+            var visioBtn = document.getElementById('modalVisio');
+            var isSafeLink = /^https?:\/\//i.test(visioLink || '');
+            visioBtn.style.display = isSafeLink ? 'inline-flex' : 'none';
+            visioBtn.href = isSafeLink ? visioLink : '#';
+            document.getElementById('modalVisioLocked').style.display = (!isSafeLink && hasVisio) ? 'block' : 'none';
             document.getElementById('eventModal').style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
@@ -109,7 +121,9 @@
                     openModal(
                         info.event.title,
                         dateStr,
-                        info.event.extendedProps.description
+                        info.event.extendedProps.description,
+                        info.event.extendedProps.visioLink,
+                        info.event.extendedProps.hasVisio
                     );
                 }
             });
