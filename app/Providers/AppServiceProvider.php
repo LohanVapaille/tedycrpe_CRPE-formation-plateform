@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema; // NE PAS OUBLIER CETTE LIGNE
 
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Chat;
@@ -28,6 +29,13 @@ class AppServiceProvider extends ServiceProvider
     {
         // Force la longueur par défaut des string à 191 pour éviter l'erreur d'index de MySQL
         Schema::defaultStringLength(191);
+
+        // SEO : en production, toutes les URL générées (canonical, og:url, liens, sitemap)
+        // pointent vers APP_URL en https, quel que soit l'hôte ou le protocole demandé.
+        if ($this->app->environment('production')) {
+            URL::forceRootUrl(config('app.url'));
+            URL::forceScheme('https');
+        }
 
         View::composer('*', function ($view) {
             if (Auth::check()) {
